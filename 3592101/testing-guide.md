@@ -1,6 +1,6 @@
 # #3592101 Testing guide
 
-_Written without the use of AI_.
+_90%+ written without AI_.
 
 MR: https://git.drupalcode.org/project/canvas/-/merge_requests/1666
 
@@ -12,6 +12,8 @@ MR: https://git.drupalcode.org/project/canvas/-/merge_requests/1666
 2. Run `npm install` in both directories.
 3. Copy their `.env.example` files in both as `.env`, and connect to your Drupal
    site that way.
+4. Before the first push from `portable`, install JS packages from #3592101 (see
+   "JS packages from #3592101" below).
 
 ## Terminology and expected behavior
 
@@ -41,13 +43,13 @@ The JavaScript packages are released independently of Canvas itself, so we'll
 need to test combinations. When the guide refers to JS packages from #3592101,
 it means we're looking to use the `drupal-canvas` and `@drupal-canvas/*` npm
 packages that contain the changes from this branch when testing with a local
-codebase. This means the
+codebase.
 
-Prior to merging and releasing the JS packages from this branch, this means you
-need to check out the branch, do an `npm run build`, pack them with `npm pack`,
-then update your `package.json` file in your local codebase to point at the
-packed versions. Give this prompt to your coding agent, and it will do this for
-you: https://gist.github.com/balintbrews/6b2355b6d74cc07cc721b618a1aa4dec.
+Before these packages are released, follow the
+[local Canvas package setup instructions](https://gist.github.com/balintbrews/6b2355b6d74cc07cc721b618a1aa4dec).
+Use a checkout of MR !1666 and its current full commit SHA as inputs. Apply the
+setup to `portable` before its first push and to each new codebase that needs JS
+packages from #3592101.
 
 After merging and releasing the JS packages from this branch, be sure to use the
 NEW package versions. Look for a commit in `1.x` with the subject of "chore:
@@ -84,12 +86,14 @@ Canvas module's directory.
 
 Set a site name and slogan at `/admin/config/system/site-information`.
 
-Generate example nodes for your installation. Use the Devel Generate module:
+Enable JSON:API and JSON:API Menu Items. Ensure the Article bundle has a body
+field and a few published articles readable by the frontend's user. Generate
+Article nodes with the Devel Generate module:
 
 ```bash
    ddev composer require drupal/devel && \
-     ddev drush pm-install devel -y && \
-     ddev drush devel-generate:content
+     ddev drush pm-install jsonapi jsonapi_menu_items devel devel_generate -y && \
+     ddev drush devel-generate:content --bundles=article
 ```
 
 ### Example component tree
@@ -110,6 +114,12 @@ output the followings:
   them)
   - Their body text is rendered by `FormattedText`
 
+With Canvas 1.11.0, Workbench shows empty site-name, slogan and theme-asset
+fallbacks because the older site-data endpoint requires authentication. Drupal
+should still show those values. With Canvas with #3592101, Workbench should
+receive live site metadata. Page title and entity remain absent in Workbench in
+both cases.
+
 ### Code update/warning
 
 When code from the `legacy` repository gets automatically updated during an
@@ -122,12 +132,12 @@ When code from the `legacy` repository gets automatically updated during an
 3. `new JsonApiClient()` calls remain unchanged and receive manual-migration
    warnings.
 
-Pull replaces the page and site getters with context hooks; `JsonApiClient` constructors remain unchanged and receive migration warnings.
+Pull replaces the page and site getters with context hooks; `JsonApiClient`
+constructors remain unchanged and receive migration warnings.
 
 ![Getter conversions and manual client-migration warnings](pull-demo/component-migration-warnings.png)
 
-<details>
-<summary>Show the component changes</summary>
+The components should be updated as follows:
 
 ```diff
 --- a/src/components/article-list/index.jsx
@@ -140,10 +150,10 @@ Pull replaces the page and site getters with context hooks; `JsonApiClient` cons
    JsonApiClient,
  } from 'drupal-canvas';
 +import { usePageContext } from 'drupal-canvas/react';
- 
+
  import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
  import useSWR from 'swr';
- 
+
  export default function ArticleList({ resourceType, image, className }) {
 -  const page = getPageData();
 +  const page = usePageContext();
@@ -156,12 +166,12 @@ Pull replaces the page and site getters with context hooks; `JsonApiClient` cons
 -import { cn, sortMenu, getSiteData, JsonApiClient } from 'drupal-canvas';
 +import { cn, sortMenu, JsonApiClient } from 'drupal-canvas';
 +import { useSiteContext } from 'drupal-canvas/react';
- 
+
  import useSWR from 'swr';
- 
+
 @@ -18,7 +19,7 @@
  }
- 
+
  export default function PageFrame({ menuName, content, className }) {
 -  const site = getSiteData();
 +  const site = useSiteContext();
@@ -173,6 +183,21 @@ Pull replaces the page and site getters with context hooks; `JsonApiClient` cons
 </details>
 
 ## Scenarios
+
+When using local MR packages, follow the gist's
+[after-pull instructions](https://gist.github.com/balintbrews/6b2355b6d74cc07cc721b618a1aa4dec)
+after every `npx canvas pull`.
+
+Before
+[template PR11](https://github.com/drupal-canvas/headless-templates/pull/11)
+merges, scaffold headless projects from its code rather than template `main`:
+
+```bash
+npx @drupal-canvas/create@latest --template nextjs --ref adr21-template-adoption-5a491e83
+```
+
+Use `--template tanstack-start` for the other React frontend. These JSX fixtures
+exercise Next.js and TanStack Start only.
 
 ### 1. General smoke test
 
@@ -204,7 +229,7 @@ Pull replaces the page and site getters with context hooks; `JsonApiClient` cons
 #### 2.2. Headless frontend
 
 Pulling the components from the example repos into a headless codebase similar
-to _1.1. Default frontend_ is not supported with Canvas 1.11.0. Nothing to test
+to _2.2. Default frontend_ is not supported with Canvas 1.11.0. Nothing to test
 here.
 
 ### 3. Testing with Canvas with #3592101 and JS packages from #3592101
@@ -226,20 +251,28 @@ here.
 
 #### 3.2. Headless frontend starting from legacy components
 
-**Repeat** these steps **for all five headless frameworks**: (1) Next.js, (2)
-Astro, (3) Nuxt, (4) TanStack Start, and (5) Angular.
+**Repeat** these steps for **Next.js and TanStack Start**.
 
-Run `npx canvas reconcile-media -y && npx canvas push` from the `legacy`
-repository to populate a Clean Drupal installation using Canvas 1.11.0. 2.
-Verify the Example component tree (see above) in Drupal. 3. Create a local
-headless codebase
-(`npx @drupal-canvas/create@latest --experimental-headless`). 1. Adjust it to
-use JS packages from #3592101. 4. Run `npx canvas pull`. 1. Answer _yes_ to
-deleting the unused components from your local codebase. 5. **Code
-update/warning (see above) MUST be happening.** 6. Verify the Example component
-tree (see above) in Drupal.
+1. Run `npx canvas reconcile-media -y && npx canvas push` from `legacy` to
+   populate a Clean Drupal installation using Canvas with #3592101.
+2. Verify the Example component tree in Drupal.
+3. Create the headless codebase from PR11 as described above and install JS
+   packages from #3592101.
+4. Run `npx canvas pull`. Answer _yes_ to deleting unused local components, then
+   follow the gist's after-pull instructions.
+5. **Code update/warning (see above) MUST be happening.**
+6. Manually replace the remaining constructors using the pattern in the
+   `portable` examples: import `useJsonApiClient` from `drupal-canvas/react`,
+   call it unconditionally in each component, and use its nullable client in the
+   SWR key and fetcher. Keep the existing input checks and disable fetching when
+   the client is null (for example,
+   `menuName && client ? [client, 'menu_items', menuName] : null`).
+7. Configure credentials, start the frontend and connect it in Drupal per the
+   template README, with Canvas Headless enabled.
+8. Visit `/component-api-example` on the frontend and in Canvas preview; verify
+   the Example component tree there, including the menu request.
 
-#### 3.1. Default frontend starting portable components
+#### 3.3. Default frontend starting from portable components
 
 1. Run `npx canvas reconcile-media -y && npx canvas push` from the `portable`
    repository to populate a Clean Drupal installation using Canvas with
@@ -255,18 +288,21 @@ tree (see above) in Drupal.
    1. The command should execute cleanly.
 8. Verify the Example component tree (see above) in Drupal.
 
-#### 3.2. Headless frontend starting from portable components
+#### 3.4. Headless frontend starting from portable components
 
-**Repeat** these steps **for all five headless frameworks**: (1) Next.js, (2)
-Astro, (3) Nuxt, (4) TanStack Start, and (5) Angular.
+**Repeat** these steps for **Next.js and TanStack Start**.
 
-Run `npx canvas reconcile-media -y && npx canvas push` from the `portable`
-repository to populate a Clean Drupal installation using Canvas 1.11.0. 2.
-Verify the Example component tree (see above) in Drupal. 3. Create a local
-headless codebase
-(`npx @drupal-canvas/create@latest --experimental-headless`). 1. Adjust it to
-use JS packages from #3592101. 4. Run `npx canvas pull`. 1. Answer _yes_ to
-deleting the unused components from your local codebase. 5. **Code
-update/warning (see above) MUST NOT be happening.** 1. The code should already
-be in the updated form. 6. Verify the Example component tree (see above) in
-Drupal.
+1. Run `npx canvas reconcile-media -y && npx canvas push` from `portable`,
+   already using JS packages from #3592101, to populate a Clean Drupal
+   installation using Canvas with #3592101.
+2. Verify the Example component tree in Drupal.
+3. Create the headless codebase from PR11 as described above and install JS
+   packages from #3592101.
+4. Run `npx canvas pull`. Answer _yes_ to deleting unused local components, then
+   follow the gist's after-pull instructions.
+5. **Code update/warning (see above) MUST NOT be happening.** The code already
+   uses nullable context/client hooks and gated fetching.
+6. Configure credentials, start the frontend and connect it in Drupal per the
+   template README, with Canvas Headless enabled.
+7. Visit `/component-api-example` on the frontend and in Canvas preview; verify
+   the Example component tree there, including the menu request.

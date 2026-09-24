@@ -178,7 +178,12 @@ Pull replaces the page and site getters with context hooks; `JsonApiClient` cons
 
 1. Start with a Clean Drupal installation using Canvas with #3592101.
 2. Create a local codebase with Nebula (`npx @drupal-canvas/create@latest`).
-3.
+3. Run `npx canvas reconcile-media -y && npx canvas push` to populate a Clean
+   Drupal installation (see above) using Canvas with #3592101.
+4. Move components around in Canvas, in and out of slots etc. Make sure
+   everything works as before.
+5. Open the in-browser code editor for a few components, and make sure their
+   preview renders as before.
 
 ### 2. Testing with Canvas 1.11.0 and JS packages from #3592101
 

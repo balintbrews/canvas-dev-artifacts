@@ -1,0 +1,38 @@
+--- a/src/components/article-list/index.jsx
++++ b/src/components/article-list/index.jsx
+@@ -4,15 +4,15 @@
+   FormattedText,
+   getNodePath,
+   Image,
+-  getPageData,
+   JsonApiClient,
+ } from 'drupal-canvas';
++import { usePageContext } from 'drupal-canvas/react';
+ 
+ import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
+ import useSWR from 'swr';
+ 
+ export default function ArticleList({ resourceType, image, className }) {
+-  const page = getPageData();
++  const page = usePageContext();
+   const configured = /^node--[a-z][a-z0-9_]*$/.test(resourceType || '');
+   const queryString = new DrupalJsonApiParams()
+     .addFields(resourceType, [
+--- a/src/components/page-frame/index.jsx
++++ b/src/components/page-frame/index.jsx
+@@ -1,4 +1,5 @@
+-import { cn, sortMenu, getSiteData, JsonApiClient } from 'drupal-canvas';
++import { cn, sortMenu, JsonApiClient } from 'drupal-canvas';
++import { useSiteContext } from 'drupal-canvas/react';
+ 
+ import useSWR from 'swr';
+ 
+@@ -18,7 +19,7 @@
+ }
+ 
+ export default function PageFrame({ menuName, content, className }) {
+-  const site = getSiteData();
++  const site = useSiteContext();
+   const { data, error, isLoading } = useSWR(
+     menuName ? ['menu_items', menuName] : null,
+     ([type, id]) => new JsonApiClient().getResource(type, id),

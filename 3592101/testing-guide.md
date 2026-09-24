@@ -13,7 +13,7 @@ MR: https://git.drupalcode.org/project/canvas/-/merge_requests/1666
 3. Copy their `.env.example` files in both as `.env`, and connect to your Drupal
    site that way.
 
-## Terminology
+## Terminology and expected behavior
 
 ### Canvas 1.11.0
 
@@ -121,6 +121,56 @@ When code from the `legacy` repository gets automatically updated during an
    `drupal-canvas/react`.
 3. `new JsonApiClient()` calls remain unchanged and receive manual-migration
    warnings.
+
+Pull replaces the page and site getters with context hooks; `JsonApiClient` constructors remain unchanged and receive migration warnings.
+
+![Getter conversions and manual client-migration warnings](pull-demo/component-migration-warnings.png)
+
+<details>
+<summary>Show the component changes</summary>
+
+```diff
+--- a/src/components/article-list/index.jsx
++++ b/src/components/article-list/index.jsx
+@@ -4,15 +4,15 @@
+   FormattedText,
+   getNodePath,
+   Image,
+-  getPageData,
+   JsonApiClient,
+ } from 'drupal-canvas';
++import { usePageContext } from 'drupal-canvas/react';
+ 
+ import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
+ import useSWR from 'swr';
+ 
+ export default function ArticleList({ resourceType, image, className }) {
+-  const page = getPageData();
++  const page = usePageContext();
+   const configured = /^node--[a-z][a-z0-9_]*$/.test(resourceType || '');
+   const queryString = new DrupalJsonApiParams()
+     .addFields(resourceType, [
+--- a/src/components/page-frame/index.jsx
++++ b/src/components/page-frame/index.jsx
+@@ -1,4 +1,5 @@
+-import { cn, sortMenu, getSiteData, JsonApiClient } from 'drupal-canvas';
++import { cn, sortMenu, JsonApiClient } from 'drupal-canvas';
++import { useSiteContext } from 'drupal-canvas/react';
+ 
+ import useSWR from 'swr';
+ 
+@@ -18,7 +19,7 @@
+ }
+ 
+ export default function PageFrame({ menuName, content, className }) {
+-  const site = getSiteData();
++  const site = useSiteContext();
+   const { data, error, isLoading } = useSWR(
+     menuName ? ['menu_items', menuName] : null,
+     ([type, id]) => new JsonApiClient().getResource(type, id),
+```
+
+</details>
 
 ## Scenarios
 

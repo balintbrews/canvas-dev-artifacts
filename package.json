@@ -1,0 +1,25 @@
+{
+  "name": "canvas-dev-artifacts",
+  "private": true,
+  "description": "Development artifacts organized by GitLab work item",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/balintbrews/canvas-dev-artifacts.git"
+  },
+  "homepage": "https://github.com/balintbrews/canvas-dev-artifacts#readme",
+  "type": "module",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.6.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,html,md,mdx,yml}": "prettier --write"
+  },
+  "scripts": {
+    "format-check": "npm run s:prettier -- --check",
+    "format": "npm run s:prettier -- --write",
+    "s:prettier": "prettier \"**/*.{js,jsx,json,html,md,mdx,yml}\"",
+    "prepare": "husky"
+  }
+}

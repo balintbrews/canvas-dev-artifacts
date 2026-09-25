@@ -1,0 +1,27 @@
+{
+  "title": "Unsaved preview: missing navigation safeguards",
+  "start": 0.15,
+  "end": 11.367,
+  "captions": [
+    {
+      "start": 0,
+      "end": 4.18,
+      "text": "Unsaved values render"
+    },
+    {
+      "start": 4.18,
+      "end": 7.2,
+      "text": "Teaser selected; Full view remains"
+    },
+    {
+      "start": 7.2,
+      "end": 9.15,
+      "text": "Activate the embedded link"
+    },
+    {
+      "start": 9.15,
+      "end": 11.466667,
+      "text": "Leaves without confirmation"
+    }
+  ]
+}

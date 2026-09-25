@@ -1,0 +1,37 @@
+{
+  "title": "Saved pages and selected revisions",
+  "start": 0.15,
+  "end": 18.867,
+  "captions": [
+    {
+      "start": 0,
+      "end": 3.6,
+      "text": "Choose a saved content view"
+    },
+    {
+      "start": 3.6,
+      "end": 5.65,
+      "text": "Published content, not the autosave"
+    },
+    {
+      "start": 5.65,
+      "end": 9.9,
+      "text": "Choose the older revision"
+    },
+    {
+      "start": 9.9,
+      "end": 11.95,
+      "text": "The selected older revision"
+    },
+    {
+      "start": 11.95,
+      "end": 16.5,
+      "text": "Choose the latest draft"
+    },
+    {
+      "start": 16.5,
+      "end": 18.966667,
+      "text": "Latest moderated draft"
+    }
+  ]
+}

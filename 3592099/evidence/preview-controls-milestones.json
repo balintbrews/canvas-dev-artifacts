@@ -1,0 +1,57 @@
+[
+  {
+    "monotonic": 7842030.652163401,
+    "label": "record command begins",
+    "seconds_from_record_command": 0.0
+  },
+  {
+    "monotonic": 7842030.840343371,
+    "label": "record command returned",
+    "seconds_from_record_command": 0.18818
+  },
+  {
+    "monotonic": 7842031.840998565,
+    "label": "Unsaved values render",
+    "seconds_from_record_command": 1.188835
+  },
+  {
+    "monotonic": 7842033.341808798,
+    "label": "pointer movement begins",
+    "seconds_from_record_command": 2.689645
+  },
+  {
+    "monotonic": 7842034.450907713,
+    "label": "mouse down",
+    "seconds_from_record_command": 3.798744
+  },
+  {
+    "monotonic": 7842034.474109311,
+    "label": "mouse up",
+    "seconds_from_record_command": 3.821946
+  },
+  {
+    "monotonic": 7842034.996328439,
+    "label": "Teaser selected; Full view remains",
+    "seconds_from_record_command": 4.344165
+  },
+  {
+    "monotonic": 7842037.196756591,
+    "label": "Tab to embedded link",
+    "seconds_from_record_command": 6.544593
+  },
+  {
+    "monotonic": 7842038.009081712,
+    "label": "Enter activates embedded link",
+    "seconds_from_record_command": 7.356918
+  },
+  {
+    "monotonic": 7842039.748476488,
+    "label": "Link leaves without confirmation",
+    "seconds_from_record_command": 9.096313
+  },
+  {
+    "monotonic": 7842042.256038067,
+    "label": "record stop begins",
+    "seconds_from_record_command": 11.603875
+  }
+]

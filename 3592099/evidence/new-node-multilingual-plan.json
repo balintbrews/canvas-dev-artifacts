@@ -1,0 +1,22 @@
+{
+  "title": "New article preview on a multilingual site",
+  "start": 0.15,
+  "end": 12.9,
+  "captions": [
+    {
+      "start": 0,
+      "end": 6.05,
+      "text": "Two languages; never saved"
+    },
+    {
+      "start": 6.05,
+      "end": 10.2,
+      "text": "Preview, not Save"
+    },
+    {
+      "start": 10.2,
+      "end": 13.0,
+      "text": "Content API 500; frontend says Not found"
+    }
+  ]
+}

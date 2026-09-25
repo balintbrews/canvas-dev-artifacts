@@ -1,0 +1,71 @@
+{
+  "source": "f442e064defe6e5a0b6ea5bbc3c83a7e0fc59b32",
+  "runtime": "Next.js only",
+  "videos": [
+    {
+      "file": "videos/saved-revisions.mp4",
+      "sha256": "430ddf5e6cd012a8264f99dcd354f16cad1b59b58a3a677bc579f876a6a67fcb",
+      "duration_seconds": 19.733333,
+      "width": 1920,
+      "height": 1080,
+      "fps": "30/1",
+      "sar": "1:1",
+      "dar": "16:9",
+      "codec": "h264",
+      "silent": true,
+      "final_hold_seconds": 1,
+      "final_second_max_mean_luma_difference_0_to_255": 0.000362654,
+      "interaction_review": "Adjacent frames reviewed; final takes avoid duplicate iframe cursor overlay.",
+      "edits": "Ends-only trim, CFR normalization, branded 84px top bar, one-second final hold; no internal cuts or speedups."
+    },
+    {
+      "file": "videos/preview-controls.mp4",
+      "sha256": "fd942008f2e2ccb49319897ada5c442a513ddfe7bc1aba0d87162d97b1e83065",
+      "duration_seconds": 12.233333,
+      "width": 1920,
+      "height": 1080,
+      "fps": "30/1",
+      "sar": "1:1",
+      "dar": "16:9",
+      "codec": "h264",
+      "silent": true,
+      "final_hold_seconds": 1,
+      "final_second_max_mean_luma_difference_0_to_255": 1.10918e-5,
+      "interaction_review": "Adjacent frames reviewed; final takes avoid duplicate iframe cursor overlay.",
+      "edits": "Ends-only trim, CFR normalization, branded 84px top bar, one-second final hold; no internal cuts or speedups."
+    },
+    {
+      "file": "videos/new-node-multilingual.mp4",
+      "sha256": "7321049e4afecb33d185e344713b7c4e050e745d2b20efa3d180b1a24b191f71",
+      "duration_seconds": 13.733333,
+      "width": 1920,
+      "height": 1080,
+      "fps": "30/1",
+      "sar": "1:1",
+      "dar": "16:9",
+      "codec": "h264",
+      "silent": true,
+      "final_hold_seconds": 1,
+      "final_second_max_mean_luma_difference_0_to_255": 1.15741e-5,
+      "interaction_review": "Adjacent frames reviewed; final takes avoid duplicate iframe cursor overlay.",
+      "edits": "Ends-only trim, CFR normalization, branded 84px top bar, one-second final hold; no internal cuts or speedups."
+    }
+  ],
+  "browser_report_validation": {
+    "desktop_viewport": [1440, 1000],
+    "mobile_viewport": [390, 844],
+    "horizontal_overflow": false,
+    "all_three_videos_played_to_end": true,
+    "media_errors": 0,
+    "playback_dropped_frames": [6, 5, 7],
+    "axe_violations": 0,
+    "axe_incomplete": [
+      "Fallback link contrast test could not run inside video; links are underlined."
+    ],
+    "local_assets_and_anchors": "pass; parent index supplied by destination repository",
+    "public_text_privacy_scan": "pass",
+    "visual_review": "Start, caption transitions, end and interaction-adjacent frames reviewed. Private-hostname editor capture withheld.",
+    "autoplay": "Blocked before user activation as expected; playback passed after real user input."
+  },
+  "publication": "Local staging only; not pushed or published."
+}

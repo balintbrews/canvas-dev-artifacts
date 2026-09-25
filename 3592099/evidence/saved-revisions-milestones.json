@@ -1,0 +1,82 @@
+[
+  {
+    "monotonic": 7841652.378507846,
+    "label": "record command begins",
+    "seconds_from_record_command": 0.0
+  },
+  {
+    "monotonic": 7841652.579540114,
+    "label": "record command returned",
+    "seconds_from_record_command": 0.201032
+  },
+  {
+    "monotonic": 7841652.580122902,
+    "label": "Choose a saved content view",
+    "seconds_from_record_command": 0.201615
+  },
+  {
+    "monotonic": 7841654.080466407,
+    "label": "Enter activates focused link",
+    "seconds_from_record_command": 1.701959
+  },
+  {
+    "monotonic": 7841656.113406611,
+    "label": "Published content, not the autosave",
+    "seconds_from_record_command": 3.734899
+  },
+  {
+    "monotonic": 7841658.113847797,
+    "label": "browser back",
+    "seconds_from_record_command": 5.73534
+  },
+  {
+    "monotonic": 7841658.639521332,
+    "label": "Choose another revision",
+    "seconds_from_record_command": 6.261013
+  },
+  {
+    "monotonic": 7841659.439901957,
+    "label": "Tab to next revision",
+    "seconds_from_record_command": 7.061394
+  },
+  {
+    "monotonic": 7841660.247352814,
+    "label": "Enter activates focused link",
+    "seconds_from_record_command": 7.868845
+  },
+  {
+    "monotonic": 7841662.400218079,
+    "label": "The selected older revision",
+    "seconds_from_record_command": 10.02171
+  },
+  {
+    "monotonic": 7841664.400607141,
+    "label": "browser back",
+    "seconds_from_record_command": 12.022099
+  },
+  {
+    "monotonic": 7841664.925517073,
+    "label": "Choose another revision",
+    "seconds_from_record_command": 12.547009
+  },
+  {
+    "monotonic": 7841665.725885307,
+    "label": "Tab to next revision",
+    "seconds_from_record_command": 13.347377
+  },
+  {
+    "monotonic": 7841666.534293689,
+    "label": "Enter activates focused link",
+    "seconds_from_record_command": 14.155786
+  },
+  {
+    "monotonic": 7841668.987633659,
+    "label": "Latest moderated draft",
+    "seconds_from_record_command": 16.609126
+  },
+  {
+    "monotonic": 7841671.48842487,
+    "label": "record stop begins",
+    "seconds_from_record_command": 19.109917
+  }
+]

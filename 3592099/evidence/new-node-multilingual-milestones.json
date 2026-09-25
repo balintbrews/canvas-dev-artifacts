@@ -1,0 +1,82 @@
+[
+  {
+    "monotonic": 7841167.490481133,
+    "label": "record command begins",
+    "seconds_from_record_command": 0.0
+  },
+  {
+    "monotonic": 7841167.619688695,
+    "label": "record command returned",
+    "seconds_from_record_command": 0.129208
+  },
+  {
+    "monotonic": 7841167.620218646,
+    "label": "Two languages; never saved",
+    "seconds_from_record_command": 0.129738
+  },
+  {
+    "monotonic": 7841168.628803475,
+    "label": "pointer movement begins",
+    "seconds_from_record_command": 1.138322
+  },
+  {
+    "monotonic": 7841169.749744303,
+    "label": "mouse down",
+    "seconds_from_record_command": 2.259263
+  },
+  {
+    "monotonic": 7841169.774795868,
+    "label": "mouse up",
+    "seconds_from_record_command": 2.284315
+  },
+  {
+    "monotonic": 7841169.775156288,
+    "label": "typing begins",
+    "seconds_from_record_command": 2.284675
+  },
+  {
+    "monotonic": 7841171.611749314,
+    "label": "typing ends",
+    "seconds_from_record_command": 4.121268
+  },
+  {
+    "monotonic": 7841172.416835777,
+    "label": "smooth scroll begins",
+    "seconds_from_record_command": 4.926355
+  },
+  {
+    "monotonic": 7841172.83813611,
+    "label": "smooth scroll settled",
+    "seconds_from_record_command": 5.347655
+  },
+  {
+    "monotonic": 7841173.638591467,
+    "label": "Preview, not Save",
+    "seconds_from_record_command": 6.14811
+  },
+  {
+    "monotonic": 7841173.64755732,
+    "label": "pointer movement begins",
+    "seconds_from_record_command": 6.157076
+  },
+  {
+    "monotonic": 7841174.756277941,
+    "label": "mouse down",
+    "seconds_from_record_command": 7.265797
+  },
+  {
+    "monotonic": 7841174.778041782,
+    "label": "mouse up",
+    "seconds_from_record_command": 7.287561
+  },
+  {
+    "monotonic": 7841177.56009111,
+    "label": "Content API 500; frontend says Not found",
+    "seconds_from_record_command": 10.06961
+  },
+  {
+    "monotonic": 7841180.560754297,
+    "label": "record stop begins",
+    "seconds_from_record_command": 13.070273
+  }
+]

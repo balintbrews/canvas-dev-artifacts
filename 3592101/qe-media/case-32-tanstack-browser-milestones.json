@@ -1,0 +1,46 @@
+[
+  {
+    "label": "record command start",
+    "monotonic": 7807067.406623092
+  },
+  {
+    "label": "Public page metadata menu and image",
+    "monotonic": 7807067.60379647
+  },
+  {
+    "label": "Public article 2",
+    "monotonic": 7807071.604453488
+  },
+  {
+    "label": "Public article 3",
+    "monotonic": 7807074.826836781
+  },
+  {
+    "label": "Public return to metadata",
+    "monotonic": 7807078.044358027
+  },
+  {
+    "label": "Open active Canvas preview",
+    "monotonic": 7807080.690992969
+  },
+  {
+    "label": "Preview metadata menu and image",
+    "monotonic": 7807083.209131381
+  },
+  {
+    "label": "Preview article 2",
+    "monotonic": 7807089.757765549
+  },
+  {
+    "label": "Preview article 3",
+    "monotonic": 7807094.355423955
+  },
+  {
+    "label": "Preview return to metadata",
+    "monotonic": 7807097.900204848
+  },
+  {
+    "label": "Public and draft trees verified",
+    "monotonic": 7807100.640269203
+  }
+]

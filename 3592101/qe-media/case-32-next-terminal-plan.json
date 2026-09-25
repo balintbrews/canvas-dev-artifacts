@@ -1,0 +1,57 @@
+{
+  "title": "Case 3.2 Next: Legacy to portable clients",
+  "start": 3.387,
+  "end": 54.233333,
+  "captions": [
+    {
+      "start": 3.387,
+      "end": 6.802,
+      "text": "Repeat the legacy migration"
+    },
+    {
+      "start": 6.802,
+      "end": 9.974,
+      "text": "Verify committed server and packages"
+    },
+    {
+      "start": 9.974,
+      "end": 15.611,
+      "text": "Restore the published legacy seed"
+    },
+    {
+      "start": 15.611,
+      "end": 21.241,
+      "text": "Pull and automatically convert getters"
+    },
+    {
+      "start": 21.241,
+      "end": 29.247,
+      "text": "Review conversions and client warnings"
+    },
+    {
+      "start": 29.247,
+      "end": 33.404,
+      "text": "Reinstall and verify package bytes"
+    },
+    {
+      "start": 33.404,
+      "end": 35.745,
+      "text": "Migrate remaining constructors"
+    },
+    {
+      "start": 35.745,
+      "end": 42.39,
+      "text": "Article client: guarded SWR key"
+    },
+    {
+      "start": 42.39,
+      "end": 48.972,
+      "text": "Menu client: shared runtime context"
+    },
+    {
+      "start": 48.972,
+      "end": 54.233333,
+      "text": "Run lint and TypeScript checks"
+    }
+  ]
+}

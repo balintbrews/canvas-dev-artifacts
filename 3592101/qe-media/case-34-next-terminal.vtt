@@ -1,0 +1,23 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.337
+Repeat the portable seed and pull
+
+00:00:03.337 --> 00:00:07.214
+Verify published source and packages
+
+00:00:07.214 --> 00:00:12.962
+Push the retained portable seed
+
+00:00:12.962 --> 00:00:20.684
+Pull: no getter or client warnings
+
+00:00:20.684 --> 00:00:23.555
+Reinstall committed package closure
+
+00:00:23.555 --> 00:00:30.024
+Both portable sources unchanged
+
+00:00:30.024 --> 00:00:36.749
+Run lint and TypeScript checks
+

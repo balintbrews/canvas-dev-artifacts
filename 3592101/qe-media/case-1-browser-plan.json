@@ -1,0 +1,13 @@
+{
+  "title": "1 / Nebula / Canvas editing and code previews",
+  "start": 0,
+  "end": 56.3,
+  "captions": [
+    {"start":0,"end":10.8,"text":"Move a card out of its slot"},
+    {"start":10.8,"end":20.6,"text":"Return the card to its slot"},
+    {"start":20.6,"end":30.6,"text":"Reorder a root component"},
+    {"start":30.6,"end":44.8,"text":"Inspect the Hero code preview"},
+    {"start":44.8,"end":50.8,"text":"Inspect the Card code preview"},
+    {"start":50.8,"end":56.3,"text":"Inspect the Heading code preview"}
+  ]
+}

@@ -1,0 +1,32 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.415
+Repeat the legacy migration
+
+00:00:03.415 --> 00:00:06.587
+Verify committed server and packages
+
+00:00:06.587 --> 00:00:12.224
+Restore the published legacy seed
+
+00:00:12.224 --> 00:00:17.854
+Pull and automatically convert getters
+
+00:00:17.854 --> 00:00:25.860
+Review conversions and client warnings
+
+00:00:25.860 --> 00:00:30.017
+Reinstall and verify package bytes
+
+00:00:30.017 --> 00:00:32.358
+Migrate remaining constructors
+
+00:00:32.358 --> 00:00:39.003
+Article client: guarded SWR key
+
+00:00:39.003 --> 00:00:45.585
+Menu client: shared runtime context
+
+00:00:45.585 --> 00:00:51.846
+Run lint and TypeScript checks
+

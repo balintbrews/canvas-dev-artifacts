@@ -1,0 +1,22 @@
+[
+  {
+    "monotonic": 7790055.951635166,
+    "label": "start"
+  },
+  {
+    "monotonic": 7790061.025924413,
+    "label": "packages"
+  },
+  {
+    "monotonic": 7790063.742778767,
+    "label": "validate"
+  },
+  {
+    "monotonic": 7790073.945111002,
+    "label": "drupal"
+  },
+  {
+    "monotonic": 7790077.77681366,
+    "label": "done"
+  }
+]

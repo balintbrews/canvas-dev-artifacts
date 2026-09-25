@@ -1,0 +1,30 @@
+[
+  {
+    "label": "start",
+    "monotonic": 7799862.624291633
+  },
+  {
+    "label": "identity",
+    "monotonic": 7799865.951261177
+  },
+  {
+    "label": "pull",
+    "monotonic": 7799868.108380594
+  },
+  {
+    "label": "reinstall",
+    "monotonic": 7799872.150537725
+  },
+  {
+    "label": "unchanged",
+    "monotonic": 7799875.011967502
+  },
+  {
+    "label": "push",
+    "monotonic": 7799877.167640743
+  },
+  {
+    "label": "done",
+    "monotonic": 7799882.109746324
+  }
+]

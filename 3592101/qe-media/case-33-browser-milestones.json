@@ -1,0 +1,62 @@
+[
+  {
+    "label": "record command start",
+    "monotonic": 7799884.660619618
+  },
+  {
+    "label": "Workbench live metadata",
+    "monotonic": 7799884.82071274
+  },
+  {
+    "label": "Workbench article 2 scroll",
+    "monotonic": 7799888.821157271
+  },
+  {
+    "label": "Workbench article 2 reviewed",
+    "monotonic": 7799891.834651344
+  },
+  {
+    "label": "Workbench article 3 scroll",
+    "monotonic": 7799891.835391045
+  },
+  {
+    "label": "Workbench article 3 reviewed",
+    "monotonic": 7799894.83489707
+  },
+  {
+    "label": "Workbench return to metadata",
+    "monotonic": 7799894.835592381
+  },
+  {
+    "label": "Navigate to Drupal round-trip",
+    "monotonic": 7799897.495886966
+  },
+  {
+    "label": "Drupal real site and page metadata",
+    "monotonic": 7799898.787674926
+  },
+  {
+    "label": "Drupal article 2 scroll",
+    "monotonic": 7799902.788040633
+  },
+  {
+    "label": "Drupal article 2 reviewed",
+    "monotonic": 7799905.896566999
+  },
+  {
+    "label": "Drupal article 3 scroll",
+    "monotonic": 7799905.89720948
+  },
+  {
+    "label": "Drupal article 3 reviewed",
+    "monotonic": 7799908.94881066
+  },
+  {
+    "label": "Drupal return to metadata",
+    "monotonic": 7799908.949521071
+  },
+  {
+    "label": "Round-trip verified",
+    "monotonic": 7799911.658226574
+  }
+]

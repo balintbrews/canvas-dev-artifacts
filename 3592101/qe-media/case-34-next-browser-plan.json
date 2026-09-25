@@ -1,0 +1,42 @@
+{
+  "title": "Case 3.4 Next: Portable hooks and clients",
+  "start": 0,
+  "end": 34.55377840157598,
+  "captions": [
+    {
+      "start": 0,
+      "end": 4.185621082782745,
+      "text": "Public page: metadata, menu and image"
+    },
+    {
+      "start": 4.185621082782745,
+      "end": 10.625035590492189,
+      "text": "Public page: three formatted articles"
+    },
+    {
+      "start": 10.625035590492189,
+      "end": 13.28338611498475,
+      "text": "Real page title and UUID"
+    },
+    {
+      "start": 13.28338611498475,
+      "end": 17.210176886990666,
+      "text": "Open the active Canvas preview"
+    },
+    {
+      "start": 17.210176886990666,
+      "end": 23.725491585209966,
+      "text": "Preview: metadata, menu and image"
+    },
+    {
+      "start": 23.725491585209966,
+      "end": 31.81422346457839,
+      "text": "Preview: three formatted articles"
+    },
+    {
+      "start": 31.81422346457839,
+      "end": 34.55377840157598,
+      "text": "Public and draft trees verified"
+    }
+  ]
+}

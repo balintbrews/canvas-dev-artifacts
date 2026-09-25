@@ -1,0 +1,42 @@
+{
+  "title": "Case 2.1: Canvas 1.11.0 + MR clients",
+  "start": 0,
+  "end": 27.54295132588595,
+  "captions": [
+    {
+      "start": 0,
+      "end": 4.1749483700841665,
+      "text": "Workbench: expected 1.11 fallbacks"
+    },
+    {
+      "start": 4.1749483700841665,
+      "end": 10.173755906522274,
+      "text": "Workbench: all three articles"
+    },
+    {
+      "start": 10.173755906522274,
+      "end": 12.839897136203945,
+      "text": "Menu, image and absent page context"
+    },
+    {
+      "start": 12.839897136203945,
+      "end": 14.668770883232355,
+      "text": "Open the Drupal round-trip"
+    },
+    {
+      "start": 14.668770883232355,
+      "end": 18.669078352861106,
+      "text": "Drupal: real site and page metadata"
+    },
+    {
+      "start": 18.669078352861106,
+      "end": 24.797858447767794,
+      "text": "Drupal: articles and formatted bodies"
+    },
+    {
+      "start": 24.797858447767794,
+      "end": 27.54295132588595,
+      "text": "Full example tree verified"
+    }
+  ]
+}

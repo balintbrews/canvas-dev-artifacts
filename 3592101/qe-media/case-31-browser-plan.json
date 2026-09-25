@@ -1,0 +1,42 @@
+{
+  "title": "Case 3.1: Legacy getters to context hooks",
+  "start": 0,
+  "end": 27.549124208278954,
+  "captions": [
+    {
+      "start": 0,
+      "end": 4.146326254121959,
+      "text": "Workbench: live site metadata"
+    },
+    {
+      "start": 4.146326254121959,
+      "end": 10.179647258482873,
+      "text": "Workbench: all three articles"
+    },
+    {
+      "start": 10.179647258482873,
+      "end": 12.835209948010743,
+      "text": "Menu, image and absent page context"
+    },
+    {
+      "start": 12.835209948010743,
+      "end": 14.603850087150931,
+      "text": "Open the Drupal round-trip"
+    },
+    {
+      "start": 14.603850087150931,
+      "end": 18.604217515327036,
+      "text": "Drupal: real site and page metadata"
+    },
+    {
+      "start": 18.604217515327036,
+      "end": 24.799136261455715,
+      "text": "Drupal: articles and formatted bodies"
+    },
+    {
+      "start": 24.799136261455715,
+      "end": 27.549124208278954,
+      "text": "Full example tree verified"
+    }
+  ]
+}

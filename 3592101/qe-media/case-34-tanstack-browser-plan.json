@@ -1,0 +1,42 @@
+{
+  "title": "Case 3.4 TanStack: Portable hooks and clients",
+  "start": 0,
+  "end": 33.7272585304454,
+  "captions": [
+    {
+      "start": 0,
+      "end": 4.2059097504243255,
+      "text": "Public page: metadata, menu and image"
+    },
+    {
+      "start": 4.2059097504243255,
+      "end": 10.651434843428433,
+      "text": "Public page: three formatted articles"
+    },
+    {
+      "start": 10.651434843428433,
+      "end": 13.29987951554358,
+      "text": "Real page title and UUID"
+    },
+    {
+      "start": 13.29987951554358,
+      "end": 16.27383815124631,
+      "text": "Open the active Canvas preview"
+    },
+    {
+      "start": 16.27383815124631,
+      "end": 22.829341898672283,
+      "text": "Preview: metadata, menu and image"
+    },
+    {
+      "start": 22.829341898672283,
+      "end": 30.956039110198617,
+      "text": "Preview: three formatted articles"
+    },
+    {
+      "start": 30.956039110198617,
+      "end": 33.7272585304454,
+      "text": "Public and draft trees verified"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Case 3.1: Legacy getters to context hooks",
+  "start": 3.234,
+  "end": 29.16,
+  "captions": [
+    {
+      "start": 3.234,
+      "end": 6.91,
+      "text": "Repeat migration and round-trip"
+    },
+    {
+      "start": 6.91,
+      "end": 8.963,
+      "text": "Verify original MR and exact migration"
+    },
+    {
+      "start": 8.963,
+      "end": 14.821,
+      "text": "Restore the released legacy seed"
+    },
+    {
+      "start": 14.821,
+      "end": 18.866,
+      "text": "Migrate getters; retain client warnings"
+    },
+    {
+      "start": 18.866,
+      "end": 23.384,
+      "text": "Reinstall pinned MR packages"
+    },
+    {
+      "start": 23.384,
+      "end": 25.439,
+      "text": "Only getter/import changes verified"
+    },
+    {
+      "start": 25.439,
+      "end": 29.16,
+      "text": "Clean push back to Drupal"
+    }
+  ]
+}

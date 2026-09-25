@@ -1,0 +1,20 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.645
+Repeat approved pull and push
+
+00:00:03.645 --> 00:00:05.735
+Verify actual 1.11.0 and MR packages
+
+00:00:05.735 --> 00:00:10.585
+Pull: --no-include-brand-kit
+
+00:00:10.585 --> 00:00:15.005
+Reinstall pinned MR packages
+
+00:00:15.005 --> 00:00:17.097
+Both legacy sources unchanged
+
+00:00:17.097 --> 00:00:21.848
+Clean push back to Drupal
+

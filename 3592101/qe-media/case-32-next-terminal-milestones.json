@@ -1,0 +1,46 @@
+[
+  {
+    "label": "start",
+    "monotonic": 7804159.517585099
+  },
+  {
+    "label": "identity",
+    "monotonic": 7804162.932998302
+  },
+  {
+    "label": "seed",
+    "monotonic": 7804166.104759125
+  },
+  {
+    "label": "pull",
+    "monotonic": 7804171.74176738
+  },
+  {
+    "label": "conversions",
+    "monotonic": 7804177.371608413
+  },
+  {
+    "label": "reinstall",
+    "monotonic": 7804185.377577192
+  },
+  {
+    "label": "client migration",
+    "monotonic": 7804189.535491376
+  },
+  {
+    "label": "article diff",
+    "monotonic": 7804191.876146841
+  },
+  {
+    "label": "menu diff",
+    "monotonic": 7804198.520687635
+  },
+  {
+    "label": "checks",
+    "monotonic": 7804205.103090807
+  },
+  {
+    "label": "done",
+    "monotonic": 7804212.313428102
+  }
+]

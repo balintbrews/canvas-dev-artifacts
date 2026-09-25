@@ -1,0 +1,339 @@
+{
+  "status": "8/8 executable guide scenarios evidence-complete at their recorded revisions; section2.2 unsupported/N/A; sixteen separately validated videos", 
+  "source": {
+    "mr": "https://git.drupalcode.org/project/canvas/-/merge_requests/1666",
+    "branch": "3592101-issue-branch",
+    "sha": "ecf023f6c1af88b2014912ee03b2c559a0303d13",
+    "baseline_1x_and_merge_base": "e1fae306d3e2452d03bd4be8faca8efcec075bbb",
+    "initial_canvas_worktree": "clean; local AGENTS.md override preserved",
+    "guide_repository_sha": "4655da17629e8906182b8086d25753844638ba4e",
+    "gist_revision": "dab932db7a2d4254400b1ec4024ed5c7de6a1667",
+    "legacy_fixture_sha": "8c8d37aa04fd1bc317ed71a7d380fdf06b52d259",
+    "portable_fixture_sha": "b7f892c5c82606fc9786f570e52c71d408d54583",
+    "published_legacy_fixture_sha": "c700e6ff91ec5570ef966be541083da465de0661",
+    "published_portable_fixture_sha": "6288ed2261d5861f2827f4102e7be91e00d0bb66",
+    "latest_published_canvas_sha": "64d932aec1d731389a81e1cfa0eee50747fab555",
+    "latest_published_template_sha": "92470b79d1e86b8c5ac4c7852a068a58641ee573",
+    "latest_target_sha": "6fcf87bb292d252aa55b3ce54c036efacdbb3392",
+    "ci_handoff": "Hazelnut reported pipeline975659 SUCCESS at64d, target6fcf87 unchanged and no open discussions at22:29. Monitoring canceled; restart only upon new push. No later source push."
+  },
+  "policy": {
+    "push": "prohibited until independent review and explicit authorization",
+    "history": "Normal additive fixes; only separately authorized and reviewed exact-lease rebases. No merges; stop on unexpected source advancement.",
+    "fixtures": "Public clones; only independently reviewed and explicitly authorized fixture fixes published. No further fixture publication planned.",
+    "packages": "build coherent local tarballs at exact source SHA; discover full dependency closure; reinstall and verify after each pull; retain released legacy seed",
+    "recording": "Separate browser and terminal clips in guide action order; preserve each recorded revision and private failed attempts; never relabel historical footage as current source.",
+    "clean_install": "reinstall Drupal and rebuild Canvas for each executable case"
+  },
+  "cases": [
+    {
+      "id": "1",
+      "framework": "default/Nebula",
+      "expectation": "Canvas rearrangement including slots and multiple code-editor previews work",
+      "status": "passed-with-validated-evidence",
+      "source_sha": "ecf023f6c1af88b2014912ee03b2c559a0303d13",
+      "frontend": "qe-3592101/case-1-nebula",
+      "packages": [
+        "drupal-canvas@0.6.0 (MR tarball)",
+        "@drupal-canvas/cli@0.25.1 (MR tarball)",
+        "@drupal-canvas/eslint-config@0.10.0 (MR tarball)",
+        "@drupal-canvas/workbench@0.12.0 (MR tarball)"
+      ],
+      "checks": [
+        "npm ci; npm run packages:build; npm run build: exit 0 at clean pinned source",
+        "clean Drupal reinstall: 0 code components, 6 published articles; JSON:API and menu module enabled; name and slogan configured",
+        "fresh create@1.8.0 Nebula scaffold; copied shipped component/page examples into configured active directories",
+        "tarball entry points verified; npm install and npm ls exit 0; installed lockfile has no registry Canvas packages; root React versions preserved through overrides",
+        "canvas validate exit 0",
+        "reconcile-media passed after development PHP upload limit adjustment",
+        "canvas push created 25 components, global CSS and Homepage; exit 0",
+        "moved Card out of Card Container slot to root, then back into slot by actual pointer drag; verified nested tree and rendered result",
+        "reordered root Spacer before Hero; verified persisted page reload and rendered headings",
+        "Hero, Card, Heading in-browser code editor previews rendered expected text",
+        "7 preview images loaded; hero background visually rendered",
+        "local Drupal origin and supplied HTTPS proxy both authenticated and rendered the Homepage Canvas preview"
+      ],
+      "caveats": [
+        "Independent reviewer approved the local 32M/32M PHP upload fix; remains uncommitted outside Canvas",
+        "Nebula ships legacy regions configuration; CLI warns regions are ignored; no region API scope changes made",
+        "Terminal clip verifies the existing installation; original reconciliation/push happened before capture and is not replayed"
+      ],
+      "recordings": [
+        {
+          "kind": "terminal",
+          "path": "qe-media/case-1-terminal.mp4",
+          "sha256": "26dc327704b2dac3b3d503ca87b971fe295c15b679fcc54bf9db65cef7ff4f5a",
+          "duration_seconds": 21.8,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "validation": "full ffmpeg decode; Chromium playback to ended; native milestone frames visually reviewed"
+        },
+        {
+          "kind": "browser",
+          "path": "qe-media/case-1-browser.mp4",
+          "sha256": "3a927e6a2a9e25459505e76a7878681ac11626069862e22b832a66c354ca1a31",
+          "duration_seconds": 57.3,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "validation": "full ffmpeg decode; Chromium playback to ended; seven approach/press/release adjacent-frame sheets and milestone frames visually reviewed"
+        }
+      ]
+    },
+    {
+      "id": "2.1",
+      "framework": "default/Nebula",
+      "expectation": "pre-MR Drupal; released legacy seed; MR client pull does not migrate or warn; Workbench metadata fallback expected; clean push and Drupal tree",
+      "status": "passed-with-validated-evidence",
+      "final_server_tag": "1.11.0",
+      "final_server_sha": "ef76aaf171331471a78fa12d151ead50a5270ec6",
+      "baseline_label": "Final target: actual Canvas 1.11.0. Prior pre-MR 1.x baseline e1fae306d3e2452d03bd4be8faca8efcec075bbb is retained as research only, not final coverage.",
+      "resolved_setup_finding": "User explicitly approved --no-include-brand-kit for Case 2.1 only and requested the guide update. Actual 1.11.0 rejects Folder OAuth; omitting unrelated Brand Kit retains all component/page assertions. No authentication or server source workaround.",
+      "prior_attempt": "Actual 1.11.0 at ef76aaf171331471a78fa12d151ead50a5270ec6 failed because the original date helper is unavailable. That failed attempt remains recorded, with no published failed take. Reviewed formatter removal is published in both fixtures. Actual 1.11.0 now renders the published fixture successfully; the initial failure and baseline research remain historical evidence.",
+      "server_sha": "ef76aaf171331471a78fa12d151ead50a5270ec6",
+      "client_source_sha": "ecf023f6c1af88b2014912ee03b2c559a0303d13",
+      "packages": [
+        "Original fixture seed: released registry drupal-canvas@0.6.0, cli@0.25.1, workbench@0.12.0, eslint-config@0.10.0; distinct from same-version MR tarballs",
+        "MR client: preserved and content-verified tarballs for drupal-canvas@0.6.0, cli@0.25.1, workbench@0.12.0, eslint-config@0.10.0"
+      ],
+      "research_checks": [
+        "Baseline is an ancestor of target origin/1.x and the exact merge base with pinned MR head; exports canvasFormatDateTime and permits v0.langcode",
+        "Baseline lacks contextHooks advertisement and the /react package export; unauthenticated site-data response confirms no contextHooks capability",
+        "Clean baseline reinstall and npm ci/npm run build passed; zero initial components/pages and six published articles",
+        "Original fixture registry npm ci, media reconciliation and seed push passed without fixture source changes",
+        "Drupal tree renders metadata, Home menu, page title, entity UUID, checkerboard image and three articles with formatted bodies",
+        "MR pull exit 0; both component files byte-match the original fixture (tsx vs jsx filename only); informational capability notice/general migration advice is printed, not per-component rewrite results",
+        "After pull, reinstalled and byte-verified all MR package contents against preserved tarballs",
+        "Workbench shows live site metadata and absent page/entity context, but article/menu requests fail across origins",
+        "MR push round-trip and polished successful capture not performed; remaining cases not advanced"
+      ],
+      "checks": [
+        "Approved CORS hook and local exact-origin YAML activated; live Workbench requests succeed, foreign browser origin denied, protected endpoint remains 401",
+        "Actual 1.11.0 clean reinstall and UI build passed; six articles, zero initial code components/pages",
+        "Published legacy c700e6ff cloned anonymously into disposable copy; original released package pins retained; reconciliation and seed push passed",
+        "Initial Drupal example tree passed: site name/slogan/logo, Home menu, title/UUID, image, three articles and body text",
+        "Approved pull --no-include-brand-kit exit 0, repeated successfully in terminal recording; no per-component conversion or manual-client warning results",
+        "After every approved pull, all MR packages reinstalled and byte-verified; both component sources byte-identical to published seed",
+        "Workbench tree passed with expected actual 1.11.0 branding/theme fallbacks and absent page/entity context; Home, decoded image and three articles with formatted bodies rendered without alerts",
+        "MR push exit 0; Drupal round-trip restores actual site/page metadata and complete example tree",
+        "Successful rehearsed browser and terminal clips captured at actual 1.11.0; full decode, native geometry, normal-speed Chromium playback to ended and visual milestone/interaction reviews passed"
+      ],
+      "evidence_note": "Case 2.1 uses the explicitly approved --no-include-brand-kit adjustment, now documented in the guide. Terminal footage verifies the retained released seed and repeats the real pull, mandatory reinstall/content verification and push. Browser footage then verifies Workbench fallbacks and the persisted Drupal round-trip. Initial installation/seed push are preserved in logs, not reenacted. The intentional old-server capability/AI advisory and static-config fallback messages are not per-component conversion or manual-client warnings.",
+      "recordings": [
+        {
+          "kind": "terminal",
+          "path": "qe-media/case-21-terminal.mp4",
+          "sha256": "0fdd877762fc1aa8c3749f2c20f21be03a8024a38207e79ceef4b6b6d395cfbd",
+          "duration_seconds": 21.833333,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Actual 1.11.0 identity; approved --no-include-brand-kit pull; reinstall and verify pinned MR packages and unchanged sources; clean push.",
+          "validation": "Full ffmpeg decode, Chromium normal-speed playback to ended, native milestone frames visually reviewed; one-second final hold"
+        },
+        {
+          "kind": "browser",
+          "path": "qe-media/case-21-browser.mp4",
+          "sha256": "c6f06d8d6c307156d2a28fc1e8397975f4bd7d511532e4e21d3e15ce52ad870d",
+          "duration_seconds": 28.566667,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Workbench expected actual 1.11.0 metadata fallbacks, Home menu, image and three article bodies; Drupal round-trip with real site/page metadata.",
+          "validation": "Full ffmpeg decode, Chromium normal-speed playback to ended, native milestone/end frames and seven interaction sheets plus adjacent before-frame strips visually reviewed; one-second final hold"
+        }
+      ]
+    },
+    {
+      "id": "2.2",
+      "framework": "headless",
+      "status": "unsupported/N/A",
+      "expectation": "explicitly no test, pass, or video"
+    },
+    {
+      "id": "3.1",
+      "framework": "default/Nebula",
+      "expectation": "legacy getter migration and constructor warnings; Workbench live site data; clean push and Drupal tree",
+      "status": "passed-with-validated-evidence",
+      "source_sha": "ecf023f6c1af88b2014912ee03b2c559a0303d13",
+      "packages": [
+        "Released original legacy seed at published c700e6ff",
+        "Four original ecf023f6 MR artifacts, no unreviewed collection candidate"
+      ],
+      "checks": [
+        "Clean pinned MR npm ci, package/UI builds and Drupal reinstall exit 0; six articles and zero initial components/pages",
+        "Anonymous published legacy clone; registry seed install, reconciliation and push exit 0",
+        "Initial Drupal example tree rendered",
+        "Default pull without Brand Kit opt-out exit 0; exact getPageData/usePageContext and getSiteData/useSiteContext diffs verified; both expected constructor migration warnings present",
+        "Mandatory post-pull reinstall and complete MR package byte verification passed",
+        "Workbench live name/slogan/logo, Home menu, decoded image, all three articles and strong/em body formatting verified without alerts; page/entity context absent as expected",
+        "MR push exit 0; Drupal round-trip real site/page metadata and complete tree verified",
+        "Separate successful polished captures passed full decode, native geometry, normal-speed Chromium playback to ended, milestone/end-frame and seven interaction-sheet reviews"
+      ],
+      "evidence_note": "Both recordings predate the approved typing-only commit 68ef5df9 and retain original ecf023f6 identity. Terminal repeats restoration of the retained released legacy seed, default pull/migration, mandatory reinstall/verification and push. Browser verifies the resulting Workbench and Drupal trees. No runtime implementation changed in the later fix; affected client/type tests were rerun, not wholesale historical recapture. User accepted the original clip after exact frames at 14.433\u201314.467 seconds confirmed both conversions and constructor-only per-file warnings. No retake required; the later generic summary wording is tracked separately.",
+      "recordings": [
+        {
+          "kind": "terminal",
+          "path": "qe-media/case-31-terminal.mp4",
+          "sha256": "0f4fb36a7461cb115d0b2acdc6316b0455429a84930abaeb4d11e889d69f8bd0",
+          "duration_seconds": 26.9,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Verify original MR; restore released legacy seed; default pull migrates getters with expected constructor warnings; reinstall, verify exact source changes and push.",
+          "validation": "Full decode, normal-speed Chromium playback to ended, native milestone/end-frame review; one-second final hold"
+        },
+        {
+          "kind": "browser",
+          "path": "qe-media/case-31-browser.mp4",
+          "sha256": "c5008bc0ef07f691819af9377f44d05416b7263548f53d1393ba6e7b0ccfdcf1",
+          "duration_seconds": 28.566667,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Workbench live site metadata, menu, image and three articles; Drupal round-trip real site/page metadata and formatted bodies.",
+          "validation": "Full decode, normal-speed Chromium playback to ended, native milestones/end frames, seven interaction sheets and adjacent before strips reviewed; one-second final hold"
+        }
+      ]
+    },
+    {
+      "id": "3.2-next",
+      "framework": "Next.js",
+      "expectation": "legacy getter migration and constructor warnings; manual nullable client migration; frontend and Canvas preview tree including menu",
+      "status": "passed-with-validated-development-evidence",
+      "packages": [
+        "Recorded template: 43fb805e3442ef6ab2381f4dc107c153806c43f6; Next 16.2.12",
+        "Seven Canvas packages byte-verified against committed cbf2d096 artifacts before and after recorded pull",
+        "Released legacy seed: c700e6ff91ec5570ef966be541083da465de0661"
+      ],
+      "checks": [
+        "Clean Drupal and published legacy seed; original Drupal example tree verified. Initial runtime milestone used 6e8676c7; final recordings use cbf2d096 without relabelling the earlier evidence.",
+        "Recorded real seed restoration and pull converted both getters, retaining constructor-only warnings and corrected summary. Original interactive pull also explicitly deleted 18 unused scaffold components.",
+        "Mandatory reinstall and full installed-package byte verification passed. Recorded remaining constructor migration uses unconditional nullable useJsonApiClient hooks, guarded SWR keys and preserved validation; actual per-file diffs are shown.",
+        "Public Next frontend and actual Canvas Headless preview render live site metadata, page title/UUID, Home menu, decoded 16x16 checker fixture and all three dated rich-text articles. Public and draft menu requests return 200; local component sync succeeds.",
+        "Actual contextHooks capability response retained. Lint and TypeScript checks pass. Separate browser/terminal videos passed full decode, normal-speed Chromium playback to ended, milestone/end-frame and seven adjacent interaction-sheet reviews.",
+        "Signed-origin runtime was checked separately. The edge duplicated an SDK CORS header; an exact-origin sandbox control restored sync while unauthenticated access stayed 401. All temporary origin/CORS source changes were removed before local capture and source commits.",
+        "Production qualification: recorded template43fb805 fails next build on its re-export-only proxy.ts. The reviewed, later one-file template92470b79 fix passes lint, TypeScript and production build; a separate production request smoke on coherent64d packages passed public/draft rendering and metadata sync, retaining anonymous401. The recordings do not claim that later fix or production-runtime coverage."
+      ],
+      "evidence_note": "Guide development-runtime scenario complete, not production certification. Terminal repeats the genuine legacy push/pull, verifies committed packages, applies the remaining manual client migration and shows real diffs/checks. Browser verifies public and embedded draft trees. Both clips retain cbf2d096 server/client and template43fb805 identities; neither is relabelled as the later rebase or proxy fix. Original template production-build failure is retained; later template92470b79 passes build and separate local production public/draft request smoke on64d. This later smoke is not relabelled footage.",
+      "recordings": [
+        {
+          "kind": "terminal",
+          "path": "qe-media/case-32-next-terminal.mp4",
+          "sha256": "c5a60a403ce8341aba72370177d58e3e0d727f89c47df9eff72be2d47684e93e",
+          "duration_seconds": 51.833333,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Real legacy seed restoration and pull; readable getter conversions and constructor warnings; package reinstall/verification; nullable client migration diffs; lint and TypeScript checks.",
+          "validation": "Full decode, normal-speed Chromium playback to ended, milestone frames and native conversion/diff/end-frame review; one-second final hold."
+        },
+        {
+          "kind": "browser",
+          "path": "qe-media/case-32-next-browser.mp4",
+          "sha256": "ee70200eca4f3ea1b50e2b1e1824ce708c4c79e0fbc81f2c0f56d43ae6a8e1b2",
+          "duration_seconds": 34.033333,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Development public page and actual Canvas draft preview: metadata, menu, checker image and three dated rich-text articles. Local origins; no production-runtime claim.",
+          "validation": "Full decode, normal-speed Chromium playback to ended, milestone/end frames and all seven adjacent interaction sheets visually reviewed; one-second final hold."
+        }
+      ],
+      "source_sha": "cbf2d0967e012cd705e27d73343faeedacba50ea"
+    },
+    {
+      "id": "3.2-tanstack",
+      "framework": "TanStack Start",
+      "expectation": "legacy getter migration and constructor warnings; manual nullable client migration; frontend and Canvas preview tree including menu",
+      "status": "passed-with-validated-development-evidence",
+      "source_sha": "64d932aec1d731389a81e1cfa0eee50747fab555",
+      "packages": ["Template92470b79d1e86b8c5ac4c7852a068a58641ee573", "Seven committed64d Canvas packages, fully byte-verified after each pull", "Fresh published legacy fixture c700e6ff91ec5570ef966be541083da465de0661"],
+      "checks": [
+        "Clean Drupal install and fresh published legacy archive; media reconciliation uploaded the authored checker fixture; seed push and original Drupal example tree verified.",
+        "Actual recorded restoration/pull converts getPageData and getSiteData, retains constructor-only warnings and corrected remaining-usage summary.",
+        "Post-pull reinstall and full package-byte verification pass. Both constructors manually migrated using unconditional nullable hooks and guarded SWR keys; actual before/after diffs shown. Lint/TypeScript and separate build pass.",
+        "Public frontend and actual Canvas draft preview render metadata, title/UUID, Home menu, decoded16x16 checker image and three dated rich-text articles. Article/menu requests and component sync return200; no public alerts.",
+        "Both polished videos pass full decode, native geometry, normal-speed Chromium playback to ended, milestone/end-frame and all seven adjacent interaction-sheet reviews.",
+        "An initial reused, already-reconciled seed omitted the image after reinstall. That attempt was rejected and retained privately. Final evidence follows a fresh archive, new reconciliation and full repeat; no source workaround."
+      ],
+      "evidence_note": "Recorded on64d with template92470b79. Initial clean install/media upload preceded capture. Terminal repeats the actual retained-seed push/pull, mandatory reinstall/verification and remaining client migration. Browser verifies public and actual embedded draft trees. No signed-origin workaround was applied; local development-runtime coverage is not production certification.",
+      "recordings": [
+        {"kind":"terminal","path":"qe-media/case-32-tanstack-terminal.mp4","sha256":"9c6514b0103bb2d8f41ba00e91afea8b265f4abf7bef773ea76afc4dec58c9c6","duration_seconds":54.8,"geometry":"1920x1080, 30fps, SAR 1:1","description":"Real legacy seed/pull; getter conversions and constructor warnings; verified committed packages; nullable client diffs and passing lint/type checks.","validation":"Full decode, normal-speed playback to ended, milestone/diff/end frames reviewed; one-second final hold."},
+        {"kind":"browser","path":"qe-media/case-32-tanstack-browser.mp4","sha256":"4c96ab779022c33a1df1645179183444e100ce9887e65511b7341e0ed395b844","duration_seconds":34.266667,"geometry":"1920x1080, 30fps, SAR 1:1","description":"Public page and actual Canvas draft preview with live metadata, menu, checker image and all three dated rich-text articles.","validation":"Full decode, normal-speed playback to ended, milestones/end frames and seven adjacent interaction sheets reviewed; one-second final hold."}
+      ]
+    },
+    {
+      "id": "3.3",
+      "framework": "default/Nebula",
+      "expectation": "portable seed; no migration or warnings; Workbench live site data; clean push and Drupal tree",
+      "status": "passed-with-validated-evidence",
+      "packages": [
+        "Published portable fixture 6288ed2261d5861f2827f4102e7be91e00d0bb66",
+        "Coherent committed 68ef5df9 CLI, SDK, Workbench and ESLint artifacts; full installed bytes verified before/after pull"
+      ],
+      "checks": [
+        "Clean Drupal install; portable seed reconciliation and push passed with committed MR packages installed before first push.",
+        "Fresh Nebula pull passed without getter migration or manual-client warnings; unrelated legacy-regions notice remains.",
+        "Both pulled component sources byte-match the published portable seed; mandatory post-pull reinstall and full installed-byte verification passed.",
+        "Workbench and Drupal show live site metadata, Home menu, decoded image and all three article titles/dates with rich text; no alerts.",
+        "Workbench correctly has absent primary page context; Drupal has real page title and UUID. Round-trip push passed.",
+        "Both videos passed decode/geometry checks, normal-speed browser playback to ended, native milestone/end-frame and interaction-sheet review."
+      ],
+      "recordings": [
+        {
+          "kind": "terminal",
+          "path": "qe-media/case-33-terminal.mp4",
+          "sha256": "78237941a7b2044496d4585089f2fcc8d7ce7dcb173ff7275316bb3654dc2c73",
+          "duration_seconds": 19.466667,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Repeat portable pull without migration/manual-client warnings; reinstall and verify unchanged sources and exact committed packages, then push.",
+          "validation": "Full decode, normal-speed playback to ended, native milestones/end frames and interaction review; one-second final hold"
+        },
+        {
+          "kind": "browser",
+          "path": "qe-media/case-33-browser.mp4",
+          "sha256": "8451db983fad6ec03dea3533fec2f2e4133c4b1311d6eb99eb37d0fdd84d14ca",
+          "duration_seconds": 28,
+          "geometry": "1920x1080, 30fps, SAR 1:1",
+          "description": "Workbench and Drupal complete portable example trees: live site metadata, menu, image, three articles and appropriate page context.",
+          "validation": "Full decode, normal-speed playback to ended, native milestones/end frames and interaction review; one-second final hold"
+        }
+      ],
+      "source_sha": "68ef5df9335769777246ec492b8dc03314ab9d5d",
+      "evidence_note": "Recorded before the rebase, on committed 68ef5df9. Clean installation, seed reconciliation/push and fresh pull preceded capture. Terminal truthfully repeats pull, reinstall, byte/source verification and push against the retained portable seed; browser shows resulting Workbench and Drupal trees. These recordings are not relabeled as rebased 77928030 coverage."
+    },
+    {
+      "id": "3.4-next",
+      "framework": "Next.js",
+      "expectation": "portable seed; no getter/client migration warnings; frontend and Canvas preview tree including menu",
+      "status": "passed-with-validated-development-evidence",
+      "source_sha": "64d932aec1d731389a81e1cfa0eee50747fab555",
+      "packages": ["Template92470b79d1e86b8c5ac4c7852a068a58641ee573", "Committed64d package closures verified for seed and frontend", "Fresh portable fixture6288ed2261d5861f2827f4102e7be91e00d0bb66"],
+      "checks": ["Clean Drupal and fresh portable archive; committed MR packages installed before seed reconciliation/push; original Drupal tree and decoded checker image verified.", "Real recorded portable push/pull, mandatory reinstall and installed-byte verification pass. Both component sources remain byte-identical to published portable fixture; no getter conversions or manual-client warnings. Unrelated legacy-regions notice remains visible.", "Lint, TypeScript and separate production build pass. Public development frontend and actual Canvas draft preview render live metadata, page title/UUID, Home menu, decoded16x16 checker image and all three dated rich-text articles without alerts.", "Both full videos decode and play to ended at normal speed. Milestone/native end frames and all seven adjacent interaction sheets reviewed; one-second final hold and source identities retained."],
+      "evidence_note": "Captured on64d/template92470b79. Initial clean install/reconciliation precede the real repeat seed/pull recording. No manual code migration or origin workaround was needed. Build success is separate from the recorded development-runtime checks; no broad production certification.",
+      "recordings": [
+        {"kind":"terminal","path":"qe-media/case-34-next-terminal.mp4","sha256":"dd0603cf84ee5c5e3b56211dfa9bcc97466c2bdc1e0004b5527df680dc615801","duration_seconds":36.733333,"geometry":"1920x1080, 30fps, SAR 1:1","description":"Portable seed/pull, coherent package reinstall, byte-identical component sources, no getter/client warnings and passing checks. Unrelated regions notice retained.","validation":"Full decode, normal-speed playback to ended, milestone/end frames reviewed; one-second final hold."},
+        {"kind":"browser","path":"qe-media/case-34-next-browser.mp4","sha256":"db85f3e25c335d33b4f1b2c8847aeba3402c18bc220c7b4b4f4ea22e3b6a6044","duration_seconds":35.566667,"geometry":"1920x1080, 30fps, SAR 1:1","description":"Portable public page and actual Canvas draft preview: metadata, Home menu, image and three dated rich-text articles.","validation":"Full decode, normal-speed playback to ended, milestones/end frames and seven adjacent interaction sheets reviewed; one-second final hold."}
+      ]
+    },
+    {
+      "id": "3.4-tanstack",
+      "framework": "TanStack Start",
+      "expectation": "portable seed; no getter/client migration warnings; frontend and Canvas preview tree including menu",
+      "status": "passed-with-validated-development-evidence",
+      "source_sha": "64d932aec1d731389a81e1cfa0eee50747fab555",
+      "packages": ["Template92470b79d1e86b8c5ac4c7852a068a58641ee573", "Coherent committed64d seed/frontend closures", "Fresh published portable6288ed2261d5861f2827f4102e7be91e00d0bb66"],
+      "checks": ["Clean Drupal, fresh portable archive, real media reconciliation and seed push; original Drupal tree/image verified.", "Real recorded repeat push/pull, mandatory reinstall and full byte verification pass; both component sources byte-identical to portable fixture, no getter/client warnings. Unrelated regions notice retained. Lint, TypeScript and separate build pass.", "Actual public and Canvas draft trees render live metadata, page title/UUID, Home menu, decoded16x16 image and three dated rich-text articles. Rehearsal and separate recordings pass. Anonymous component metadata remains401.", "Both full videos decode and play to ended at normal speed; native milestones/end frames and seven adjacent interaction sheets reviewed. No internal cuts or speedups, one-second final hold."],
+      "evidence_note": "Recorded on64d/template92470b79 after fresh Drupal installation and fresh portable fixture reconciliation. Both component sources unchanged; no manual migration or origin workaround. Development-runtime evidence and separate build checks are not broad production certification.",
+      "recordings": [
+        {"kind":"terminal","path":"qe-media/case-34-tanstack-terminal.mp4","sha256":"ab2a46a1c5b6e4ae89a363c50fe2c8f781a26a4e582be58436217d0965e43a79","duration_seconds":38.833333,"geometry":"1920x1080, 30fps, SAR 1:1","description":"Portable seed/pull, mandatory package reinstall, unchanged component bytes, no getter/client warnings and passing checks. Unrelated regions notice retained.","validation":"Full decode, normal-speed playback to ended, native milestones/end reviewed; one-second final hold."},
+        {"kind":"browser","path":"qe-media/case-34-tanstack-browser.mp4","sha256":"ad38f7a569969b0c2c35677c213a885cf5f441467c3ca841b2784a46d00a9ed0","duration_seconds":34.733333,"geometry":"1920x1080, 30fps, SAR 1:1","description":"Portable public page and actual Canvas draft preview: metadata, Home menu, image and all three dated rich-text articles.","validation":"Full decode, normal-speed playback to ended, milestones/end frames and seven adjacent interaction sheets reviewed; one-second final hold."}
+      ]
+    }
+  ],
+  "preparation": {
+    "status": "Historical static-only preparation checkpoint retained for provenance, not the current runtime status. Subsequent source-specific runtime coverage appears in the scenario sections below.",
+    "template_pr": "https://github.com/drupal-canvas/headless-templates/pull/11",
+    "template_sha": "ed2ad0a953b4ff2a056fabb9757a35ebf5e8fd5a",
+    "checks": [
+      "PR11 head and guide branch verified at the same exact SHA; Next and TanStack scaffolded from that SHA, not main",
+      "Both isolated frontends reinstalled seven freshly built packages at committed68ef5df9335769777246ec492b8dc03314ab9d5d; full installed-byte verification and both template checks pass. No registry Canvas package remains",
+      "ENOSPC recovery retained source, configuration, logs, evidence and artifacts; only obsolete or completed build node_modules removed; approximately 1.2 GiB free at the latest checkpoint",
+      "Original Next/TanStack type errors expose an inherited upstream collection-return union; PR11 removed the old casts. The union predates the MR",
+      "Candidate collection overloads distinguish omitted/false, true and dynamic rawResponse; regression fails without overloads, passes with them; 26 focused runtime tests and package type-check/build pass",
+      "Both disposable templates now pass lint and TypeScript with the separately verified candidate; TanStack alone needs two redundant nullish fallbacks removed. No casts or auth changes",
+      "Exact approved Canvas patch transferred to main checkout and committed normally; rooted formatting/lint, 26 tests, type-check/build pass. Template two-line cleanup passed rooted checks and was published normally. Original artifacts/media unchanged; recordings for all three completed cases predate the typing-only fix. No rebase/merge performed; static preparation is not headless runtime coverage"
+    ]
+  },
+  "next_rounds": [
+    "All eight executable guide cases now have revision-specific evidence; no scenario remains unexecuted. Preserve original footage, especially accepted3.1.",
+    "No additional source fixes/publication or CI investigation planned. Existing review approvals, exact published tips and CI handoff remain explicit.",
+    "Guide/report/media remain local artifacts; no artifact Git publication, external comment, MR metadata edit or merge is authorized."
+  ]
+}

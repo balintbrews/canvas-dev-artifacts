@@ -1,0 +1,42 @@
+{
+  "title": "Case 3.4 Next: Portable hooks and clients",
+  "start": 3.384,
+  "end": 39.133333,
+  "captions": [
+    {
+      "start": 3.384,
+      "end": 6.721,
+      "text": "Repeat the portable seed and pull"
+    },
+    {
+      "start": 6.721,
+      "end": 10.598,
+      "text": "Verify published source and packages"
+    },
+    {
+      "start": 10.598,
+      "end": 16.346,
+      "text": "Push the retained portable seed"
+    },
+    {
+      "start": 16.346,
+      "end": 24.068,
+      "text": "Pull: no getter or client warnings"
+    },
+    {
+      "start": 24.068,
+      "end": 26.939,
+      "text": "Reinstall committed package closure"
+    },
+    {
+      "start": 26.939,
+      "end": 33.408,
+      "text": "Both portable sources unchanged"
+    },
+    {
+      "start": 33.408,
+      "end": 39.133333,
+      "text": "Run lint and TypeScript checks"
+    }
+  ]
+}

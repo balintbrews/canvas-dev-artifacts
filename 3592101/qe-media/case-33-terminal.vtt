@@ -1,0 +1,20 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.327
+Repeat portable pull and round-trip
+
+00:00:03.327 --> 00:00:05.484
+Verify published MR and portable seed
+
+00:00:05.484 --> 00:00:09.526
+Pull: no migration or client warnings
+
+00:00:09.526 --> 00:00:12.388
+Reinstall committed MR packages
+
+00:00:12.388 --> 00:00:14.543
+Both portable sources unchanged
+
+00:00:14.543 --> 00:00:19.490
+Clean push back to Drupal
+

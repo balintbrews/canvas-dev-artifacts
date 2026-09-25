@@ -1,0 +1,42 @@
+{
+  "title": "Case 3.2 Next: Legacy to portable clients",
+  "start": 0,
+  "end": 33.014432908035815,
+  "captions": [
+    {
+      "start": 0,
+      "end": 4.1808364931494,
+      "text": "Public page: metadata, menu and image"
+    },
+    {
+      "start": 4.1808364931494,
+      "end": 10.61827146075666,
+      "text": "Public page: three formatted articles"
+    },
+    {
+      "start": 10.61827146075666,
+      "end": 13.26620552316308,
+      "text": "Real page title and UUID"
+    },
+    {
+      "start": 13.26620552316308,
+      "end": 15.445007350295782,
+      "text": "Open the active Canvas preview"
+    },
+    {
+      "start": 15.445007350295782,
+      "end": 22.154145917855203,
+      "text": "Preview: metadata, menu and image"
+    },
+    {
+      "start": 22.154145917855203,
+      "end": 30.290358247235417,
+      "text": "Preview: three formatted articles"
+    },
+    {
+      "start": 30.290358247235417,
+      "end": 33.014432908035815,
+      "text": "Public and draft trees verified"
+    }
+  ]
+}

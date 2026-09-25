@@ -1,0 +1,106 @@
+[
+  {
+    "monotonic": 7790022.856269331,
+    "label": "record command start"
+  },
+  {
+    "monotonic": 7790023.242889544,
+    "label": "Ready: original nested tree"
+  },
+  {
+    "monotonic": 7790024.243601819,
+    "label": "Card out of slot approach"
+  },
+  {
+    "monotonic": 7790028.063476784,
+    "label": "Card out of slot down"
+  },
+  {
+    "monotonic": 7790032.902852187,
+    "label": "Card out of slot up"
+  },
+  {
+    "monotonic": 7790032.975933242,
+    "label": "Card at root: two remain in slot"
+  },
+  {
+    "monotonic": 7790033.776652128,
+    "label": "Card into slot approach"
+  },
+  {
+    "monotonic": 7790037.475169879,
+    "label": "Card into slot down"
+  },
+  {
+    "monotonic": 7790042.751925346,
+    "label": "Card into slot up"
+  },
+  {
+    "monotonic": 7790042.814932296,
+    "label": "Three cards restored inside slot"
+  },
+  {
+    "monotonic": 7790043.615494566,
+    "label": "Reorder root Spacer approach"
+  },
+  {
+    "monotonic": 7790047.487375161,
+    "label": "Reorder root Spacer down"
+  },
+  {
+    "monotonic": 7790052.708135099,
+    "label": "Reorder root Spacer up"
+  },
+  {
+    "monotonic": 7790052.77162126,
+    "label": "Spacer first; nested rendering intact"
+  },
+  {
+    "monotonic": 7790053.638218162,
+    "label": "Open Code library approach"
+  },
+  {
+    "monotonic": 7790057.376961668,
+    "label": "Open Code library down"
+  },
+  {
+    "monotonic": 7790058.24956083,
+    "label": "Open Hero code editor approach"
+  },
+  {
+    "monotonic": 7790063.147835994,
+    "label": "Open Hero code editor down"
+  },
+  {
+    "monotonic": 7790066.762536853,
+    "label": "Hero preview rendered"
+  },
+  {
+    "monotonic": 7790067.87029344,
+    "label": "Open Card code editor approach"
+  },
+  {
+    "monotonic": 7790070.482039461,
+    "label": "Open Card code editor down"
+  },
+  {
+    "monotonic": 7790072.843082591,
+    "label": "Card preview rendered"
+  },
+  {
+    "monotonic": 7790073.952905669,
+    "label": "Open Heading code editor approach"
+  },
+  {
+    "monotonic": 7790075.734763579,
+    "label": "Open Heading code editor down"
+  },
+  {
+    "monotonic": 7790077.570067265,
+    "label": "Heading preview rendered"
+  },
+  {
+    "monotonic": 7790078.67071638,
+    "label": "All three previews verified"
+  }
+]

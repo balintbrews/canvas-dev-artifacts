@@ -1,0 +1,37 @@
+{
+  "title": "Case 2.1: Canvas 1.11.0 + MR clients",
+  "start": 3.445,
+  "end": 24.293333,
+  "captions": [
+    {
+      "start": 3.445,
+      "end": 7.09,
+      "text": "Repeat approved pull and push"
+    },
+    {
+      "start": 7.09,
+      "end": 9.18,
+      "text": "Verify actual 1.11.0 and MR packages"
+    },
+    {
+      "start": 9.18,
+      "end": 14.03,
+      "text": "Pull: --no-include-brand-kit"
+    },
+    {
+      "start": 14.03,
+      "end": 18.45,
+      "text": "Reinstall pinned MR packages"
+    },
+    {
+      "start": 18.45,
+      "end": 20.542,
+      "text": "Both legacy sources unchanged"
+    },
+    {
+      "start": 20.542,
+      "end": 24.293333,
+      "text": "Clean push back to Drupal"
+    }
+  ]
+}

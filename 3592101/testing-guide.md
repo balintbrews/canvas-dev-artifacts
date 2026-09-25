@@ -4,6 +4,14 @@ _90%+ written without AI_.
 
 MR: https://git.drupalcode.org/project/canvas/-/merge_requests/1666
 
+## Recorded QE results
+
+The [guide-ordered report](guide-driven-qe-report.html) contains all eight executable
+scenarios and sixteen separate terminal/browser videos. Section 2.2 remains
+unsupported/N/A. Each recording retains its original revision; see the
+[review summary](qe-review-summary.md) for published fixes, the Case 2.1-only
+adjustment, local preview qualifications and the separate later Next production smoke.
+
 ## Prerequisites
 
 1. Clone the following two repositories:
@@ -219,7 +227,9 @@ exercise Next.js and TanStack Start only.
 2. Verify the Example component tree (see above) in Drupal.
 3. Create a local codebase with Nebula (`npx @drupal-canvas/create@latest`).
    1. Adjust it to use JS packages from #3592101.
-4. Run `npx canvas pull`.
+4. Run `npx canvas pull --no-include-brand-kit`.
+   Canvas 1.11.0 rejects OAuth on the Folder route. This excludes unrelated
+   Brand Kit data while preserving component and page coverage.
 5. **Code update/warning (see above) MUST NOT be happening.**
 6. Verify the Example component tree (see above) in Workbench.
 7. Run `npx canvas push`.

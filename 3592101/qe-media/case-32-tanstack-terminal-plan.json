@@ -1,0 +1,57 @@
+{
+  "title": "Case 3.2 TanStack: Legacy to portable clients",
+  "start": 3.507,
+  "end": 57.333333,
+  "captions": [
+    {
+      "start": 3.507,
+      "end": 7.042,
+      "text": "Repeat the legacy migration"
+    },
+    {
+      "start": 7.042,
+      "end": 10.334,
+      "text": "Verify committed server and packages"
+    },
+    {
+      "start": 10.334,
+      "end": 16.241,
+      "text": "Restore the published legacy seed"
+    },
+    {
+      "start": 16.241,
+      "end": 22.143,
+      "text": "Pull and automatically convert getters"
+    },
+    {
+      "start": 22.143,
+      "end": 30.423,
+      "text": "Review conversions and client warnings"
+    },
+    {
+      "start": 30.423,
+      "end": 34.401,
+      "text": "Reinstall and verify package bytes"
+    },
+    {
+      "start": 34.401,
+      "end": 36.864,
+      "text": "Migrate remaining constructors"
+    },
+    {
+      "start": 36.864,
+      "end": 43.628,
+      "text": "Article client: guarded SWR key"
+    },
+    {
+      "start": 43.628,
+      "end": 50.337,
+      "text": "Menu client: shared runtime context"
+    },
+    {
+      "start": 50.337,
+      "end": 57.333333,
+      "text": "Run lint and TypeScript checks"
+    }
+  ]
+}

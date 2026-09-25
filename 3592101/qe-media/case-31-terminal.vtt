@@ -1,0 +1,23 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.676
+Repeat migration and round-trip
+
+00:00:03.676 --> 00:00:05.729
+Verify original MR and exact migration
+
+00:00:05.729 --> 00:00:11.587
+Restore the released legacy seed
+
+00:00:11.587 --> 00:00:15.632
+Migrate getters; retain client warnings
+
+00:00:15.632 --> 00:00:20.150
+Reinstall pinned MR packages
+
+00:00:20.150 --> 00:00:22.205
+Only getter/import changes verified
+
+00:00:22.205 --> 00:00:26.926
+Clean push back to Drupal
+

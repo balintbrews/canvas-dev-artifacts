@@ -1,0 +1,11 @@
+{
+  "title": "1 / Nebula / Verify the existing smoke-test installation",
+  "start": 0.1,
+  "end": 20.9,
+  "captions": [
+    {"start":0.1,"end":5.102,"text":"No reinstall or push replay"},
+    {"start":5.102,"end":7.818,"text":"Verify pinned MR packages"},
+    {"start":7.818,"end":18.021,"text":"Validate components and page"},
+    {"start":18.021,"end":20.9,"text":"Confirm the Drupal content state"}
+  ]
+}

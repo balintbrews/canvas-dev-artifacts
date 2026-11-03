@@ -1,0 +1,78 @@
+[
+  {
+    "monotonic": 17856090.664,
+    "label": "record-start",
+    "seconds_from_record_start": 0.0
+  },
+  {
+    "monotonic": 17856091.878,
+    "label": "long-page-loaded",
+    "seconds_from_record_start": 1.214,
+    "measured": {
+      "url": "/canvas/editor/canvas_page/3",
+      "gap": 49.8,
+      "scrollTop": 747
+    }
+  },
+  {
+    "monotonic": 17856093.157,
+    "label": "panel-open",
+    "seconds_from_record_start": 2.493,
+    "measured": {
+      "url": "/canvas/editor/canvas_page/3",
+      "gap": 49.8,
+      "scrollTop": 747
+    }
+  },
+  {
+    "monotonic": 17856095.301,
+    "label": "click-short",
+    "seconds_from_record_start": 4.637,
+    "measured": {
+      "url": "/canvas/editor/canvas_page/2",
+      "gap": 49.8,
+      "scrollTop": 747
+    }
+  },
+  {
+    "monotonic": 17856097.048,
+    "label": "short-page-settled",
+    "seconds_from_record_start": 6.384,
+    "measured": {
+      "url": "/canvas/editor/canvas_page/2",
+      "gap": -370.2,
+      "scrollTop": 1167
+    }
+  },
+  {
+    "monotonic": 17856100.087,
+    "label": "click-long",
+    "seconds_from_record_start": 9.423,
+    "measured": {
+      "url": "/canvas/editor/canvas_page/3",
+      "gap": -370.2,
+      "scrollTop": 1167
+    }
+  },
+  {
+    "monotonic": 17856101.835,
+    "label": "long-page-settled",
+    "seconds_from_record_start": 11.171,
+    "measured": {
+      "url": "/canvas/editor/canvas_page/3",
+      "gap": 49.8,
+      "scrollTop": 747
+    }
+  },
+  {
+    "monotonic": 17856103.762,
+    "label": "record-stop",
+    "seconds_from_record_start": 13.098
+  },
+  {
+    "label": "visible events in raw frames (scene detection and frame review)",
+    "panel_fully_open_s": 2.767,
+    "short_page_visible_s": 4.933,
+    "long_page_visible_s": 9.733
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "work_item": 3592281,
+  "source": {
+    "baseline": "780a0520929b41411cec368f337e8e3d0b429e07 (Canvas 1.x)",
+    "fix": "9adbfb2f with configuration test f99fcaf3, local branch 3592281-issue-branch, not pushed",
+    "mr_1952_included": false
+  },
+  "browser": "Chrome for Testing 153.0.8010.47, headless, viewport 1920x996, Canvas zoom 100%, Tablet viewport",
+  "fixture": "Local site pages 'Review: long page' (/page/3, preview 1608px) and 'Review: short page' (/page/2, 768px). The short page was opened and left once off camera before recording, so its data was cached.",
+  "recorded": "2026-11-03",
+  "videos": [
+    {
+      "file": "videos/pages-panel-before.mp4",
+      "build": "780a0520929b41411cec368f337e8e3d0b429e07",
+      "sha256": "f1852df81b50440a0252a32e6eded5bee1c9a5098ce84baa366f389fb16c958e",
+      "bytes": 286849,
+      "duration_seconds": 13.7,
+      "width": 1920,
+      "height": 1080,
+      "fps": "30/1",
+      "sar": "1:1",
+      "dar": "16:9",
+      "codec": "h264",
+      "silent": true,
+      "final_hold_seconds": 1,
+      "final_hold_ssim_vs_last_retained_frame": 0.999996,
+      "interaction_review": "Adjacent frames reviewed for all three pointer moves; progressive movement, no jumps.",
+      "edits": "Ends-only trim (raw 0.2 to 12.9 s), CFR normalization, 84px top bar, one-second final hold; no internal cuts or speedups."
+    },
+    {
+      "file": "videos/pages-panel-after.mp4",
+      "build": "f99fcaf3 (fix 9adbfb2f) on 780a0520",
+      "sha256": "0d7cfb466f51a13ab815df681355e2608d03b28c26c75fed8980a166ca250094",
+      "bytes": 292537,
+      "duration_seconds": 13.7,
+      "width": 1920,
+      "height": 1080,
+      "fps": "30/1",
+      "sar": "1:1",
+      "dar": "16:9",
+      "codec": "h264",
+      "silent": true,
+      "final_hold_seconds": 1,
+      "final_hold_ssim_vs_last_retained_frame": 0.999998,
+      "interaction_review": "Adjacent frames reviewed for all three pointer moves; progressive movement, no jumps.",
+      "edits": "Ends-only trim (raw 0.2 to 12.9 s), CFR normalization, 84px top bar, one-second final hold; no internal cuts or speedups."
+    }
+  ],
+  "not_captured": [
+    "The intermittent 8px short-page case",
+    "Demo starter pages: Home to Login did not reproduce on the baseline (0/5)"
+  ],
+  "publication": "Local staging only; not pushed."
+}

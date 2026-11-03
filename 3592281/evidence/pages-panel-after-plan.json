@@ -1,0 +1,20 @@
+{
+  "title": "After: with the fix (9adbfb2f), Pages panel switch",
+  "start": 0.2,
+  "end": 12.9,
+  "captions": [
+    {
+      "start": 0.0,
+      "end": 2.75,
+      "text": "Long page: preview top sits 50px into the pane"
+    },
+    { "start": 2.75, "end": 4.9, "text": "Open Pages and pick the short page" },
+    {
+      "start": 4.9,
+      "end": 8.2,
+      "text": "Short page starts 50px into the pane"
+    },
+    { "start": 8.2, "end": 9.7, "text": "Switch back to the long page" },
+    { "start": 9.7, "end": 12.9, "text": "Long page lines up" }
+  ]
+}

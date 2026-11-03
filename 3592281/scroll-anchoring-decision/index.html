@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="Why the editor pane opts out of browser scroll anchoring in work item 3592281, what was measured, and what the remaining tradeoff is."
+    />
+    <title>Editor scroll anchoring decision</title>
+    <style>
+      :root {
+        --bg: #f9f9f8;
+        --surface: #ffffff;
+        --canvas: #e8e8e6;
+        --text: #1c2024;
+        --muted: #60646c;
+        --line: #d9d9e0;
+        --accent: #0d74ce;
+        --accent-soft: #e6f4fe;
+        --bad: #ce2c31;
+        --bad-soft: #feebec;
+        --good: #18794e;
+        --good-soft: #e6f6eb;
+        --warn: #8c5300;
+        --warn-soft: #fff7c2;
+        --preview: #ffffff;
+        --preview-line: #8b8d98;
+        --frame: #b9bbc6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg: #111113;
+          --surface: #18191b;
+          --canvas: #212225;
+          --text: #edeef0;
+          --muted: #b0b4ba;
+          --line: #363a3f;
+          --accent: #70b8ff;
+          --accent-soft: #0d2847;
+          --bad: #ff9592;
+          --bad-soft: #3b1219;
+          --good: #3dd68c;
+          --good-soft: #132d21;
+          --warn: #ffca16;
+          --warn-soft: #302008;
+          --preview: #2e3135;
+          --preview-line: #b0b4ba;
+          --frame: #5a6169;
+        }
+      }
+      :root[data-theme='dark'] {
+        --bg: #111113;
+        --surface: #18191b;
+        --canvas: #212225;
+        --text: #edeef0;
+        --muted: #b0b4ba;
+        --line: #363a3f;
+        --accent: #70b8ff;
+        --accent-soft: #0d2847;
+        --bad: #ff9592;
+        --bad-soft: #3b1219;
+        --good: #3dd68c;
+        --good-soft: #132d21;
+        --warn: #ffca16;
+        --warn-soft: #302008;
+        --preview: #2e3135;
+        --preview-line: #b0b4ba;
+        --frame: #5a6169;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.6 -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          'Fira Sans',
+          'Droid Sans',
+          'Helvetica Neue',
+          sans-serif;
+      }
+      main {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 48px 16px 64px;
+      }
+      h1 {
+        font-size: clamp(28px, 5vw, 40px);
+        line-height: 1.15;
+        margin: 8px 0 12px;
+        letter-spacing: -0.5px;
+      }
+      h2 {
+        font-size: 22px;
+        margin: 0 0 8px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 0 0 6px;
+      }
+      p {
+        margin: 0 0 12px;
+        color: var(--muted);
+        max-width: 760px;
+      }
+      code {
+        font:
+          14px source-code-pro,
+          Menlo,
+          Monaco,
+          Consolas,
+          'Courier New',
+          monospace;
+        background: var(--canvas);
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: var(--text);
+        overflow-wrap: anywhere;
+      }
+      a {
+        color: var(--accent);
+        text-underline-offset: 3px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      section {
+        margin: 28px 0;
+        padding: 24px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 999px;
+        margin-right: 6px;
+        vertical-align: 2px;
+      }
+      .measured {
+        background: var(--good-soft);
+        color: var(--good);
+      }
+      .hypothetical {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .pending {
+        background: var(--bad-soft);
+        color: var(--bad);
+      }
+      .decision {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+        margin-top: 16px;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px;
+        background: var(--bg);
+      }
+      .card.recommended {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .card p {
+        margin: 0;
+        font-size: 15px;
+      }
+      .rows {
+        display: grid;
+        gap: 18px;
+      }
+      .row-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .panels {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+      @media (max-width: 720px) {
+        .panels {
+          grid-template-columns: 1fr;
+        }
+      }
+      figure {
+        margin: 0;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px;
+      }
+      figcaption {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      figcaption strong {
+        color: var(--text);
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+      .pane {
+        fill: var(--canvas);
+        stroke: var(--preview-line);
+      }
+      .preview {
+        fill: var(--preview);
+        stroke: var(--preview-line);
+        stroke-width: 1.5;
+      }
+      .ghost {
+        fill: none;
+        stroke: var(--preview-line);
+        stroke-width: 1.5;
+        stroke-dasharray: 5 4;
+      }
+      .oldframe {
+        fill: none;
+        stroke: var(--frame);
+        stroke-width: 1.5;
+        stroke-dasharray: 2 4;
+      }
+      .marker {
+        stroke: var(--accent);
+        stroke-width: 2;
+      }
+      .marker-bad {
+        stroke: var(--bad);
+        stroke-width: 2;
+      }
+      .svgtext {
+        fill: var(--muted);
+        font-size: 11px;
+      }
+      .svgtext-strong {
+        fill: var(--text);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      .table-wrap:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+      }
+      ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+        color: var(--muted);
+      }
+      li {
+        margin: 4px 0;
+      }
+      li strong,
+      p strong {
+        color: var(--text);
+      }
+      .separate {
+        border-style: dashed;
+      }
+      footer {
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        padding-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="eyebrow">
+          Canvas · Work item 3592281 · Decision accepted
+        </div>
+        <h1>Should the editor pane opt out of browser scroll anchoring?</h1>
+        <p>
+          The proposed fix is one CSS declaration,
+          <code>overflow-anchor: none</code> on the editor pane. It removes the
+          measured misalignment. The possible cost is losing a browser feature
+          that keeps content still when something changes height. The editing,
+          viewport, zoom and window scenarios tested on 2026-11-03 behaved the
+          same before and after the fix, so that cost wasn't observed. Safari
+          and Firefox weren't tested.
+        </p>
+        <p>
+          <strong>Decision:</strong> accepted on 2026-11-03. The limitations
+          below still apply. Before and after videos are on the
+          <a href="../">comparison page</a>.
+        </p>
+        <p>
+          <span class="tag measured">Measured</span> observed in Chromium on the
+          local site.
+          <span class="tag hypothetical">Hypothetical</span> reasoning, not
+          observed. <span class="tag pending">Untested</span> could not be
+          checked here.
+        </p>
+        <p>
+          Builds compared: before is <code>780a0520</code> (1.x, no
+          <code>overflow-anchor</code>); with the fix is <code>9adbfb2f</code>
+          on the same base, with !1952 not included. Browser: Chrome for Testing
+          153 (Chromium), headless. Page-switch tests ran on 2026-11-02;
+          scrolled-editing tests on 2026-11-03.
+        </p>
+      </header>
+
+      <section aria-labelledby="scenario">
+        <h2 id="scenario">
+          <span class="tag measured">Measured</span>What users see
+        </h2>
+        <p>
+          In the Pages panel, open <strong>Review: long page</strong>, then
+          switch to <strong>Review: short page</strong>. The preview should
+          start about 50px below the top of the editor pane. Instead, its top
+          ends up out of view.
+        </p>
+        <div
+          class="table-wrap"
+          role="region"
+          aria-label="Measured page-switch results, before and with the fix"
+          tabindex="0"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Scenario (1920 × 996, 100% zoom)</th>
+                <th scope="col">Before</th>
+                <th scope="col">With the fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pages panel, long → short, short page visited earlier</td>
+                <td>
+                  Misaligned 8/8 on 1.x, 7/8 with !1952. Top 289–297px above the
+                  pane
+                </td>
+                <td>0/8 misaligned</td>
+              </tr>
+              <tr>
+                <td>Pages panel, short → long</td>
+                <td>Aligned</td>
+                <td>8/8 aligned</td>
+              </tr>
+              <tr>
+                <td>Short page reload, 1.5× CPU slowdown</td>
+                <td>Top 8px low in about 3% of loads (1/40, 2/35)</td>
+                <td>0/40</td>
+              </tr>
+              <tr>
+                <td>Same live page, only the pane's anchoring toggled</td>
+                <td>Anchoring on: −289px</td>
+                <td>Anchoring off: 3/3 aligned</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="mechanism">
+        <h2 id="mechanism">
+          <span class="tag measured">Measured</span>Why it happens
+        </h2>
+        <p>
+          The editor frame centers the preview vertically. It resizes to fit the
+          preview through a ResizeObserver, which runs one layout late. For that
+          one layout, the preview sits off-center by half the height difference.
+          Chromium's scroll anchoring then shifts the pane's scroll position to
+          cancel the move. When the frame catches up and the preview moves back,
+          Chromium skips the compensation, because the frame's resize cancels
+          anchoring. The numbers below come from a recorded misaligned run.
+        </p>
+        <div class="rows">
+          <div>
+            <div class="row-label">Before: anchoring on</div>
+            <div class="panels">
+              <figure>
+                <svg viewBox="0 0 220 240" role="img" aria-labelledby="b1">
+                  <title id="b1">
+                    Long page aligned: preview top 50px below the pane top,
+                    scroll position 747.
+                  </title>
+                  <defs>
+                    <clipPath id="clip-b1">
+                      <rect x="10" y="30" width="200" height="190" />
+                    </clipPath>
+                  </defs>
+                  <text x="10" y="20" class="svgtext-strong">
+                    1. Long page aligned
+                  </text>
+                  <rect class="pane" x="10" y="30" width="200" height="190" />
+                  <g clip-path="url(#clip-b1)">
+                    <rect
+                      class="preview"
+                      x="35"
+                      y="40"
+                      width="150"
+                      height="292"
+                    />
+                  </g>
+                  <line class="marker" x1="10" y1="40" x2="210" y2="40" />
+                  <text x="14" y="234" class="svgtext">
+                    scroll 747 · gap 50
+                  </text>
+                </svg>
+                <figcaption>
+                  <strong>1462px</strong> preview, frame fits it.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 220 240" role="img" aria-labelledby="b2">
+                  <title id="b2">
+                    Preview shrinks to 768px while the frame is still 1462px.
+                    The preview moves down 347px and the browser adds 347 to the
+                    scroll position, so it stays in place.
+                  </title>
+                  <defs>
+                    <clipPath id="clip-b2">
+                      <rect x="10" y="30" width="200" height="190" />
+                    </clipPath>
+                  </defs>
+                  <text x="10" y="20" class="svgtext-strong">
+                    2. Shrinks, browser compensates
+                  </text>
+                  <rect class="pane" x="10" y="30" width="200" height="190" />
+                  <g clip-path="url(#clip-b2)">
+                    <rect
+                      class="oldframe"
+                      x="30"
+                      y="-29"
+                      width="160"
+                      height="292"
+                    />
+                    <rect
+                      class="preview"
+                      x="35"
+                      y="40"
+                      width="150"
+                      height="154"
+                    />
+                  </g>
+                  <line class="marker" x1="10" y1="40" x2="210" y2="40" />
+                  <text x="14" y="234" class="svgtext">
+                    scroll 747 → 1094 (+347)
+                  </text>
+                </svg>
+                <figcaption>
+                  Dotted: frame still <strong>1462px</strong>. Scroll anchoring
+                  adds 347.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 220 240" role="img" aria-labelledby="b3">
+                  <title id="b3">
+                    The frame resizes to 768px and the preview moves back up
+                    347px, but the browser does not compensate. The preview top
+                    ends 297px above the pane.
+                  </title>
+                  <defs>
+                    <clipPath id="clip-b3">
+                      <rect x="10" y="30" width="200" height="190" />
+                    </clipPath>
+                  </defs>
+                  <text x="10" y="20" class="svgtext-strong">
+                    3. Frame fits, top is lost
+                  </text>
+                  <rect class="pane" x="10" y="30" width="200" height="190" />
+                  <g clip-path="url(#clip-b3)">
+                    <rect
+                      class="preview"
+                      x="35"
+                      y="-29"
+                      width="150"
+                      height="154"
+                    />
+                  </g>
+                  <line class="marker-bad" x1="10" y1="31" x2="210" y2="31" />
+                  <text x="14" y="234" class="svgtext">
+                    scroll 1094 · gap −297
+                  </text>
+                </svg>
+                <figcaption>
+                  The move back cancels anchoring, so the +347 stays.
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+          <div>
+            <div class="row-label">
+              With the fix: anchoring off for the pane
+            </div>
+            <div class="panels">
+              <figure>
+                <svg viewBox="0 0 220 240" role="img" aria-labelledby="a1">
+                  <title id="a1">
+                    Long page aligned: preview top 50px below the pane top,
+                    scroll position 747.
+                  </title>
+                  <defs>
+                    <clipPath id="clip-a1">
+                      <rect x="10" y="30" width="200" height="190" />
+                    </clipPath>
+                  </defs>
+                  <text x="10" y="20" class="svgtext-strong">
+                    1. Long page aligned
+                  </text>
+                  <rect class="pane" x="10" y="30" width="200" height="190" />
+                  <g clip-path="url(#clip-a1)">
+                    <rect
+                      class="preview"
+                      x="35"
+                      y="40"
+                      width="150"
+                      height="292"
+                    />
+                  </g>
+                  <line class="marker" x1="10" y1="40" x2="210" y2="40" />
+                  <text x="14" y="234" class="svgtext">
+                    scroll 747 · gap 50
+                  </text>
+                </svg>
+                <figcaption>Same starting point.</figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 220 240" role="img" aria-labelledby="a2">
+                  <title id="a2">
+                    Preview shrinks while the frame is still 1462px. The preview
+                    is off-center for one layout, which is not painted. The
+                    scroll position stays 747.
+                  </title>
+                  <defs>
+                    <clipPath id="clip-a2">
+                      <rect x="10" y="30" width="200" height="190" />
+                    </clipPath>
+                  </defs>
+                  <text x="10" y="20" class="svgtext-strong">
+                    2. Off-center, not painted
+                  </text>
+                  <rect class="pane" x="10" y="30" width="200" height="190" />
+                  <g clip-path="url(#clip-a2)">
+                    <rect
+                      class="oldframe"
+                      x="30"
+                      y="40"
+                      width="160"
+                      height="292"
+                    />
+                    <rect
+                      class="ghost"
+                      x="35"
+                      y="109"
+                      width="150"
+                      height="154"
+                    />
+                  </g>
+                  <line class="marker" x1="10" y1="40" x2="210" y2="40" />
+                  <text x="14" y="234" class="svgtext">
+                    scroll stays 747 · gap 397 briefly
+                  </text>
+                </svg>
+                <figcaption>
+                  The observer runs before the browser paints. No compensation.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 220 240" role="img" aria-labelledby="a3">
+                  <title id="a3">
+                    The frame resizes to 768px and the preview returns to 50px
+                    below the pane top. Scroll position 747.
+                  </title>
+                  <defs>
+                    <clipPath id="clip-a3">
+                      <rect x="10" y="30" width="200" height="190" />
+                    </clipPath>
+                  </defs>
+                  <text x="10" y="20" class="svgtext-strong">
+                    3. Frame fits, top in view
+                  </text>
+                  <rect class="pane" x="10" y="30" width="200" height="190" />
+                  <g clip-path="url(#clip-a3)">
+                    <rect
+                      class="preview"
+                      x="35"
+                      y="40"
+                      width="150"
+                      height="154"
+                    />
+                  </g>
+                  <line class="marker" x1="10" y1="40" x2="210" y2="40" />
+                  <text x="14" y="234" class="svgtext">
+                    scroll 747 · gap 50
+                  </text>
+                </svg>
+                <figcaption>
+                  The editor's own scroll position is what users see.
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 14px">
+          The 8px case is the same mechanism with a 16px height change while the
+          short page loads (768px ↔ 784px). Changing the preview height by 16px
+          in the live editor moved the scroll by 8px with anchoring on, and not
+          at all with it off. Whether a given switch misaligns depends on which
+          element Chromium picks as its anchor. It is usually one of the
+          editor's component outlines, which is why the bug is intermittent and
+          more likely when the page's data is already cached.
+        </p>
+      </section>
+
+      <section aria-labelledby="tradeoff">
+        <h2 id="tradeoff">
+          <span class="tag measured">Measured</span>What opting out could cost,
+          tested
+        </h2>
+        <p>
+          Scroll anchoring exists to keep what is on screen still when content
+          above it changes size. If the baseline preserved a visible position in
+          these scenarios and the fix didn't, that would be the cost. Each
+          scenario uses real editor controls on the demo
+          <strong>Home</strong> page (5469px preview). The pane starts scrolled
+          to 3147. The landmark is the heading
+          <em>Standout work, according to the teams who ship it</em>, measured
+          from the pane's top.
+        </p>
+        <div
+          class="table-wrap"
+          role="region"
+          aria-label="Tested scenarios while scrolled, before and with the fix"
+          tabindex="0"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Scenario while scrolled (2026-11-03)</th>
+                <th scope="col">Before (780a0520)</th>
+                <th scope="col">With the fix (9adbfb2f)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Select a heading, scroll it out of view, then type into its
+                  Text field so it grows 285 → 513px
+                </td>
+                <td>Landmark 378.6 → 606.6 (+228), scroll 3147</td>
+                <td>Landmark 378.6 → 606.6 (+228), scroll 3147</td>
+              </tr>
+              <tr>
+                <td>Then replace its text so it shrinks by 456px</td>
+                <td>Landmark → 150.6 (−456), scroll 3147</td>
+                <td>Landmark → 150.6 (−456), scroll 3147</td>
+              </tr>
+              <tr>
+                <td>Viewport Tablet → Desktop → Mobile → Tablet</td>
+                <td>Landmark 375.8, 1099.7, back to 378.6. Scroll 3147</td>
+                <td>Same values. Scroll 3147</td>
+              </tr>
+              <tr>
+                <td>Zoom 100% → 75% → 125% → 100%</td>
+                <td>Landmark 380, 1060.8, back to 378.6. Scroll 3147</td>
+                <td>Same values. Scroll 3147</td>
+              </tr>
+              <tr>
+                <td>Browser window 1920 × 996 → 1440 × 900 → back</td>
+                <td>Landmark 301.8, back to 378.6. Scroll 3147</td>
+                <td>Same values. Scroll 3147</td>
+              </tr>
+              <tr>
+                <td>
+                  Change the preview's height by ±100px at scroll 1200
+                  (synthetic, 2026-11-02)
+                </td>
+                <td>No drift</td>
+                <td>No drift</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top: 12px">
+          In every row the two builds match exactly. The landmark moves by the
+          content change (ordinary reflow, or scaling for zoom), and the
+          baseline didn't preserve its position either. The only scroll changes
+          anchoring made in all of this testing were the harmful ones above: the
+          page-switch shift and the 8px case.
+        </p>
+        <h3>Still untested</h3>
+        <ul>
+          <li>
+            <span class="tag pending">Untested</span
+            ><strong>Safari and WebKit.</strong> Playwright's WebKit build
+            downloaded but can't launch on this host, which lacks its system
+            libraries (GTK 4, GStreamer). Installing them needs system package
+            access. Support data (caniuse-lite 1.0.30001810) says released
+            Safari and iOS Safari don't implement scroll anchoring, so they
+            would ignore the setting and behave as before. That's inferred, not
+            tested.
+          </li>
+          <li>
+            <span class="tag pending">Untested</span><strong>Firefox.</strong>
+            It supports scroll anchoring (66+) but isn't installed here, so
+            these scenarios ran in Chromium only.
+          </li>
+          <li>
+            <span class="tag hypothetical">Hypothetical</span
+            ><strong>Other content.</strong> These results cover the demo Home
+            page and the review pages. The reasoning that the pane's anchoring
+            can't look inside the preview iframe fits what was measured, but
+            other component structures weren't tried.
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="options">
+        <h2 id="options">Options</h2>
+        <div class="decision">
+          <div class="card recommended">
+            <h3>A. Opt the pane out of scroll anchoring (recommended)</h3>
+            <p>
+              <code>overflow-anchor: none</code> on <code>.editorPane</code>.
+              Smallest change, and the only one that removes the measured
+              misalignment in every run. Covered by a Playwright check of the
+              computed style. That's configuration coverage, not a reproduction.
+            </p>
+          </div>
+          <div class="card">
+            <h3>B. Stop centering the preview vertically</h3>
+            <p>
+              Align it to the top so a height change never moves it, leaving
+              nothing for anchoring to compensate. It changes layout CSS, the
+              same could still happen horizontally, and it hasn't been tried.
+            </p>
+          </div>
+          <div class="card">
+            <h3>C. Re-align after every height change</h3>
+            <p>
+              Fight the shift with more scrolling. Adds timing logic and would
+              override scrolling the user did on purpose. Not recommended.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Rejected: fit the frame before measuring</h3>
+            <p>
+              Tried first. Its unit tests passed, but the browser still
+              misaligned 3/3, because the shift happens after measurement. Not
+              part of the proposal.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="separate" aria-labelledby="demo">
+        <h2 id="demo">
+          <span class="tag measured">Done</span>Separate decision: demo content
+          for the videos
+        </h2>
+        <p>
+          Unrelated to the fix. Pushing the canvas-starter codebase to the local
+          site (<code>http://127.0.0.1:8080</code>) would make nicer
+          before/after videos. Approved and pushed on 2026-11-03 with the result
+          below. Approving it doesn't accept the scroll anchoring tradeoff.
+        </p>
+        <ul>
+          <li>
+            <strong>Added</strong> 19 code components, 7 pages (Home, About,
+            Blog, Careers, Login, Register, Services) and the
+            <code>node.article.full</code> content template.
+          </li>
+          <li>
+            <strong>Replaced</strong> the empty global CSS with the starter's
+            Tailwind build.
+          </li>
+          <li>
+            <strong>Deleted</strong> two test-only code components,
+            <code>canvas_test_vh_preview_fractional</code> and
+            <code>canvas_test_vh_preview_min_screen</code>. The CLI removes code
+            components that aren't in the codebase. Review pages 1–4 use other
+            components and are unchanged.
+          </li>
+          <li>
+            <strong>Also</strong> installed canvas-starter's dependencies and
+            added a local <code>.env</code>. Media reconciliation stored 4
+            external images in the media library. The CLI rewrote the 7 page
+            JSON files in canvas-starter. Those changes are local and
+            uncommitted.
+          </li>
+          <li>
+            <strong>For the videos:</strong> on the demo content, switching Home
+            → Login in the Pages panel did <em>not</em> misalign on the baseline
+            (0/5 on 2026-11-03), so it doesn't demonstrate the bug. The review
+            pages still do. The scrolled-editing tests used copies of Home
+            (pages 12–17), not the original page.
+          </li>
+        </ul>
+      </section>
+
+      <footer>
+        Decision context for 3592281. The scroll anchoring tradeoff was accepted
+        on 2026-11-03. Fix: local branch
+        <code>3592281-issue-branch</code> (<code>9adbfb2f</code>, with the
+        Playwright check in <code>f99fcaf3</code>, not pushed) on
+        <code>780a0520</code>. Measurements from 2026-11-02 and 2026-11-03 in
+        Chrome for Testing 153.
+      </footer>
+    </main>
+  </body>
+</html>

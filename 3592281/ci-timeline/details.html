@@ -1,0 +1,3904 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="CI timeline for Canvas MR !1955 (work item 3592281): time from posting to merge, approval, every pipeline and job attempt, retries, queue and run durations."
+    />
+    <title>MR !1955 CI details</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #101518;
+        --panel: #151c20;
+        --text: #edf1ec;
+        --muted: #b0bdbf;
+        --faint: #7f8e92;
+        --amber: #f4c274;
+        --line: #344249;
+        --grid: #222c31;
+        --ok: #2fb344;
+        --fail: #e05252;
+        --timeout: #ec835a;
+        --infra: #fab219;
+        --gate: #8a6f9e;
+        --cancel: #56656b;
+        --run: #6f9fb4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.55 system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+      }
+      main {
+        max-width: 1180px;
+        margin: auto;
+        padding: 40px 16px 64px;
+      }
+      a {
+        color: var(--amber);
+        text-underline-offset: 3px;
+      }
+      a:focus-visible,
+      summary:focus-visible,
+      .scroll:focus-visible {
+        outline: 3px solid var(--amber);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      h1 {
+        font-size: clamp(26px, 4vw, 36px);
+        line-height: 1.15;
+        margin: 8px 0 6px;
+      }
+      .back {
+        margin: 0 0 20px;
+        font-size: 14px;
+      }
+      .lede {
+        color: var(--muted);
+        margin: 0 0 28px;
+        font-size: 15px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 40px 0 12px;
+      }
+      .num,
+      .big,
+      time,
+      .chips b {
+        font-variant-numeric: tabular-nums;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px 18px;
+        min-width: 0;
+      }
+      .card.key {
+        border-color: #6b5a3a;
+      }
+      .card h3 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.3px;
+      }
+      .big {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin: 6px 0 4px;
+        letter-spacing: -0.5px;
+      }
+      .card p {
+        margin: 0;
+        font-size: 13.5px;
+        color: var(--muted);
+      }
+      .card p + p {
+        margin-top: 2px;
+      }
+      .breakdown {
+        margin-top: 12px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px 18px;
+      }
+      .breakdown h3 {
+        margin: 0 0 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .segbar {
+        display: flex;
+        gap: 2px;
+        height: 14px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .seg.run,
+      .sw.run {
+        background: var(--run);
+      }
+      .seg.qonly,
+      .sw.qonly {
+        background: var(--infra);
+      }
+      .seg.idle,
+      .sw.idle {
+        background: repeating-linear-gradient(
+          45deg,
+          #5b4a2b 0 3px,
+          #2a2419 3px 6px
+        );
+      }
+      .seglegend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 20px;
+        list-style: none;
+        margin: 10px 0 0;
+        padding: 0;
+        font-size: 13.5px;
+        color: var(--muted);
+      }
+      .seglegend b {
+        color: var(--text);
+        font-weight: 600;
+        margin-left: 4px;
+      }
+      .sw {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        vertical-align: -1px;
+        margin-right: 6px;
+      }
+      .figure {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px 8px 8px;
+      }
+      .scroll {
+        overflow-x: auto;
+      }
+      .tl {
+        display: block;
+        width: 100%;
+        height: auto;
+        min-width: 880px;
+      }
+      .tl text {
+        fill: var(--muted);
+        font-size: 11.5px;
+        font-family: inherit;
+      }
+      .tl .rowlbl {
+        fill: var(--muted);
+        font-size: 12px;
+      }
+      .tl .strong {
+        fill: var(--text);
+        font-weight: 600;
+      }
+      .tl .tick {
+        fill: var(--faint);
+        font-size: 11.5px;
+      }
+      .tl .grid {
+        stroke: var(--grid);
+        stroke-width: 1;
+      }
+      .tl .lane {
+        stroke: #1d262a;
+        stroke-width: 1;
+      }
+      .tl .pspan {
+        stroke: var(--faint);
+        stroke-width: 1.5;
+      }
+      .tl .plbl {
+        fill: var(--text);
+        font-size: 11.5px;
+        font-weight: 600;
+      }
+      .tl .ev {
+        fill: var(--bg);
+        stroke: var(--amber);
+        stroke-width: 2;
+      }
+      .tl .evkey {
+        fill: var(--amber);
+        stroke: var(--bg);
+        stroke-width: 2;
+      }
+      .tl .evnum {
+        fill: var(--amber);
+        font-size: 10.5px;
+        font-weight: 700;
+      }
+      .tl .queue {
+        stroke: var(--infra);
+        stroke-width: 2;
+        stroke-dasharray: 2 2;
+      }
+      .tl .bar {
+        stroke: var(--panel);
+        stroke-width: 1;
+      }
+      .tl .ok {
+        fill: var(--ok);
+      }
+      .tl .fail {
+        fill: var(--fail);
+      }
+      .tl .timeout {
+        fill: var(--timeout);
+      }
+      .tl .infra {
+        fill: var(--infra);
+      }
+      .tl .gate {
+        fill: var(--gate);
+      }
+      .tl .cancel {
+        fill: var(--cancel);
+      }
+      .tl .glyph {
+        fill: #101518;
+        font-size: 11px;
+        font-weight: 800;
+        pointer-events: none;
+      }
+      .tl .union {
+        fill: var(--run);
+      }
+      .tl .gapfill {
+        fill: rgba(244, 194, 116, 0.07);
+      }
+      .tl .gapline {
+        stroke: rgba(244, 194, 116, 0.28);
+        stroke-width: 2;
+      }
+      .tl .gaplbl {
+        fill: var(--amber);
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .tl [data-tip]:hover rect.bar,
+      .tl [data-tip]:hover circle {
+        filter: brightness(1.25);
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 18px;
+        list-style: none;
+        margin: 10px 8px 4px;
+        padding: 0;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .legend .sw.q {
+        height: 0;
+        border-top: 2px dashed var(--infra);
+        border-radius: 0;
+        width: 16px;
+        vertical-align: 3px;
+      }
+      .legend .sw.gap {
+        background: repeating-linear-gradient(
+          45deg,
+          rgba(244, 194, 116, 0.35) 0 2px,
+          rgba(244, 194, 116, 0.07) 2px 6px
+        );
+      }
+      .legend .sw.ev {
+        border-radius: 50%;
+        border: 2px solid var(--amber);
+      }
+      .ok-bg {
+        background: var(--ok);
+      }
+      .fail-bg {
+        background: var(--fail);
+      }
+      .timeout-bg {
+        background: var(--timeout);
+      }
+      .infra-bg {
+        background: var(--infra);
+      }
+      .gate-bg {
+        background: var(--gate);
+      }
+      .cancel-bg {
+        background: var(--cancel);
+      }
+      .run-bg {
+        background: var(--run);
+      }
+      .hint {
+        display: none;
+        font-size: 12.5px;
+        color: var(--faint);
+        margin: 0 8px 6px;
+      }
+      @media (max-width: 900px) {
+        .hint {
+          display: block;
+        }
+      }
+      .events {
+        columns: 3 260px;
+        column-gap: 24px;
+        list-style: none;
+        padding: 0;
+        margin: 14px 8px 4px;
+        font-size: 13.5px;
+      }
+      .events li {
+        break-inside: avoid;
+        padding: 2px 0;
+        color: var(--muted);
+      }
+      .events time {
+        color: var(--text);
+        margin-right: 6px;
+      }
+      .evn {
+        display: inline-block;
+        width: 18px;
+        color: var(--amber);
+        font-weight: 700;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--grid);
+        vertical-align: top;
+      }
+      thead th {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--faint);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        border-bottom-color: var(--line);
+      }
+      td.num,
+      th.num {
+        text-align: right;
+        white-space: nowrap;
+      }
+      th small,
+      td small {
+        display: block;
+        color: var(--faint);
+        font-weight: 400;
+        font-size: 12.5px;
+      }
+      .tablewrap {
+        overflow-x: auto;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+      }
+      table.wide {
+        min-width: 720px;
+      }
+      .tablewrap table tr:last-child > * {
+        border-bottom: 0;
+      }
+      .st {
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 1px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      .st.success {
+        color: #9fe0aa;
+      }
+      .st.failed {
+        color: #f2a7a2;
+      }
+      .st.canceled {
+        color: var(--muted);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .chip a {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        padding: 3px 9px 3px 7px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--text);
+        background: #1b2428;
+        border: 1px solid var(--line);
+        border-left: 4px solid;
+      }
+      .chip a:hover {
+        background: #212d32;
+      }
+      .chip.ok a {
+        border-left-color: var(--ok);
+      }
+      .chip.fail a {
+        border-left-color: var(--fail);
+      }
+      .chip.timeout a {
+        border-left-color: var(--timeout);
+      }
+      .chip.infra a {
+        border-left-color: var(--infra);
+      }
+      .chip.gate a {
+        border-left-color: var(--gate);
+      }
+      .chip .g {
+        font-weight: 800;
+        width: 10px;
+        text-align: center;
+      }
+      .chip small {
+        color: var(--faint);
+        font-size: 12px;
+      }
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+      .dot {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        margin-right: 7px;
+        vertical-align: 0;
+      }
+      .dot.ok {
+        background: var(--ok);
+      }
+      .dot.fail {
+        background: var(--fail);
+      }
+      .dot.timeout {
+        background: var(--timeout);
+      }
+      .dot.infra {
+        background: var(--infra);
+      }
+      .dot.gate {
+        background: var(--gate);
+      }
+      .dot.cancel {
+        background: var(--cancel);
+      }
+      details {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+      summary {
+        cursor: pointer;
+        padding: 12px 16px;
+        font-weight: 600;
+      }
+      summary small {
+        color: var(--faint);
+        font-weight: 400;
+        margin-left: 6px;
+      }
+      details > .body {
+        padding: 0 16px 16px;
+        font-size: 14.5px;
+        color: var(--muted);
+      }
+      details > .body p,
+      details > .body ul {
+        margin: 8px 0;
+      }
+      details table {
+        font-size: 13.5px;
+      }
+      details .tablewrap {
+        background: transparent;
+      }
+      code {
+        font:
+          13px ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        color: var(--text);
+      }
+      .fn {
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .note {
+        color: var(--faint);
+        font-size: 13px;
+        margin: 8px 8px 0;
+      }
+      #tip {
+        position: fixed;
+        z-index: 10;
+        pointer-events: none;
+        max-width: 320px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: #0b0f11;
+        border: 1px solid var(--line);
+        color: var(--text);
+        font-size: 12.5px;
+        line-height: 1.45;
+        white-space: pre-line;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: opacity 0.08s;
+      }
+      @media (max-width: 860px) {
+        .cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 520px) {
+        .cards {
+          grid-template-columns: 1fr;
+        }
+        .big {
+          font-size: 28px;
+        }
+        th,
+        td {
+          padding: 7px 8px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #tip {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="back"><a href="./">← Overview</a></p>
+      <div class="eyebrow">Canvas · Work item 3592281 · Technical details</div>
+      <h1>MR !1955 · CI timeline</h1>
+      <p class="lede">
+        <a
+          href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955"
+          >fix(Page builder): #3592281 Editor preview can start at the wrong
+          position after page height changes</a
+        ><br />
+        3 November 2026 · all times UTC · from DrupalCode GitLab API data (<a
+          href="evidence.json"
+          >evidence.json</a
+        >)
+      </p>
+
+      <h2 class="sr">Summary</h2>
+      <ul class="cards">
+        <li class="card key">
+          <h3>Posted → merged</h3>
+          <div class="big">7 h 57 m</div>
+          <p>7 h 57 m 40 s · 7.96 hours</p>
+          <p>11:05:12 → 19:02:52</p>
+        </li>
+        <li class="card">
+          <h3>Posted → approval</h3>
+          <div class="big">34 m 43 s</div>
+          <p>Approved by lauriii at 11:39:56</p>
+          <p>Draft until 11:09:15</p>
+        </li>
+        <li class="card">
+          <h3>Approval → merged</h3>
+          <div class="big">7 h 22 m</div>
+          <p>7 h 22 m 57 s</p>
+          <p>Approval stayed valid through both rebases</p>
+        </li>
+        <li class="card">
+          <h3>Targeted job retries</h3>
+          <div class="big">15</div>
+          <p>PW 1/6 ×6 · PW 4/6 ×5 · PW report ×2 · PW 3/6 ×2</p>
+          <p>No full pipeline reruns</p>
+        </li>
+        <li class="card">
+          <h3>Pipelines</h3>
+          <div class="big">4</div>
+          <p>
+            Each started by a push: 1 canceled and 1 failed, both superseded; 2
+            passed after retries
+          </p>
+        </li>
+        <li class="card">
+          <h3>CI time</h3>
+          <div class="big">5 h 49 m</div>
+          <p>with at least one job running (wall-clock)</p>
+          <p>16 h 49 m of runner time across parallel jobs</p>
+        </li>
+      </ul>
+
+      <div class="breakdown">
+        <h3>The 7 h 22 m after approval</h3>
+        <div
+          class="segbar"
+          role="img"
+          aria-label="After approval: 5 h 14 m 32 s with a job running, 17 m 42 s only waiting for a runner, 1 h 50 m 43 s with no job queued or running"
+        >
+          <span
+            class="seg run"
+            style="flex-grow: 18872"
+            title="At least one job running: 5 h 14 m 32 s"
+          ></span
+          ><span
+            class="seg qonly"
+            style="flex-grow: 1062"
+            title="Only waiting for a runner: 17 m 42 s"
+          ></span
+          ><span
+            class="seg idle"
+            style="flex-grow: 6643"
+            title="No job queued or running: 1 h 50 m 43 s"
+          ></span>
+        </div>
+        <ul class="seglegend">
+          <li>
+            <span class="sw run" aria-hidden="true"></span>At least one job
+            running <b>5 h 14 m 32 s</b>
+          </li>
+          <li>
+            <span class="sw qonly" aria-hidden="true"></span>Only waiting for a
+            runner <b>17 m 42 s</b>
+          </li>
+          <li>
+            <span class="sw idle" aria-hidden="true"></span>No job queued or
+            running <b>1 h 50 m 43 s</b>
+          </li>
+        </ul>
+      </div>
+
+      <h2>Timeline</h2>
+      <div class="figure">
+        <p class="hint">Scroll sideways to see the whole day.</p>
+        <div
+          class="scroll"
+          tabindex="0"
+          aria-label="Timeline chart, scrolls horizontally"
+        >
+          <svg
+            viewBox="0 0 1096 484"
+            width="1096"
+            height="484"
+            class="tl"
+            role="img"
+            aria-labelledby="tl-title tl-desc"
+          >
+            <title id="tl-title">
+              MR !1955 CI timeline, 3 November 2026, UTC
+            </title>
+            <desc id="tl-desc">
+              Each row is a CI job; bars are its attempts across all four
+              pipelines, with a dashed line before each bar for time queued for
+              a runner. Hatched columns are periods when no job was queued or
+              running. The same details are in the attempts, gaps and pipelines
+              tables and the event list on this page.
+            </desc>
+            <defs>
+              <pattern
+                id="hatch"
+                width="6"
+                height="6"
+                patternUnits="userSpaceOnUse"
+                patternTransform="rotate(45)"
+              >
+                <rect width="6" height="6" class="gapfill" />
+                <line x1="0" y1="0" x2="0" y2="6" class="gapline" />
+              </pattern>
+            </defs>
+            <rect
+              x="312.2"
+              y="38"
+              width="21.5"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;12:33:07–12:44:13 · 11 m 6 s"
+            />
+            <text x="322.9" y="452" class="gaplbl" text-anchor="middle">
+              11 m
+            </text>
+            <rect
+              x="384.7"
+              y="38"
+              width="8.5"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;13:10:37–13:15:00 · 4 m 23 s"
+            />
+            <rect
+              x="445.1"
+              y="38"
+              width="96.4"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;13:41:48–14:31:37 · 49 m 48 s"
+            />
+            <text x="493.2" y="452" class="gaplbl" text-anchor="middle">
+              49 m
+            </text>
+            <rect
+              x="585.0"
+              y="38"
+              width="5.9"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;14:54:08–14:57:10 · 3 m 2 s"
+            />
+            <rect
+              x="592.6"
+              y="38"
+              width="48.3"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;14:58:04–15:23:03 · 24 m 59 s"
+            />
+            <text x="616.8" y="452" class="gaplbl" text-anchor="middle">
+              24 m
+            </text>
+            <rect
+              x="870.6"
+              y="38"
+              width="6.8"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;17:21:47–17:25:18 · 3 m 31 s"
+            />
+            <rect
+              x="965.4"
+              y="38"
+              width="2.1"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;18:10:45–18:11:50 · 1 m 5 s"
+            />
+            <rect
+              x="1008.8"
+              y="38"
+              width="15.7"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;18:33:12–18:41:20 · 8 m 8 s"
+            />
+            <text x="1016.7" y="452" class="gaplbl" text-anchor="middle">
+              8 m
+            </text>
+            <rect
+              x="1055.6"
+              y="38"
+              width="9.0"
+              height="400"
+              fill="url(#hatch)"
+              data-tip="No job queued or running&#10;18:57:23–19:02:02 · 4 m 38 s"
+            />
+            <line x1="132.0" x2="132.0" y1="22" y2="464" class="grid" />
+            <text x="132.0" y="476" class="tick" text-anchor="middle">
+              11:00
+            </text>
+            <line x1="248.1" x2="248.1" y1="22" y2="464" class="grid" />
+            <text x="248.1" y="476" class="tick" text-anchor="middle">
+              12:00
+            </text>
+            <line x1="364.2" x2="364.2" y1="22" y2="464" class="grid" />
+            <text x="364.2" y="476" class="tick" text-anchor="middle">
+              13:00
+            </text>
+            <line x1="480.2" x2="480.2" y1="22" y2="464" class="grid" />
+            <text x="480.2" y="476" class="tick" text-anchor="middle">
+              14:00
+            </text>
+            <line x1="596.3" x2="596.3" y1="22" y2="464" class="grid" />
+            <text x="596.3" y="476" class="tick" text-anchor="middle">
+              15:00
+            </text>
+            <line x1="712.4" x2="712.4" y1="22" y2="464" class="grid" />
+            <text x="712.4" y="476" class="tick" text-anchor="middle">
+              16:00
+            </text>
+            <line x1="828.5" x2="828.5" y1="22" y2="464" class="grid" />
+            <text x="828.5" y="476" class="tick" text-anchor="middle">
+              17:00
+            </text>
+            <line x1="944.6" x2="944.6" y1="22" y2="464" class="grid" />
+            <text x="944.6" y="476" class="tick" text-anchor="middle">
+              18:00
+            </text>
+            <line x1="1060.7" x2="1060.7" y1="22" y2="464" class="grid" />
+            <text x="1060.7" y="476" class="tick" text-anchor="middle">
+              19:00
+            </text>
+            <text x="106" y="476" class="rowlbl" text-anchor="end">UTC</text>
+            <text x="122" y="456" class="rowlbl" text-anchor="end">
+              Idle gap
+            </text>
+            <g
+              data-tip="Pipeline 1029105 (P1) · canceled&#10;11:05:16–11:10:44 · 5 m 28 s&#10;Initial push (f99fcaf3); canceled when the next push superseded it"
+            >
+              <line x1="142.2" x2="152.8" y1="26" y2="26" class="pspan" />
+              <line x1="142.2" x2="142.2" y1="21" y2="31" class="pspan" />
+              <line x1="152.8" x2="152.8" y1="21" y2="31" class="pspan" />
+              <rect
+                x="142.2"
+                y="8"
+                width="24.0"
+                height="24"
+                fill="transparent"
+              />
+            </g>
+            <g
+              data-tip="Pipeline 1029109 (P2) · failed&#10;11:07:29–11:46:31 · 39 m 2 s&#10;Push removing a redundant test (ae7bbad3); superseded by the rebase"
+            >
+              <line x1="146.5" x2="222.0" y1="26" y2="26" class="pspan" />
+              <line x1="146.5" x2="146.5" y1="21" y2="31" class="pspan" />
+              <line x1="222.0" x2="222.0" y1="21" y2="31" class="pspan" />
+              <rect
+                x="146.5"
+                y="8"
+                width="75.5"
+                height="24"
+                fill="transparent"
+              />
+              <text x="150.5" y="20" class="plbl">P2</text>
+            </g>
+            <g
+              data-tip="Pipeline 1029179 (P3) · success&#10;11:45:43–14:58:04 · 3 h 12 m 21 s&#10;Rebase onto 1.x 42bae7f5; passed after targeted retries, but auto-merge had been aborted when 1.x moved"
+            >
+              <line x1="220.5" x2="592.6" y1="26" y2="26" class="pspan" />
+              <line x1="220.5" x2="220.5" y1="21" y2="31" class="pspan" />
+              <line x1="592.6" x2="592.6" y1="21" y2="31" class="pspan" />
+              <rect
+                x="220.5"
+                y="8"
+                width="372.2"
+                height="24"
+                fill="transparent"
+              />
+              <text x="224.5" y="20" class="plbl">P3 · 1029179</text>
+            </g>
+            <g
+              data-tip="Pipeline 1029629 (P4) · success&#10;15:23:01–19:02:51 · 3 h 39 m 50 s&#10;Rebase onto 1.x 847e522e; passed after targeted retries, then auto-merged"
+            >
+              <line x1="640.9" x2="1066.2" y1="26" y2="26" class="pspan" />
+              <line x1="640.9" x2="640.9" y1="21" y2="31" class="pspan" />
+              <line x1="1066.2" x2="1066.2" y1="21" y2="31" class="pspan" />
+              <rect
+                x="640.9"
+                y="8"
+                width="425.3"
+                height="24"
+                fill="transparent"
+              />
+              <text x="644.9" y="20" class="plbl">P4 · 1029629</text>
+            </g>
+            <text x="122" y="30" class="rowlbl" text-anchor="end">
+              Pipelines
+            </text>
+            <text x="122" y="52" class="rowlbl" text-anchor="end">
+              MR events
+            </text>
+            <line x1="132" x2="1080" y1="48" y2="48" class="lane" />
+            <g data-tip="1. MR created (draft)&#10;11:05:12 UTC">
+              <circle cx="142.1" cy="48" r="7" class="evkey" />
+              <circle cx="142.1" cy="48" r="12" fill="transparent" />
+            </g>
+            <g data-tip="2. Push: test removed (ae7bbad3)&#10;11:07:28 UTC">
+              <circle cx="146.4" cy="48" r="5.5" class="ev" />
+              <circle cx="146.4" cy="48" r="12" fill="transparent" />
+            </g>
+            <g data-tip="3. Marked ready&#10;11:09:15 UTC">
+              <circle cx="149.9" cy="48" r="5.5" class="ev" />
+              <circle cx="149.9" cy="48" r="12" fill="transparent" />
+            </g>
+            <g data-tip="4. Approved&#10;11:39:56 UTC">
+              <circle cx="209.3" cy="48" r="7" class="evkey" />
+              <circle cx="209.3" cy="48" r="12" fill="transparent" />
+            </g>
+            <g
+              data-tip="5. Rebase onto 1.x 42bae7f5 → head ee8a85e3&#10;11:45:41 UTC"
+            >
+              <circle cx="220.4" cy="48" r="5.5" class="ev" />
+              <circle cx="220.4" cy="48" r="12" fill="transparent" />
+            </g>
+            <g data-tip="6. Auto-merge enabled&#10;11:45:51 UTC">
+              <circle cx="220.7" cy="48" r="5.5" class="ev" />
+              <circle cx="220.7" cy="48" r="12" fill="transparent" />
+            </g>
+            <g
+              data-tip="7. Auto-merge aborted: target branch updated&#10;13:41:00 UTC"
+            >
+              <circle cx="443.5" cy="48" r="5.5" class="ev" />
+              <circle cx="443.5" cy="48" r="12" fill="transparent" />
+            </g>
+            <g
+              data-tip="8. Rebase onto 1.x 847e522e → head 75f162d0&#10;15:22:59 UTC"
+            >
+              <circle cx="640.8" cy="48" r="5.5" class="ev" />
+              <circle cx="640.8" cy="48" r="12" fill="transparent" />
+            </g>
+            <g data-tip="9. Auto-merge enabled&#10;15:23:36 UTC">
+              <circle cx="642.0" cy="48" r="5.5" class="ev" />
+              <circle cx="642.0" cy="48" r="12" fill="transparent" />
+            </g>
+            <g data-tip="10. Merged (auto-merge)&#10;19:02:52 UTC">
+              <circle cx="1066.2" cy="48" r="7" class="evkey" />
+              <circle cx="1066.2" cy="48" r="12" fill="transparent" />
+            </g>
+            <text x="142.1" y="37.0" dx="0" class="evnum" text-anchor="middle">
+              1
+            </text>
+            <text x="146.4" y="37.0" dx="11" class="evnum" text-anchor="middle">
+              2
+            </text>
+            <text x="149.9" y="37.0" dx="22" class="evnum" text-anchor="middle">
+              3
+            </text>
+            <text x="209.3" y="37.0" dx="0" class="evnum" text-anchor="middle">
+              4
+            </text>
+            <text x="220.4" y="37.0" dx="11" class="evnum" text-anchor="middle">
+              5
+            </text>
+            <text x="220.7" y="37.0" dx="22" class="evnum" text-anchor="middle">
+              6
+            </text>
+            <text x="443.5" y="37.0" dx="0" class="evnum" text-anchor="middle">
+              7
+            </text>
+            <text x="640.8" y="37.0" dx="0" class="evnum" text-anchor="middle">
+              8
+            </text>
+            <text x="642.0" y="37.0" dx="11" class="evnum" text-anchor="middle">
+              9
+            </text>
+            <text x="1066.2" y="37.0" dx="0" class="evnum" text-anchor="middle">
+              10
+            </text>
+            <text x="122" y="94" class="rowlbl" text-anchor="end">
+              Lint (php)
+            </text>
+            <line x1="132" x2="1080" y1="90.0" y2="90.0" class="lane" />
+            <g
+              data-tip="Lint (php) · P1 attempt 1/1&#10;Canceled (pipeline superseded)&#10;queued 0:03 · ran 2:16&#10;11:05:19–11:07:34 · job 13324196"
+            >
+              <rect
+                x="142.3"
+                y="82"
+                width="4.4"
+                height="16"
+                rx="3"
+                class="bar cancel"
+              />
+            </g>
+            <g
+              data-tip="Lint (php) · P2 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 2:44&#10;11:07:31–11:10:16 · job 13324343"
+            >
+              <rect
+                x="146.6"
+                y="82"
+                width="5.3"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Lint (php) · P3 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 2:10&#10;11:45:46–11:47:56 · job 13325640"
+            >
+              <rect
+                x="220.5"
+                y="82"
+                width="4.2"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Lint (php) · P4 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 3:01&#10;15:23:05–15:26:05 · job 13334206"
+            >
+              <rect
+                x="641.0"
+                y="82"
+                width="5.8"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <text x="122" y="116" class="rowlbl" text-anchor="end">
+              Lint (node)
+            </text>
+            <line x1="132" x2="1080" y1="112.0" y2="112.0" class="lane" />
+            <g
+              data-tip="Lint (node) · P1 attempt 1/1&#10;Canceled (pipeline superseded)&#10;queued 0:03 · ran 5:24&#10;11:05:20–11:10:44 · job 13324197"
+            >
+              <rect
+                x="142.3"
+                y="104"
+                width="10.5"
+                height="16"
+                rx="3"
+                class="bar cancel"
+              />
+            </g>
+            <g
+              data-tip="Lint (node) · P2 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 8:04&#10;11:07:32–11:15:36 · job 13324344"
+            >
+              <rect
+                x="146.6"
+                y="104"
+                width="15.6"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Lint (node) · P3 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 7:56&#10;11:45:46–11:53:41 · job 13325641"
+            >
+              <rect
+                x="220.6"
+                y="104"
+                width="15.3"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Lint (node) · P4 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 2:53&#10;15:23:05–15:25:58 · job 13334207"
+            >
+              <rect
+                x="641.0"
+                y="104"
+                width="5.6"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <text x="122" y="138" class="rowlbl" text-anchor="end">Vitest</text>
+            <line x1="132" x2="1080" y1="134.0" y2="134.0" class="lane" />
+            <g
+              data-tip="Vitest · P2 attempt 1/1&#10;Passed&#10;queued 0:00 · ran 7:53&#10;11:15:37–11:23:30 · job 13324393"
+            >
+              <rect
+                x="162.2"
+                y="126"
+                width="15.2"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Vitest · P3 attempt 1/1&#10;Passed&#10;queued 1:55 · ran 3:23&#10;11:55:38–11:59:01 · job 13325690"
+            >
+              <line x1="235.9" x2="239.6" y1="134.0" y2="134.0" class="queue" />
+              <rect
+                x="239.6"
+                y="126"
+                width="6.6"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Vitest · P4 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 3:08&#10;15:26:08–15:29:16 · job 13334256"
+            >
+              <rect
+                x="646.9"
+                y="126"
+                width="6.1"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <text x="122" y="160" class="rowlbl" text-anchor="end">
+              Cypress unit
+            </text>
+            <line x1="132" x2="1080" y1="156.0" y2="156.0" class="lane" />
+            <g
+              data-tip="Cypress unit · P2 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 8:20&#10;11:15:39–11:24:00 · job 13324398"
+            >
+              <rect
+                x="162.3"
+                y="148"
+                width="16.1"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="170.4" y="160" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress unit · P3 attempt 1/1&#10;Passed&#10;queued 2:58 · ran 2:53&#10;11:56:41–11:59:34 · job 13325695"
+            >
+              <line x1="235.9" x2="241.7" y1="156.0" y2="156.0" class="queue" />
+              <rect
+                x="241.7"
+                y="148"
+                width="5.6"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Cypress unit · P4 attempt 1/1&#10;Passed&#10;queued 0:04 · ran 3:17&#10;15:26:11–15:29:28 · job 13334261"
+            >
+              <rect
+                x="647.0"
+                y="148"
+                width="6.3"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <text x="122" y="182" class="rowlbl" text-anchor="end">
+              Cypress E2E 1/4
+            </text>
+            <line x1="132" x2="1080" y1="178.0" y2="178.0" class="lane" />
+            <g
+              data-tip="Cypress E2E 1/4 · P2 attempt 1/1&#10;Passed&#10;queued 0:00 · ran 20:37&#10;11:15:37–11:36:15 · job 13324394"
+            >
+              <rect
+                x="162.2"
+                y="170"
+                width="39.9"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="182.2" y="182" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 1/4 · P3 attempt 1/1&#10;Passed&#10;queued 2:01 · ran 15:26&#10;11:55:44–12:11:09 · job 13325691"
+            >
+              <line x1="235.9" x2="239.8" y1="178.0" y2="178.0" class="queue" />
+              <rect
+                x="239.8"
+                y="170"
+                width="29.8"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="254.8" y="182" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 1/4 · P4 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 15:07&#10;15:26:09–15:41:16 · job 13334257"
+            >
+              <rect
+                x="646.9"
+                y="170"
+                width="29.2"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="661.6" y="182" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="204" class="rowlbl" text-anchor="end">
+              Cypress E2E 2/4
+            </text>
+            <line x1="132" x2="1080" y1="200.0" y2="200.0" class="lane" />
+            <g
+              data-tip="Cypress E2E 2/4 · P2 attempt 1/1&#10;Passed&#10;queued 0:01 · ran 21:10&#10;11:15:38–11:36:48 · job 13324395"
+            >
+              <rect
+                x="162.3"
+                y="192"
+                width="40.9"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="182.7" y="204" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 2/4 · P3 attempt 1/1&#10;Passed&#10;queued 2:04 · ran 12:10&#10;11:55:46–12:07:56 · job 13325692"
+            >
+              <line x1="235.9" x2="239.9" y1="200.0" y2="200.0" class="queue" />
+              <rect
+                x="239.9"
+                y="192"
+                width="23.5"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="251.7" y="204" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 2/4 · P4 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 15:30&#10;15:26:09–15:41:40 · job 13334258"
+            >
+              <rect
+                x="646.9"
+                y="192"
+                width="30.0"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="661.9" y="204" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="226" class="rowlbl" text-anchor="end">
+              Cypress E2E 3/4
+            </text>
+            <line x1="132" x2="1080" y1="222.0" y2="222.0" class="lane" />
+            <g
+              data-tip="Cypress E2E 3/4 · P2 attempt 1/1&#10;Hit 30-minute job limit&#10;queued 0:01 · ran 30:00&#10;11:15:38–11:45:39 · job 13324396"
+            >
+              <rect
+                x="162.3"
+                y="214"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="191.3" y="226" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 3/4 · P3 attempt 1/1&#10;Passed&#10;queued 2:35 · ran 19:15&#10;11:56:17–12:15:33 · job 13325693"
+            >
+              <line x1="235.9" x2="240.9" y1="222.0" y2="222.0" class="queue" />
+              <rect
+                x="240.9"
+                y="214"
+                width="37.3"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="259.5" y="226" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 3/4 · P4 attempt 1/1&#10;Passed&#10;queued 0:03 · ran 16:58&#10;15:26:10–15:43:08 · job 13334259"
+            >
+              <rect
+                x="647.0"
+                y="214"
+                width="32.8"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="663.4" y="226" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="248" class="rowlbl" text-anchor="end">
+              Cypress E2E 4/4
+            </text>
+            <line x1="132" x2="1080" y1="244.0" y2="244.0" class="lane" />
+            <g
+              data-tip="Cypress E2E 4/4 · P2 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 20:24&#10;11:15:39–11:36:03 · job 13324397"
+            >
+              <rect
+                x="162.3"
+                y="236"
+                width="39.5"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="182.0" y="248" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 4/4 · P3 attempt 1/1&#10;Passed&#10;queued 2:46 · ran 13:16&#10;11:56:28–12:09:45 · job 13325694"
+            >
+              <line x1="235.9" x2="241.3" y1="244.0" y2="244.0" class="queue" />
+              <rect
+                x="241.3"
+                y="236"
+                width="25.7"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="254.1" y="248" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Cypress E2E 4/4 · P4 attempt 1/1&#10;Passed&#10;queued 0:03 · ran 16:12&#10;15:26:11–15:42:23 · job 13334260"
+            >
+              <rect
+                x="647.0"
+                y="236"
+                width="31.3"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="662.7" y="248" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="270" class="rowlbl" text-anchor="end">
+              Playwright 1/6
+            </text>
+            <line x1="132" x2="1080" y1="266.0" y2="266.0" class="lane" />
+            <g
+              data-tip="Playwright 1/6 · P2 attempt 1/1&#10;Passed (a test needed Playwright’s own retry)&#10;queued 0:02 · ran 25:12&#10;11:15:39–11:40:52 · job 13324399"
+            >
+              <rect
+                x="162.3"
+                y="258"
+                width="48.8"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="186.7" y="270" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P3 attempt 1/1&#10;Passed&#10;queued 8:26 · ran 18:28&#10;12:02:09–12:20:37 · job 13325696"
+            >
+              <line x1="235.9" x2="252.3" y1="266.0" y2="266.0" class="queue" />
+              <rect
+                x="252.3"
+                y="258"
+                width="35.7"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="270.1" y="270" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P4 attempt 1/7&#10;Test failed&#10;queued 0:04 · ran 16:27&#10;15:26:12–15:42:38 · job 13334262"
+            >
+              <rect
+                x="647.0"
+                y="258"
+                width="31.8"
+                height="16"
+                rx="3"
+                class="bar fail"
+              />
+              <text x="662.9" y="270" class="glyph" text-anchor="middle">
+                ✕
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P4 attempt 2/7&#10;Test failed&#10;queued 3:06 · ran 20:04&#10;15:56:01–16:16:06 · job 13335511"
+            >
+              <line x1="698.8" x2="704.7" y1="266.0" y2="266.0" class="queue" />
+              <rect
+                x="704.7"
+                y="258"
+                width="38.8"
+                height="16"
+                rx="3"
+                class="bar fail"
+              />
+              <text x="724.1" y="270" class="glyph" text-anchor="middle">
+                ✕
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P4 attempt 3/7&#10;Hit 30-minute job limit&#10;queued 0:09 · ran 30:00&#10;16:29:50–16:59:50 · job 13336233"
+            >
+              <rect
+                x="770.1"
+                y="258"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="799.2" y="270" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P4 attempt 4/7&#10;Tests passed; artifact upload got 502&#10;queued 0:01 · ran 20:06&#10;17:01:41–17:21:47 · job 13337945"
+            >
+              <rect
+                x="831.8"
+                y="258"
+                width="38.9"
+                height="16"
+                rx="3"
+                class="bar infra"
+              />
+              <text x="851.2" y="270" class="glyph" text-anchor="middle">
+                !
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P4 attempt 5/7&#10;Hit 30-minute job limit&#10;queued 15:27 · ran 30:00&#10;17:40:45–18:10:45 · job 13338347"
+            >
+              <line x1="877.5" x2="907.3" y1="266.0" y2="266.0" class="queue" />
+              <rect
+                x="907.3"
+                y="258"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="936.4" y="270" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P4 attempt 6/7&#10;Test failed&#10;queued 0:00 · ran 21:22&#10;18:11:50–18:33:12 · job 13339524"
+            >
+              <rect
+                x="967.5"
+                y="258"
+                width="41.3"
+                height="16"
+                rx="3"
+                class="bar fail"
+              />
+              <text x="988.2" y="270" class="glyph" text-anchor="middle">
+                ✕
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 1/6 · P4 attempt 7/7&#10;Passed&#10;queued 0:02 · ran 16:01&#10;18:41:22–18:57:23 · job 13339984"
+            >
+              <rect
+                x="1024.6"
+                y="258"
+                width="31.0"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="1040.1" y="270" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="292" class="rowlbl" text-anchor="end">
+              Playwright 2/6
+            </text>
+            <line x1="132" x2="1080" y1="288.0" y2="288.0" class="lane" />
+            <g
+              data-tip="Playwright 2/6 · P2 attempt 1/1&#10;Passed&#10;queued 0:02 · ran 21:12&#10;11:15:40–11:36:52 · job 13324400"
+            >
+              <rect
+                x="162.3"
+                y="280"
+                width="41.0"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="182.8" y="292" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 2/6 · P3 attempt 1/1&#10;Passed&#10;queued 8:29 · ran 14:05&#10;12:02:12–12:16:17 · job 13325697"
+            >
+              <line x1="235.9" x2="252.4" y1="288.0" y2="288.0" class="queue" />
+              <rect
+                x="252.4"
+                y="280"
+                width="27.2"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="266.0" y="292" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 2/6 · P4 attempt 1/1&#10;Passed (a test needed Playwright’s own retry)&#10;queued 0:05 · ran 19:32&#10;15:26:13–15:45:44 · job 13334263"
+            >
+              <rect
+                x="647.0"
+                y="280"
+                width="37.8"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="665.9" y="292" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="314" class="rowlbl" text-anchor="end">
+              Playwright 3/6
+            </text>
+            <line x1="132" x2="1080" y1="310.0" y2="310.0" class="lane" />
+            <g
+              data-tip="Playwright 3/6 · P2 attempt 1/1&#10;Hit 30-minute job limit&#10;queued 0:01 · ran 30:00&#10;11:15:37–11:45:37 · job 13324401"
+            >
+              <rect
+                x="162.2"
+                y="302"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="191.2" y="314" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 3/6 · P3 attempt 1/2&#10;Hit 30-minute job limit&#10;queued 8:31 · ran 30:00&#10;12:02:13–12:32:13 · job 13325698"
+            >
+              <line x1="235.9" x2="252.4" y1="310.0" y2="310.0" class="queue" />
+              <rect
+                x="252.4"
+                y="302"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="281.4" y="314" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 3/6 · P3 attempt 2/2&#10;Passed&#10;queued 0:01 · ran 13:11&#10;12:44:14–12:57:25 · job 13327895"
+            >
+              <rect
+                x="333.7"
+                y="302"
+                width="25.5"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="346.4" y="314" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 3/6 · P4 attempt 1/2&#10;Hit 30-minute job limit&#10;queued 0:06 · ran 30:01&#10;15:26:13–15:56:14 · job 13334264"
+            >
+              <rect
+                x="647.1"
+                y="302"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="676.1" y="314" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 3/6 · P4 attempt 2/2&#10;Passed&#10;queued 0:43 · ran 16:57&#10;16:02:17–16:19:15 · job 13335723"
+            >
+              <line x1="715.5" x2="716.9" y1="310.0" y2="310.0" class="queue" />
+              <rect
+                x="716.9"
+                y="302"
+                width="32.8"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="733.3" y="314" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="336" class="rowlbl" text-anchor="end">
+              Playwright 4/6
+            </text>
+            <line x1="132" x2="1080" y1="332.0" y2="332.0" class="lane" />
+            <g
+              data-tip="Playwright 4/6 · P2 attempt 1/1&#10;Test failed&#10;queued 0:04 · ran 26:18&#10;11:15:40–11:41:59 · job 13324402"
+            >
+              <rect
+                x="162.3"
+                y="324"
+                width="50.9"
+                height="16"
+                rx="3"
+                class="bar fail"
+              />
+              <text x="187.8" y="336" class="glyph" text-anchor="middle">
+                ✕
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 4/6 · P3 attempt 1/4&#10;Hit 30-minute job limit&#10;queued 8:33 · ran 30:01&#10;12:02:14–12:32:15 · job 13325699"
+            >
+              <line x1="235.9" x2="252.4" y1="332.0" y2="332.0" class="queue" />
+              <rect
+                x="252.4"
+                y="324"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="281.5" y="336" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 4/6 · P3 attempt 2/4&#10;Test failed&#10;queued 0:01 · ran 26:22&#10;12:44:14–13:10:37 · job 13327896"
+            >
+              <rect
+                x="333.7"
+                y="324"
+                width="51.0"
+                height="16"
+                rx="3"
+                class="bar fail"
+              />
+              <text x="359.2" y="336" class="glyph" text-anchor="middle">
+                ✕
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 4/6 · P3 attempt 3/4&#10;Test failed&#10;queued 0:03 · ran 26:46&#10;13:15:03–13:41:48 · job 13329151"
+            >
+              <rect
+                x="393.3"
+                y="324"
+                width="51.8"
+                height="16"
+                rx="3"
+                class="bar fail"
+              />
+              <text x="419.2" y="336" class="glyph" text-anchor="middle">
+                ✕
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 4/6 · P3 attempt 4/4&#10;Passed (a test needed Playwright’s own retry)&#10;queued 0:00 · ran 22:32&#10;14:31:37–14:54:08 · job 13332809"
+            >
+              <rect
+                x="541.4"
+                y="324"
+                width="43.6"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="563.2" y="336" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 4/6 · P4 attempt 1/3&#10;Hit 30-minute job limit&#10;queued 0:06 · ran 30:01&#10;15:26:14–15:56:15 · job 13334265"
+            >
+              <rect
+                x="647.1"
+                y="324"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="676.1" y="336" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 4/6 · P4 attempt 2/3&#10;Hit 30-minute job limit&#10;queued 0:42 · ran 30:01&#10;16:02:18–16:32:20 · job 13335724"
+            >
+              <line x1="715.5" x2="716.9" y1="332.0" y2="332.0" class="queue" />
+              <rect
+                x="716.9"
+                y="324"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="745.9" y="336" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 4/6 · P4 attempt 3/3&#10;Passed (a test needed Playwright’s own retry)&#10;queued 0:40 · ran 21:44&#10;16:38:55–17:00:39 · job 13336796"
+            >
+              <line x1="786.4" x2="787.7" y1="332.0" y2="332.0" class="queue" />
+              <rect
+                x="787.7"
+                y="324"
+                width="42.0"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="808.7" y="336" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="358" class="rowlbl" text-anchor="end">
+              Playwright 5/6
+            </text>
+            <line x1="132" x2="1080" y1="354.0" y2="354.0" class="lane" />
+            <g
+              data-tip="Playwright 5/6 · P2 attempt 1/1&#10;Hit 30-minute job limit&#10;queued 0:04 · ran 30:01&#10;11:15:41–11:45:41 · job 13324403"
+            >
+              <rect
+                x="162.3"
+                y="346"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="191.4" y="358" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 5/6 · P3 attempt 1/1&#10;Passed&#10;queued 8:33 · ran 17:44&#10;12:02:15–12:19:59 · job 13325700"
+            >
+              <line x1="235.9" x2="252.4" y1="354.0" y2="354.0" class="queue" />
+              <rect
+                x="252.4"
+                y="346"
+                width="34.3"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="269.6" y="358" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 5/6 · P4 attempt 1/1&#10;Passed&#10;queued 0:06 · ran 18:32&#10;15:26:14–15:44:46 · job 13334266"
+            >
+              <rect
+                x="647.1"
+                y="346"
+                width="35.9"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="665.0" y="358" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="380" class="rowlbl" text-anchor="end">
+              Playwright 6/6
+            </text>
+            <line x1="132" x2="1080" y1="376.0" y2="376.0" class="lane" />
+            <g
+              data-tip="Playwright 6/6 · P2 attempt 1/1&#10;Hit 30-minute job limit&#10;queued 0:05 · ran 30:01&#10;11:15:41–11:45:42 · job 13324404"
+            >
+              <rect
+                x="162.4"
+                y="368"
+                width="58.1"
+                height="16"
+                rx="3"
+                class="bar timeout"
+              />
+              <text x="191.4" y="380" class="glyph" text-anchor="middle">
+                ◷
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 6/6 · P3 attempt 1/1&#10;Passed (a test needed Playwright’s own retry)&#10;queued 8:36 · ran 21:59&#10;12:02:18–12:24:17 · job 13325701"
+            >
+              <line x1="235.9" x2="252.6" y1="376.0" y2="376.0" class="queue" />
+              <rect
+                x="252.6"
+                y="368"
+                width="42.5"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="273.8" y="380" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <g
+              data-tip="Playwright 6/6 · P4 attempt 1/1&#10;Passed (a test needed Playwright’s own retry)&#10;queued 0:07 · ran 21:16&#10;15:26:15–15:47:30 · job 13334267"
+            >
+              <rect
+                x="647.1"
+                y="368"
+                width="41.1"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+              <text x="667.7" y="380" class="glyph" text-anchor="middle">
+                ✓
+              </text>
+            </g>
+            <text x="122" y="402" class="rowlbl" text-anchor="end">
+              Playwright report
+            </text>
+            <line x1="132" x2="1080" y1="398.0" y2="398.0" class="lane" />
+            <g
+              data-tip="Playwright report · P2 attempt 1/1&#10;Canceled (pipeline superseded)&#10;queued 0:01 · ran 0:48&#10;11:45:43–11:46:30 · job 13324406"
+            >
+              <rect
+                x="220.4"
+                y="390"
+                width="2.5"
+                height="16"
+                rx="3"
+                class="bar cancel"
+              />
+            </g>
+            <g
+              data-tip="Playwright report · P3 attempt 1/2&#10;Report gate: an upstream Playwright job had failed&#10;queued 0:02 · ran 0:50&#10;12:32:17–12:33:07 · job 13325703"
+            >
+              <rect
+                x="310.6"
+                y="390"
+                width="2.5"
+                height="16"
+                rx="3"
+                class="bar gate"
+              />
+            </g>
+            <g
+              data-tip="Playwright report · P3 attempt 2/2&#10;Passed&#10;queued 0:03 · ran 0:51&#10;14:57:13–14:58:04 · job 13333643"
+            >
+              <rect
+                x="591.0"
+                y="390"
+                width="2.5"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <g
+              data-tip="Playwright report · P4 attempt 1/2&#10;Report gate: an upstream Playwright job had failed&#10;queued 0:02 · ran 1:01&#10;17:00:41–17:01:43 · job 13334269"
+            >
+              <rect
+                x="829.8"
+                y="390"
+                width="2.5"
+                height="16"
+                rx="3"
+                class="bar gate"
+              />
+            </g>
+            <g
+              data-tip="Playwright report · P4 attempt 2/2&#10;Passed&#10;queued 0:00 · ran 0:49&#10;19:02:02–19:02:51 · job 13340181"
+            >
+              <rect
+                x="1064.6"
+                y="390"
+                width="2.5"
+                height="16"
+                rx="3"
+                class="bar ok"
+              />
+            </g>
+            <text x="122" y="434" class="rowlbl strong" text-anchor="end">
+              Any job running
+            </text>
+            <rect
+              x="142.3"
+              y="425"
+              width="19.9"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;11:05:19–11:15:36 · 10 m 17 s"
+            />
+            <rect
+              x="162.2"
+              y="425"
+              width="58.2"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;11:15:37–11:45:42 · 30 m 5 s"
+            />
+            <rect
+              x="220.4"
+              y="425"
+              width="15.4"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;11:45:43–11:53:41 · 7 m 59 s"
+            />
+            <rect
+              x="239.6"
+              y="425"
+              width="70.9"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;11:55:38–12:32:15 · 36 m 37 s"
+            />
+            <rect
+              x="310.6"
+              y="425"
+              width="1.6"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;12:32:17–12:33:07 · 50 s"
+            />
+            <rect
+              x="333.7"
+              y="425"
+              width="51.0"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;12:44:14–13:10:37 · 26 m 23 s"
+            />
+            <rect
+              x="393.3"
+              y="425"
+              width="51.8"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;13:15:03–13:41:48 · 26 m 46 s"
+            />
+            <rect
+              x="541.4"
+              y="425"
+              width="43.6"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;14:31:37–14:54:08 · 22 m 32 s"
+            />
+            <rect
+              x="591.0"
+              y="425"
+              width="1.6"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;14:57:13–14:58:04 · 51 s"
+            />
+            <rect
+              x="641.0"
+              y="425"
+              width="5.8"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;15:23:05–15:26:05 · 3 m 1 s"
+            />
+            <rect
+              x="646.9"
+              y="425"
+              width="182.9"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;15:26:08–17:00:39 · 1 h 34 m 31 s"
+            />
+            <rect
+              x="829.8"
+              y="425"
+              width="40.8"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;17:00:41–17:21:47 · 21 m 6 s"
+            />
+            <rect
+              x="907.3"
+              y="425"
+              width="58.1"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;17:40:45–18:10:45 · 30 m 1 s"
+            />
+            <rect
+              x="967.5"
+              y="425"
+              width="41.3"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;18:11:50–18:33:12 · 21 m 22 s"
+            />
+            <rect
+              x="1024.6"
+              y="425"
+              width="31.0"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;18:41:22–18:57:23 · 16 m 1 s"
+            />
+            <rect
+              x="1064.6"
+              y="425"
+              width="1.6"
+              height="10"
+              rx="2"
+              class="union"
+              data-tip="At least one job running&#10;19:02:02–19:02:51 · 49 s"
+            />
+          </svg>
+        </div>
+        <ul class="legend" aria-label="Legend">
+          <li><span class="sw ok-bg"></span>✓ Passed</li>
+          <li><span class="sw fail-bg"></span>✕ Test failed</li>
+          <li><span class="sw timeout-bg"></span>◷ 30-min job limit</li>
+          <li><span class="sw infra-bg"></span>! Artifact upload 502</li>
+          <li><span class="sw gate-bg"></span>✕ Report gate</li>
+          <li><span class="sw cancel-bg"></span>Canceled</li>
+          <li><span class="sw q"></span>Queued for a runner</li>
+          <li><span class="sw gap"></span>No job queued or running</li>
+        </ul>
+        <ol class="events">
+          <li>
+            <span class="evn">1</span><time>11:05:12</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955"
+              >MR created (draft)</a
+            >
+          </li>
+          <li>
+            <span class="evn">2</span><time>11:07:28</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336432"
+              >Push: test removed (ae7bbad3)</a
+            >
+          </li>
+          <li>
+            <span class="evn">3</span><time>11:09:15</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336436"
+              >Marked ready</a
+            >
+          </li>
+          <li>
+            <span class="evn">4</span><time>11:39:56</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336564"
+              >Approved</a
+            >
+          </li>
+          <li>
+            <span class="evn">5</span><time>11:45:41</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336591"
+              >Rebase onto 1.x 42bae7f5 → head ee8a85e3</a
+            >
+          </li>
+          <li>
+            <span class="evn">6</span><time>11:45:51</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336592"
+              >Auto-merge enabled</a
+            >
+          </li>
+          <li>
+            <span class="evn">7</span><time>13:41:00</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4337260"
+              >Auto-merge aborted: target branch updated</a
+            >
+          </li>
+          <li>
+            <span class="evn">8</span><time>15:22:59</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4361300"
+              >Rebase onto 1.x 847e522e → head 75f162d0</a
+            >
+          </li>
+          <li>
+            <span class="evn">9</span><time>15:23:36</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4361479"
+              >Auto-merge enabled</a
+            >
+          </li>
+          <li>
+            <span class="evn">10</span><time>19:02:52</time>
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955"
+              >Merged (auto-merge)</a
+            >
+          </li>
+        </ol>
+        <p class="note">
+          Hovering shows details for a bar (mouse only; Esc closes it). The same
+          details are in tables: <a href="#attempts">job attempts</a>,
+          <a href="#gaps">idle gaps</a>, <a href="#pipelines">pipelines</a>, and
+          the numbered events above.
+        </p>
+      </div>
+
+      <h2>Retried jobs</h2>
+      <div class="tablewrap">
+        <table>
+          <caption class="sr">
+            Every attempt of each retried job: run time, then queue time if 30
+            seconds or more, otherwise start time
+          </caption>
+          <tbody>
+            <tr>
+              <th scope="row">Playwright 3/6<small>P3 · 1 retry</small></th>
+              <td>
+                <ol class="chips">
+                  <li class="chip timeout">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325698"
+                      ><span class="g" aria-hidden="true">◷</span
+                      ><span class="sr">Hit 30-minute job limit: </span
+                      ><b>30:00</b><small>q 8:31</small></a
+                    >
+                  </li>
+                  <li class="chip ok">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13327895"
+                      ><span class="g" aria-hidden="true">✓</span
+                      ><span class="sr">Passed: </span><b>13:11</b
+                      ><small>12:44</small></a
+                    >
+                  </li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Playwright 4/6<small>P3 · 3 retries</small></th>
+              <td>
+                <ol class="chips">
+                  <li class="chip timeout">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325699"
+                      ><span class="g" aria-hidden="true">◷</span
+                      ><span class="sr">Hit 30-minute job limit: </span
+                      ><b>30:01</b><small>q 8:33</small></a
+                    >
+                  </li>
+                  <li class="chip fail">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13327896"
+                      ><span class="g" aria-hidden="true">✕</span
+                      ><span class="sr">Test failed: </span><b>26:22</b
+                      ><small>12:44</small></a
+                    >
+                  </li>
+                  <li class="chip fail">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13329151"
+                      ><span class="g" aria-hidden="true">✕</span
+                      ><span class="sr">Test failed: </span><b>26:46</b
+                      ><small>13:15</small></a
+                    >
+                  </li>
+                  <li class="chip ok">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13332809"
+                      ><span class="g" aria-hidden="true">✓</span
+                      ><span class="sr"
+                        >Passed (a test needed Playwright’s own retry): </span
+                      ><b>22:32</b><small>14:31</small></a
+                    >
+                  </li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Playwright report<small>P3 · 1 retry</small></th>
+              <td>
+                <ol class="chips">
+                  <li class="chip gate">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325703"
+                      ><span class="g" aria-hidden="true">✕</span
+                      ><span class="sr"
+                        >Report gate: an upstream Playwright job had failed: </span
+                      ><b>0:50</b><small>12:32</small></a
+                    >
+                  </li>
+                  <li class="chip ok">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13333643"
+                      ><span class="g" aria-hidden="true">✓</span
+                      ><span class="sr">Passed: </span><b>0:51</b
+                      ><small>14:57</small></a
+                    >
+                  </li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Playwright 1/6<small>P4 · 6 retries</small></th>
+              <td>
+                <ol class="chips">
+                  <li class="chip fail">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334262"
+                      ><span class="g" aria-hidden="true">✕</span
+                      ><span class="sr">Test failed: </span><b>16:27</b
+                      ><small>15:26</small></a
+                    >
+                  </li>
+                  <li class="chip fail">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13335511"
+                      ><span class="g" aria-hidden="true">✕</span
+                      ><span class="sr">Test failed: </span><b>20:04</b
+                      ><small>q 3:06</small></a
+                    >
+                  </li>
+                  <li class="chip timeout">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13336233"
+                      ><span class="g" aria-hidden="true">◷</span
+                      ><span class="sr">Hit 30-minute job limit: </span
+                      ><b>30:00</b><small>16:29</small></a
+                    >
+                  </li>
+                  <li class="chip infra">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13337945"
+                      ><span class="g" aria-hidden="true">!</span
+                      ><span class="sr"
+                        >Tests passed; artifact upload got 502: </span
+                      ><b>20:06</b><small>17:01</small></a
+                    >
+                  </li>
+                  <li class="chip timeout">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13338347"
+                      ><span class="g" aria-hidden="true">◷</span
+                      ><span class="sr">Hit 30-minute job limit: </span
+                      ><b>30:00</b><small>q 15:27</small></a
+                    >
+                  </li>
+                  <li class="chip fail">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13339524"
+                      ><span class="g" aria-hidden="true">✕</span
+                      ><span class="sr">Test failed: </span><b>21:22</b
+                      ><small>18:11</small></a
+                    >
+                  </li>
+                  <li class="chip ok">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13339984"
+                      ><span class="g" aria-hidden="true">✓</span
+                      ><span class="sr">Passed: </span><b>16:01</b
+                      ><small>18:41</small></a
+                    >
+                  </li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Playwright 3/6<small>P4 · 1 retry</small></th>
+              <td>
+                <ol class="chips">
+                  <li class="chip timeout">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334264"
+                      ><span class="g" aria-hidden="true">◷</span
+                      ><span class="sr">Hit 30-minute job limit: </span
+                      ><b>30:01</b><small>15:26</small></a
+                    >
+                  </li>
+                  <li class="chip ok">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13335723"
+                      ><span class="g" aria-hidden="true">✓</span
+                      ><span class="sr">Passed: </span><b>16:57</b
+                      ><small>q 0:43</small></a
+                    >
+                  </li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Playwright 4/6<small>P4 · 2 retries</small></th>
+              <td>
+                <ol class="chips">
+                  <li class="chip timeout">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334265"
+                      ><span class="g" aria-hidden="true">◷</span
+                      ><span class="sr">Hit 30-minute job limit: </span
+                      ><b>30:01</b><small>15:26</small></a
+                    >
+                  </li>
+                  <li class="chip timeout">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13335724"
+                      ><span class="g" aria-hidden="true">◷</span
+                      ><span class="sr">Hit 30-minute job limit: </span
+                      ><b>30:01</b><small>q 0:42</small></a
+                    >
+                  </li>
+                  <li class="chip ok">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13336796"
+                      ><span class="g" aria-hidden="true">✓</span
+                      ><span class="sr"
+                        >Passed (a test needed Playwright’s own retry): </span
+                      ><b>21:44</b><small>q 0:40</small></a
+                    >
+                  </li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Playwright report<small>P4 · 1 retry</small></th>
+              <td>
+                <ol class="chips">
+                  <li class="chip gate">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334269"
+                      ><span class="g" aria-hidden="true">✕</span
+                      ><span class="sr"
+                        >Report gate: an upstream Playwright job had failed: </span
+                      ><b>1:01</b><small>17:00</small></a
+                    >
+                  </li>
+                  <li class="chip ok">
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13340181"
+                      ><span class="g" aria-hidden="true">✓</span
+                      ><span class="sr">Passed: </span><b>0:49</b
+                      ><small>19:02</small></a
+                    >
+                  </li>
+                </ol>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        Each chip is one attempt in order: run time (m:ss), then queue time when
+        it was 30 s or more, otherwise the start time. Each chip links to its
+        job.
+      </p>
+
+      <h2 id="pipelines">Pipelines</h2>
+      <div class="tablewrap">
+        <table class="wide">
+          <thead>
+            <tr>
+              <th>Pipeline</th>
+              <th>Status</th>
+              <th>Why it ran</th>
+              <th class="num">UTC</th>
+              <th class="num">Wall-clock</th>
+              <th class="num">Any job running</th>
+              <th class="num">Runner time</th>
+              <th class="num">Attempts</th>
+              <th class="num">Retries</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                <a
+                  href="https://git.drupalcode.org/project/canvas/-/pipelines/1029105"
+                  >P1 · 1029105</a
+                >
+              </th>
+              <td><span class="st canceled">canceled</span></td>
+              <td>
+                Initial push (f99fcaf3); canceled when the next push superseded
+                it
+              </td>
+              <td class="num">11:05–11:10</td>
+              <td class="num">5 m</td>
+              <td class="num">5 m</td>
+              <td class="num">7 m</td>
+              <td class="num">2</td>
+              <td class="num">0</td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <a
+                  href="https://git.drupalcode.org/project/canvas/-/pipelines/1029109"
+                  >P2 · 1029109</a
+                >
+              </th>
+              <td><span class="st failed">failed</span></td>
+              <td>
+                Push removing a redundant test (ae7bbad3); superseded by the
+                rebase
+              </td>
+              <td class="num">11:07–11:46</td>
+              <td class="num">39 m</td>
+              <td class="num">38 m</td>
+              <td class="num">4 h 42 m</td>
+              <td class="num">15</td>
+              <td class="num">0</td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <a
+                  href="https://git.drupalcode.org/project/canvas/-/pipelines/1029179"
+                  >P3 · 1029179</a
+                >
+              </th>
+              <td><span class="st success">success</span></td>
+              <td>
+                Rebase onto 1.x 42bae7f5; passed after targeted retries, but
+                auto-merge had been aborted when 1.x moved
+              </td>
+              <td class="num">11:45–14:58</td>
+              <td class="num">3 h 12 m</td>
+              <td class="num">2 h 1 m</td>
+              <td class="num">4 h 59 m</td>
+              <td class="num">20</td>
+              <td class="num">5</td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <a
+                  href="https://git.drupalcode.org/project/canvas/-/pipelines/1029629"
+                  >P4 · 1029629</a
+                >
+              </th>
+              <td><span class="st success">success</span></td>
+              <td>
+                Rebase onto 1.x 847e522e; passed after targeted retries, then
+                auto-merged
+              </td>
+              <td class="num">15:23–19:02</td>
+              <td class="num">3 h 39 m</td>
+              <td class="num">3 h 6 m</td>
+              <td class="num">7 h 0 m</td>
+              <td class="num">25</td>
+              <td class="num">10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        All four are merged-result pipelines on
+        <code>refs/merge-requests/1955/merge</code>. Counts leave out the 102
+        manual jobs (PHPUnit matrix, phpcs, phpstan, packages) that were never
+        run, and jobs canceled before they started. In P4 every test job had
+        finished its first attempt by 15:56:15; the remaining 3 h 6 m went to
+        retries.
+      </p>
+
+      <h2>Details</h2>
+      <details>
+        <summary>
+          Why attempts failed <small>job-log evidence, not root causes</small>
+        </summary>
+        <div class="body">
+          <ul>
+            <li>
+              <b>11 attempts hit the 30-minute job limit</b>
+              (<code>job_execution_timeout</code>). No final summary; partial
+              test progress is available, but the timeout’s root cause is
+              unproven.
+            </li>
+            <li>
+              <b>6 attempts failed a test</b> after Playwright’s own retries ran
+              out: <code>Helper functions</code> (multivaluePropTypes) 3× on
+              Playwright 4/6, and <code>basic color</code> (brandKitColors) 3×
+              on Playwright 1/6. Both tests passed in later attempts, in some
+              cases only after Playwright retried them within the job.
+            </li>
+            <li>
+              <b>1 attempt failed after its tests passed</b>: Playwright 1/6 job
+              <a
+                href="https://git.drupalcode.org/project/canvas/-/jobs/13337945"
+                >13337945</a
+              >
+              got <code>502 Bad Gateway</code> three times while uploading
+              artifacts (17:21:31–17:21:37), which failed the job.
+            </li>
+            <li>
+              <b>2 report attempts failed</b> by design:
+              <code>playwright-reports</code> fails while any Playwright job in
+              the pipeline has failed. Its retry is what clears the gate.
+            </li>
+            <li>
+              <b>Target-branch baseline (read-only):</b> the 1.x push pipelines
+              for all three base commits failed
+              <code>Helper functions</code> too:
+              <a
+                href="https://git.drupalcode.org/project/canvas/-/pipelines/1028258"
+                >1028258</a
+              >
+              (780a0520),
+              <a
+                href="https://git.drupalcode.org/project/canvas/-/pipelines/1029172"
+                >1029172</a
+              >
+              (42bae7f5),
+              <a
+                href="https://git.drupalcode.org/project/canvas/-/pipelines/1029426"
+                >1029426</a
+              >
+              (847e522e). <code>basic color</code> also needed Playwright’s
+              in-job retry on 1.x in
+              <a
+                href="https://git.drupalcode.org/project/canvas/-/pipelines/1029172"
+                >1029172</a
+              >
+              (42bae7f5). Pipeline 1029426 on 1.x also had timeouts (cypress E2E
+              2/4, cypress E2E 1/4, phpunit (11.3 sqlite): [PHPUnit-Kernel, 2,
+              4, 10, 20], Playwright 1/6).
+            </li>
+            <li>
+              Playwright retries a failing test up to 3 times inside a job on CI
+              (<code>playwright.config.ts</code>). 7 attempts report a test that
+              only passed on such a retry; these are not counted as job retries.
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details id="gaps">
+        <summary>
+          Gaps with no job queued or running
+          <small>9 gaps of a minute or more · 1 h 50 m in total</small>
+        </summary>
+        <div class="body">
+          <div class="tablewrap">
+            <table class="wide">
+              <thead>
+                <tr>
+                  <th class="num">UTC</th>
+                  <th class="num">Length</th>
+                  <th>Just before</th>
+                  <th>Ended with</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">12:33:07–12:44:13</td>
+                  <td class="num">11 m 6 s</td>
+                  <td>
+                    Playwright report P3 attempt 1: report gate: an upstream
+                    Playwright job had failed
+                  </td>
+                  <td>retry created: Playwright 4/6 attempt 2</td>
+                </tr>
+                <tr>
+                  <td class="num">13:10:37–13:15:00</td>
+                  <td class="num">4 m 23 s</td>
+                  <td>Playwright 4/6 P3 attempt 2: test failed</td>
+                  <td>retry created: Playwright 4/6 attempt 3</td>
+                </tr>
+                <tr>
+                  <td class="num">13:41:48–14:31:37</td>
+                  <td class="num">
+                    49 m 48 s <a href="#n-orch" class="fn">*</a>
+                  </td>
+                  <td>Playwright 4/6 P3 attempt 3: test failed</td>
+                  <td>retry created: Playwright 4/6 attempt 4</td>
+                </tr>
+                <tr>
+                  <td class="num">14:54:08–14:57:10</td>
+                  <td class="num">3 m 2 s</td>
+                  <td>
+                    Playwright 4/6 P3 attempt 4: passed (a test needed
+                    Playwright’s own retry)
+                  </td>
+                  <td>retry created: Playwright report attempt 2</td>
+                </tr>
+                <tr>
+                  <td class="num">14:58:04–15:23:03</td>
+                  <td class="num">24 m 59 s</td>
+                  <td>Playwright report P3 attempt 2: passed</td>
+                  <td>new pipeline 1029629 after rebase push at 15:22:59</td>
+                </tr>
+                <tr>
+                  <td class="num">17:21:47–17:25:18</td>
+                  <td class="num">3 m 31 s</td>
+                  <td>
+                    Playwright 1/6 P4 attempt 4: tests passed; artifact upload
+                    got 502
+                  </td>
+                  <td>retry created: Playwright 1/6 attempt 5</td>
+                </tr>
+                <tr>
+                  <td class="num">18:10:45–18:11:50</td>
+                  <td class="num">1 m 5 s</td>
+                  <td>Playwright 1/6 P4 attempt 5: hit 30-minute job limit</td>
+                  <td>retry created: Playwright 1/6 attempt 6</td>
+                </tr>
+                <tr>
+                  <td class="num">18:33:12–18:41:20</td>
+                  <td class="num">8 m 8 s</td>
+                  <td>Playwright 1/6 P4 attempt 6: test failed</td>
+                  <td>retry created: Playwright 1/6 attempt 7</td>
+                </tr>
+                <tr>
+                  <td class="num">18:57:23–19:02:02</td>
+                  <td class="num">4 m 38 s</td>
+                  <td>Playwright 1/6 P4 attempt 7: passed</td>
+                  <td>retry created: Playwright report attempt 2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p id="n-orch">
+            * Not visible in GitLab data: the orchestrating Hazelnut session
+            reports that its sandbox was stopping from about 13:44 to 14:31,
+            which blocked its monitoring. Auto-merge had already been aborted at
+            13:41:00 when 1.x moved, so P3 passing did not merge the MR.
+          </p>
+          <p>
+            Each gap ends when a retry or a new pipeline was created. GitLab
+            doesn’t record why a gap lasted as long as it did, and none of this
+            time is CI execution.
+          </p>
+        </div>
+      </details>
+      <details id="attempts">
+        <summary>All 62 executed job attempts</summary>
+        <div class="body">
+          <div class="tablewrap">
+            <table class="wide">
+              <thead>
+                <tr>
+                  <th>Job</th>
+                  <th>Pipeline</th>
+                  <th>Name</th>
+                  <th class="num">Attempt</th>
+                  <th class="num">Started</th>
+                  <th class="num">Queued</th>
+                  <th class="num">Ran</th>
+                  <th>Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324196"
+                      >13324196</a
+                    >
+                  </td>
+                  <td>P1</td>
+                  <td>Lint (php)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:05:19</td>
+                  <td class="num">0:03</td>
+                  <td class="num">2:16</td>
+                  <td>
+                    <span class="dot cancel" aria-hidden="true"></span>Canceled
+                    (pipeline superseded)
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324197"
+                      >13324197</a
+                    >
+                  </td>
+                  <td>P1</td>
+                  <td>Lint (node)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:05:20</td>
+                  <td class="num">0:03</td>
+                  <td class="num">5:24</td>
+                  <td>
+                    <span class="dot cancel" aria-hidden="true"></span>Canceled
+                    (pipeline superseded)
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324343"
+                      >13324343</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Lint (php)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:07:31</td>
+                  <td class="num">0:02</td>
+                  <td class="num">2:44</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324344"
+                      >13324344</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Lint (node)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:07:32</td>
+                  <td class="num">0:02</td>
+                  <td class="num">8:04</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324401"
+                      >13324401</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Playwright 3/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:37</td>
+                  <td class="num">0:01</td>
+                  <td class="num">30:00</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324393"
+                      >13324393</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Vitest</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:37</td>
+                  <td class="num">0:00</td>
+                  <td class="num">7:53</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324394"
+                      >13324394</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Cypress E2E 1/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:37</td>
+                  <td class="num">0:00</td>
+                  <td class="num">20:37</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324395"
+                      >13324395</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Cypress E2E 2/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:38</td>
+                  <td class="num">0:01</td>
+                  <td class="num">21:10</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324396"
+                      >13324396</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Cypress E2E 3/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:38</td>
+                  <td class="num">0:01</td>
+                  <td class="num">30:00</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324397"
+                      >13324397</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Cypress E2E 4/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:39</td>
+                  <td class="num">0:02</td>
+                  <td class="num">20:24</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324398"
+                      >13324398</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Cypress unit</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:39</td>
+                  <td class="num">0:02</td>
+                  <td class="num">8:20</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324399"
+                      >13324399</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:39</td>
+                  <td class="num">0:02</td>
+                  <td class="num">25:12</td>
+                  <td>
+                    <span class="dot ok" aria-hidden="true"></span>Passed (a
+                    test needed Playwright’s own retry)<small
+                      >retried in-job: brandKitColors.spec.ts › brand kit colors
+                      › basic color</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324400"
+                      >13324400</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Playwright 2/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:40</td>
+                  <td class="num">0:02</td>
+                  <td class="num">21:12</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324402"
+                      >13324402</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:40</td>
+                  <td class="num">0:04</td>
+                  <td class="num">26:18</td>
+                  <td>
+                    <span class="dot fail" aria-hidden="true"></span>Test
+                    failed<small
+                      >multivaluePropTypes.spec.ts › Multivalue Prop Types ›
+                      Helper functions</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324403"
+                      >13324403</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Playwright 5/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:41</td>
+                  <td class="num">0:04</td>
+                  <td class="num">30:01</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324404"
+                      >13324404</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Playwright 6/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:15:41</td>
+                  <td class="num">0:05</td>
+                  <td class="num">30:01</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13324406"
+                      >13324406</a
+                    >
+                  </td>
+                  <td>P2</td>
+                  <td>Playwright report</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:45:43</td>
+                  <td class="num">0:01</td>
+                  <td class="num">0:48</td>
+                  <td>
+                    <span class="dot cancel" aria-hidden="true"></span>Canceled
+                    (pipeline superseded)
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325640"
+                      >13325640</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Lint (php)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:45:46</td>
+                  <td class="num">0:02</td>
+                  <td class="num">2:10</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325641"
+                      >13325641</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Lint (node)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:45:46</td>
+                  <td class="num">0:02</td>
+                  <td class="num">7:56</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325690"
+                      >13325690</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Vitest</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:55:38</td>
+                  <td class="num">1:55</td>
+                  <td class="num">3:23</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325691"
+                      >13325691</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Cypress E2E 1/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:55:44</td>
+                  <td class="num">2:01</td>
+                  <td class="num">15:26</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325692"
+                      >13325692</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Cypress E2E 2/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:55:46</td>
+                  <td class="num">2:04</td>
+                  <td class="num">12:10</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325693"
+                      >13325693</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Cypress E2E 3/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:56:17</td>
+                  <td class="num">2:35</td>
+                  <td class="num">19:15</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325694"
+                      >13325694</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Cypress E2E 4/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:56:28</td>
+                  <td class="num">2:46</td>
+                  <td class="num">13:16</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325695"
+                      >13325695</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Cypress unit</td>
+                  <td class="num">1/1</td>
+                  <td class="num">11:56:41</td>
+                  <td class="num">2:58</td>
+                  <td class="num">2:53</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325696"
+                      >13325696</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">12:02:09</td>
+                  <td class="num">8:26</td>
+                  <td class="num">18:28</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325697"
+                      >13325697</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 2/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">12:02:12</td>
+                  <td class="num">8:29</td>
+                  <td class="num">14:05</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325698"
+                      >13325698</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 3/6</td>
+                  <td class="num">1/2</td>
+                  <td class="num">12:02:13</td>
+                  <td class="num">8:31</td>
+                  <td class="num">30:00</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325699"
+                      >13325699</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">1/4</td>
+                  <td class="num">12:02:14</td>
+                  <td class="num">8:33</td>
+                  <td class="num">30:01</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325700"
+                      >13325700</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 5/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">12:02:15</td>
+                  <td class="num">8:33</td>
+                  <td class="num">17:44</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325701"
+                      >13325701</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 6/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">12:02:18</td>
+                  <td class="num">8:36</td>
+                  <td class="num">21:59</td>
+                  <td>
+                    <span class="dot ok" aria-hidden="true"></span>Passed (a
+                    test needed Playwright’s own retry)<small
+                      >retried in-job: routing.spec.ts › Routing › Can navigate
+                      between pages without page reloads</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13325703"
+                      >13325703</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright report</td>
+                  <td class="num">1/2</td>
+                  <td class="num">12:32:17</td>
+                  <td class="num">0:02</td>
+                  <td class="num">0:50</td>
+                  <td>
+                    <span class="dot gate" aria-hidden="true"></span>Report
+                    gate: an upstream Playwright job had failed
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13327895"
+                      >13327895</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 3/6</td>
+                  <td class="num">2/2</td>
+                  <td class="num">12:44:14</td>
+                  <td class="num">0:01</td>
+                  <td class="num">13:11</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13327896"
+                      >13327896</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">2/4</td>
+                  <td class="num">12:44:14</td>
+                  <td class="num">0:01</td>
+                  <td class="num">26:22</td>
+                  <td>
+                    <span class="dot fail" aria-hidden="true"></span>Test
+                    failed<small
+                      >multivaluePropTypes.spec.ts › Multivalue Prop Types ›
+                      Helper functions</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13329151"
+                      >13329151</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">3/4</td>
+                  <td class="num">13:15:03</td>
+                  <td class="num">0:03</td>
+                  <td class="num">26:46</td>
+                  <td>
+                    <span class="dot fail" aria-hidden="true"></span>Test
+                    failed<small
+                      >multivaluePropTypes.spec.ts › Multivalue Prop Types ›
+                      Helper functions</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13332809"
+                      >13332809</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">4/4</td>
+                  <td class="num">14:31:37</td>
+                  <td class="num">0:00</td>
+                  <td class="num">22:32</td>
+                  <td>
+                    <span class="dot ok" aria-hidden="true"></span>Passed (a
+                    test needed Playwright’s own retry)<small
+                      >retried in-job: multivaluePropTypes.spec.ts › Multivalue
+                      Prop Types › Helper functions</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13333643"
+                      >13333643</a
+                    >
+                  </td>
+                  <td>P3</td>
+                  <td>Playwright report</td>
+                  <td class="num">2/2</td>
+                  <td class="num">14:57:13</td>
+                  <td class="num">0:03</td>
+                  <td class="num">0:51</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334206"
+                      >13334206</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Lint (php)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:23:05</td>
+                  <td class="num">0:02</td>
+                  <td class="num">3:01</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334207"
+                      >13334207</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Lint (node)</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:23:05</td>
+                  <td class="num">0:02</td>
+                  <td class="num">2:53</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334256"
+                      >13334256</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Vitest</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:08</td>
+                  <td class="num">0:02</td>
+                  <td class="num">3:08</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334257"
+                      >13334257</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Cypress E2E 1/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:09</td>
+                  <td class="num">0:02</td>
+                  <td class="num">15:07</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334258"
+                      >13334258</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Cypress E2E 2/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:09</td>
+                  <td class="num">0:02</td>
+                  <td class="num">15:30</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334259"
+                      >13334259</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Cypress E2E 3/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:10</td>
+                  <td class="num">0:03</td>
+                  <td class="num">16:58</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334260"
+                      >13334260</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Cypress E2E 4/4</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:11</td>
+                  <td class="num">0:03</td>
+                  <td class="num">16:12</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334261"
+                      >13334261</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Cypress unit</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:11</td>
+                  <td class="num">0:04</td>
+                  <td class="num">3:17</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334262"
+                      >13334262</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">1/7</td>
+                  <td class="num">15:26:12</td>
+                  <td class="num">0:04</td>
+                  <td class="num">16:27</td>
+                  <td>
+                    <span class="dot fail" aria-hidden="true"></span>Test
+                    failed<small
+                      >brandKitColors.spec.ts › brand kit colors › basic
+                      color</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334263"
+                      >13334263</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 2/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:13</td>
+                  <td class="num">0:05</td>
+                  <td class="num">19:32</td>
+                  <td>
+                    <span class="dot ok" aria-hidden="true"></span>Passed (a
+                    test needed Playwright’s own retry)<small
+                      >retried in-job: codeComponents.spec.ts › Code Components
+                      › Delete gate</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334264"
+                      >13334264</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 3/6</td>
+                  <td class="num">1/2</td>
+                  <td class="num">15:26:13</td>
+                  <td class="num">0:06</td>
+                  <td class="num">30:01</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334265"
+                      >13334265</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">1/3</td>
+                  <td class="num">15:26:14</td>
+                  <td class="num">0:06</td>
+                  <td class="num">30:01</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334266"
+                      >13334266</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 5/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:14</td>
+                  <td class="num">0:06</td>
+                  <td class="num">18:32</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334267"
+                      >13334267</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 6/6</td>
+                  <td class="num">1/1</td>
+                  <td class="num">15:26:15</td>
+                  <td class="num">0:07</td>
+                  <td class="num">21:16</td>
+                  <td>
+                    <span class="dot ok" aria-hidden="true"></span>Passed (a
+                    test needed Playwright’s own retry)<small
+                      >retried in-job: responsiveImage.spec.ts › Responsive
+                      Image › cards with responsive images</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13335511"
+                      >13335511</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">2/7</td>
+                  <td class="num">15:56:01</td>
+                  <td class="num">3:06</td>
+                  <td class="num">20:04</td>
+                  <td>
+                    <span class="dot fail" aria-hidden="true"></span>Test
+                    failed<small
+                      >brandKitColors.spec.ts › brand kit colors › basic
+                      color</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13335723"
+                      >13335723</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 3/6</td>
+                  <td class="num">2/2</td>
+                  <td class="num">16:02:17</td>
+                  <td class="num">0:43</td>
+                  <td class="num">16:57</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13335724"
+                      >13335724</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">2/3</td>
+                  <td class="num">16:02:18</td>
+                  <td class="num">0:42</td>
+                  <td class="num">30:01</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13336233"
+                      >13336233</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">3/7</td>
+                  <td class="num">16:29:50</td>
+                  <td class="num">0:09</td>
+                  <td class="num">30:00</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13336796"
+                      >13336796</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 4/6</td>
+                  <td class="num">3/3</td>
+                  <td class="num">16:38:55</td>
+                  <td class="num">0:40</td>
+                  <td class="num">21:44</td>
+                  <td>
+                    <span class="dot ok" aria-hidden="true"></span>Passed (a
+                    test needed Playwright’s own retry)<small
+                      >retried in-job: multivaluePropTypes.spec.ts › Multivalue
+                      Prop Types › Helper functions</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13334269"
+                      >13334269</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright report</td>
+                  <td class="num">1/2</td>
+                  <td class="num">17:00:41</td>
+                  <td class="num">0:02</td>
+                  <td class="num">1:01</td>
+                  <td>
+                    <span class="dot gate" aria-hidden="true"></span>Report
+                    gate: an upstream Playwright job had failed
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13337945"
+                      >13337945</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">4/7</td>
+                  <td class="num">17:01:41</td>
+                  <td class="num">0:01</td>
+                  <td class="num">20:06</td>
+                  <td>
+                    <span class="dot infra" aria-hidden="true"></span>Tests
+                    passed; artifact upload got 502<small
+                      >retried in-job: brandKitColors.spec.ts › brand kit colors
+                      › basic color</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13338347"
+                      >13338347</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">5/7</td>
+                  <td class="num">17:40:45</td>
+                  <td class="num">15:27</td>
+                  <td class="num">30:00</td>
+                  <td>
+                    <span class="dot timeout" aria-hidden="true"></span>Hit
+                    30-minute job limit
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13339524"
+                      >13339524</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">6/7</td>
+                  <td class="num">18:11:50</td>
+                  <td class="num">0:00</td>
+                  <td class="num">21:22</td>
+                  <td>
+                    <span class="dot fail" aria-hidden="true"></span>Test
+                    failed<small
+                      >brandKitColors.spec.ts › brand kit colors › basic
+                      color</small
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13339984"
+                      >13339984</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright 1/6</td>
+                  <td class="num">7/7</td>
+                  <td class="num">18:41:22</td>
+                  <td class="num">0:02</td>
+                  <td class="num">16:01</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://git.drupalcode.org/project/canvas/-/jobs/13340181"
+                      >13340181</a
+                    >
+                  </td>
+                  <td>P4</td>
+                  <td>Playwright report</td>
+                  <td class="num">2/2</td>
+                  <td class="num">19:02:02</td>
+                  <td class="num">0:00</td>
+                  <td class="num">0:49</td>
+                  <td><span class="dot ok" aria-hidden="true"></span>Passed</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+      <details>
+        <summary>Method, sources and gaps in the evidence</summary>
+        <div class="body">
+          <ul>
+            <li>
+              <b>Posted</b> is the MR’s
+              <code>created_at</code> (2026-11-03T11:05:12.935Z).
+              <b>Merged</b> is its
+              <code>merged_at</code> (2026-11-03T19:02:52.787Z).
+              <b>Approval</b> is <code>approved_at</code> from the approvals API
+              (2026-11-03T11:39:56.089Z, system note 11:39:56). Enabling
+              auto-merge and marking the MR ready are separate events and are
+              not counted as approval.
+            </li>
+            <li>
+              <b>Queued</b> is GitLab’s <code>queued_duration</code>, the time a
+              job waited for a runner. Time spent waiting for earlier stages is
+              not counted as queue. GitLab gives no pending timestamp, so where
+              queue time sits on the timeline (and in the union arithmetic) is
+              inferred as <code>started_at − queued_duration</code> →
+              <code>started_at</code>.
+            </li>
+            <li>
+              <b>Any job running</b> is the length of the union of all attempts’
+              run intervals, so parallel jobs count once.
+              <b>Runner time</b> adds up every attempt’s run time and so exceeds
+              wall-clock. Over the MR’s life: 5 h 49 m 8 s running + 17 m 45 s
+              only queued + 1 h 50 m 47 s with nothing queued or running = 7 h
+              57 m 40 s.
+            </li>
+            <li>
+              <b>Retries</b> are counted per pipeline and job as attempts minus
+              1, from the jobs API with <code>include_retried=true</code>. Each
+              new pipeline came from a push (a test removal or a rebase), not
+              from a rerun.
+            </li>
+            <li>
+              <b>Not available from the provider:</b> who or what decided each
+              retry (the API records every attempt under balintbrews), how
+              loaded the shared runner was, which tests were running when a job
+              timed out, and the DrupalCode outage window (only the 502s in job
+              13337945’s log are evidence of it).
+            </li>
+            <li>
+              <a href="evidence.json">evidence.json</a> holds the derived data
+              behind every number here, with links to the provider. Raw job logs
+              are not published; they were reduced to Playwright counts, test
+              titles and 502 counts.
+            </li>
+          </ul>
+        </div>
+      </details>
+    </main>
+    <div id="tip" role="tooltip" aria-hidden="true"></div>
+    <script>
+      (() => {
+        const tip = document.getElementById('tip');
+        const svg = document.querySelector('.tl');
+        const show = (el, x, y) => {
+          tip.textContent = el.getAttribute('data-tip');
+          const r = tip.getBoundingClientRect();
+          const left = Math.min(x + 14, window.innerWidth - r.width - 8);
+          const top =
+            y + 16 + r.height > window.innerHeight ? y - r.height - 12 : y + 16;
+          tip.style.left = Math.max(8, left) + 'px';
+          tip.style.top = Math.max(8, top) + 'px';
+          tip.style.opacity = 1;
+        };
+        svg.addEventListener('pointermove', (e) => {
+          const el = e.target.closest('[data-tip]');
+          if (el) show(el, e.clientX, e.clientY);
+          else tip.style.opacity = 0;
+        });
+        svg.addEventListener('pointerleave', () => (tip.style.opacity = 0));
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') tip.style.opacity = 0;
+        });
+        const openTarget = () => {
+          const el =
+            location.hash && document.getElementById(location.hash.slice(1));
+          if (el && el.tagName === 'DETAILS') el.open = true;
+        };
+        window.addEventListener('hashchange', openTarget);
+        openTarget();
+        const hide = () => (tip.style.opacity = 0);
+        document.addEventListener('scroll', hide, {
+          passive: true,
+          capture: true,
+        });
+        window.addEventListener('scroll', hide, { passive: true });
+      })();
+    </script>
+  </body>
+</html>

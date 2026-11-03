@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="How long Canvas MR !1955 (work item 3592281) took from posting to merge, with every milestone, CI recovery action and outage on one timeline."
+    />
+    <title>MR !1955 delivery timeline</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #101518;
+        --text: #edf1ec;
+        --muted: #b0bdbf;
+        --faint: #8d9b9f;
+        --amber: #f4c274;
+        --line: #344249;
+        --ok: #5fc472;
+        --fail: #f2a7a2;
+        --blue: #8fbdd0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          17px/1.6 system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+      }
+      main {
+        max-width: 980px;
+        margin: auto;
+        padding: 48px 16px 56px;
+      }
+      a {
+        color: var(--amber);
+        text-underline-offset: 3px;
+      }
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid var(--amber);
+        outline-offset: 3px;
+        border-radius: 3px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      h1 {
+        font-size: clamp(28px, 5vw, 40px);
+        line-height: 1.15;
+        margin: 8px 0;
+      }
+      .lede {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        list-style: none;
+        padding: 0;
+        margin: 40px 0 0;
+      }
+      .stats li {
+        border-top: 2px solid var(--line);
+        padding-top: 14px;
+        min-width: 0;
+      }
+      .stats li.after {
+        border-top-color: var(--amber);
+      }
+      .stats li.retry {
+        border-top-color: var(--blue);
+      }
+      .stat {
+        display: block;
+        font-size: clamp(34px, 5vw, 48px);
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -1px;
+        font-variant-numeric: tabular-nums;
+      }
+      .stats .label {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .stats .exact {
+        display: block;
+        color: var(--faint);
+        font-size: 13.5px;
+        font-variant-numeric: tabular-nums;
+      }
+      .takeaway {
+        margin: 36px 0 0;
+        font-size: clamp(19px, 2.6vw, 22px);
+        line-height: 1.4;
+        font-weight: 600;
+        max-width: 46ch;
+      }
+      h2 {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--muted);
+        margin: 40px 0 6px;
+      }
+      .tlnote.after {
+        margin: 16px 0 0;
+      }
+      .tlnote {
+        margin: 0 0 12px;
+        font-size: 14px;
+        color: var(--faint);
+        max-width: 74ch;
+      }
+      .tl {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+      .tl::before {
+        content: '';
+        position: absolute;
+        left: 105px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: var(--line);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        gap: 0 34px;
+        padding: 7px 0;
+        position: relative;
+      }
+      .row::before {
+        content: '';
+        position: absolute;
+        left: 100px;
+        top: 15px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 2px solid var(--faint);
+      }
+      .row time {
+        color: var(--faint);
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+        padding-top: 2px;
+        text-align: right;
+      }
+      .row .t {
+        margin: 0;
+        font-weight: 600;
+      }
+      .row .d {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14.5px;
+        max-width: 70ch;
+      }
+      .row.milestone::before {
+        width: 16px;
+        height: 16px;
+        left: 98px;
+        top: 13px;
+        background: var(--amber);
+        border-color: var(--amber);
+      }
+      .row.milestone .t {
+        font-size: 19px;
+      }
+      .row.milestone time {
+        color: var(--text);
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .row.change::before {
+        border-color: var(--amber);
+      }
+      .row.retry::before {
+        border-color: var(--blue);
+        background: var(--blue);
+      }
+      .row.fail::before {
+        border-color: var(--fail);
+      }
+      .row.pass::before {
+        border-color: var(--ok);
+        background: var(--ok);
+      }
+      .row.outage {
+        margin: 6px 0;
+        padding: 10px 12px 10px 0;
+        background: rgba(244, 194, 116, 0.08);
+        border-radius: 8px;
+      }
+      .row.outage::before {
+        left: 99px;
+        top: 10px;
+        width: 14px;
+        height: calc(100% - 20px);
+        border-radius: 4px;
+        border: 0;
+        background: repeating-linear-gradient(
+          45deg,
+          var(--amber) 0 3px,
+          rgba(244, 194, 116, 0.25) 3px 6px
+        );
+      }
+      .row.outage time {
+        color: var(--amber);
+        font-weight: 600;
+      }
+      .row.outage .t {
+        color: var(--amber);
+      }
+      .row.gap .t {
+        font-weight: 400;
+        font-style: italic;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .row.gap .d {
+        font-size: 13px;
+        color: var(--faint);
+      }
+      .row.gap::before {
+        border-style: dashed;
+        border-color: var(--faint);
+      }
+      .badge {
+        display: inline-block;
+        margin-left: 4px;
+        padding: 0 8px;
+        border-radius: 999px;
+        border: 1px solid var(--blue);
+        color: var(--blue);
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.5;
+        vertical-align: 1px;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+      .phase {
+        padding: 18px 0 6px 140px;
+      }
+      .phase span {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      .phase.after span {
+        color: var(--amber);
+      }
+      .causes {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+        max-width: 70ch;
+      }
+      .causes li {
+        padding-left: 18px;
+        position: relative;
+        color: var(--muted);
+      }
+      .causes li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.7em;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--amber);
+      }
+      .causes strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+      details {
+        margin-top: 28px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--text);
+        font-weight: 600;
+        width: fit-content;
+      }
+      details ul {
+        list-style: none;
+        padding: 0;
+        margin: 12px 0 0;
+        display: grid;
+        gap: 10px;
+        max-width: 72ch;
+      }
+      details li b {
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+        margin-right: 6px;
+      }
+      details .when {
+        color: var(--faint);
+        font-size: 13.5px;
+        margin-right: 6px;
+        font-variant-numeric: tabular-nums;
+      }
+      details p {
+        max-width: 72ch;
+        margin: 12px 0 0;
+      }
+      details .fine {
+        font-size: 13.5px;
+        color: var(--faint);
+      }
+      footer {
+        margin-top: 48px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        font-size: 14px;
+        color: var(--faint);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 20px;
+      }
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+      @media (max-width: 760px) {
+        .stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 24px 16px;
+        }
+      }
+      @media (max-width: 600px) {
+        main {
+          padding-top: 32px;
+        }
+        .tl::before {
+          left: 7px;
+        }
+        .row {
+          grid-template-columns: 1fr;
+          padding-left: 30px;
+        }
+        .row::before {
+          left: 2px;
+        }
+        .row.milestone::before {
+          left: 0;
+        }
+        .row.outage {
+          padding-left: 30px;
+        }
+        .row.outage::before {
+          left: 1px;
+        }
+        .row time {
+          text-align: left;
+          padding: 0;
+        }
+        .phase {
+          padding-left: 30px;
+        }
+      }
+      @media (max-width: 340px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">Canvas · Work item 3592281</div>
+      <h1>MR !1955 · Delivery timeline</h1>
+      <p class="lede">
+        <a
+          href="https://git.drupalcode.org/project/canvas/-/merge_requests/1955"
+          >Editor preview position fix</a
+        >
+        · 3 November 2026 · times in UTC
+      </p>
+
+      <h2 class="sr">Summary</h2>
+      <ul class="stats">
+        <li>
+          <span class="stat">≈ 8 h</span
+          ><span class="label">Posted to merged</span
+          ><span class="exact">7 h 57 m 40 s</span>
+        </li>
+        <li>
+          <span class="stat">35 min</span
+          ><span class="label">Posted to approval</span
+          ><span class="exact">34 m 43 s</span>
+        </li>
+        <li class="after">
+          <span class="stat">7 h 23 m</span
+          ><span class="label">Approval to merged</span
+          ><span class="exact">7 h 22 m 57 s</span>
+        </li>
+        <li class="retry">
+          <span class="stat">15</span><span class="label">Job re-runs</span
+          ><span class="exact">Plus 2 rebases; no full restarts</span>
+        </li>
+      </ul>
+
+      <p class="takeaway">
+        Approval was quick; automated checks and recovery dominated the
+        remaining wait.
+      </p>
+
+      <h2>Timeline</h2>
+      <p class="tlnote">
+        Blue markers are CI recovery actions: failed jobs re-run individually,
+        counted 1–15. Times are rounded to the nearest minute.
+      </p>
+      <ol class="tl">
+        <li class="phase"><span>Before approval · 35 min</span></li>
+        <li class="row milestone">
+          <time>11:05</time>
+          <div>
+            <p class="t">Posted as a draft</p>
+            <p class="d">Checks started.</p>
+          </div>
+        </li>
+        <li class="row change">
+          <time>11:07</time>
+          <div>
+            <p class="t">Source update: redundant test removed</p>
+            <p class="d">
+              The first checks were cancelled and restarted on the new commit.
+            </p>
+          </div>
+        </li>
+        <li class="row event">
+          <time>11:09</time>
+          <div><p class="t">Marked ready for review</p></div>
+        </li>
+        <li class="row milestone">
+          <time>11:40</time>
+          <div><p class="t">Approved by lauriii</p></div>
+        </li>
+        <li class="phase after"><span>After approval · 7 h 23 m</span></li>
+        <li class="row fail">
+          <time>11:42–11:46</time>
+          <div>
+            <p class="t">Checks failed</p>
+            <p class="d">
+              5 jobs failed: 4 hit the 30-minute limit, 1 had a failing test.
+              Not re-run: the rebase below replaced these checks.
+            </p>
+          </div>
+        </li>
+        <li class="row change">
+          <time>11:46</time>
+          <div>
+            <p class="t">Rebased onto the latest main branch</p>
+            <p class="d">New checks started; auto-merge turned on.</p>
+          </div>
+        </li>
+        <li class="row gap">
+          <time></time>
+          <div>
+            <p class="t">No CI job active for 11 m 6 s</p>
+            <p class="d">12:33:07–12:44:13, until the next step below</p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>12:44</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 3/6 and 4/6
+              <span class="badge"
+                >×2 · 1–2 of 15<span class="sr">
+                  CI recovery actions</span
+                ></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 3/6 hit the 30-minute job limit at 12:32. Result:
+              passed in 13 min.
+            </p>
+            <p class="d">
+              Browser tests 4/6 hit the 30-minute job limit at 12:32. Result:
+              had a failing test again after 26 min.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>13:15</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 4/6
+              <span class="badge"
+                >3 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 4/6 had a failing test at 13:11. Result: had a
+              failing test again after 27 min.
+            </p>
+          </div>
+        </li>
+        <li class="row fail">
+          <time>13:41</time>
+          <div>
+            <p class="t">Auto-merge cancelled</p>
+            <p class="d">
+              The main branch moved, so the change needed a rebase before it
+              could merge.
+            </p>
+          </div>
+        </li>
+        <li class="row outage">
+          <time>13:44–14:31</time>
+          <div>
+            <p class="t">Automation sandbox unavailable</p>
+            <p class="d">
+              About 47 minutes, approximate, as reported by the automation
+              session; not in GitLab records.
+            </p>
+            <p class="d">
+              GitLab records show no CI job active for 49 m 48 s around it
+              (13:41:48–14:31:37), between a failing test and its re-run.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>14:32</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 4/6
+              <span class="badge"
+                >4 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 4/6 had a failing test at 13:42. Result: passed in
+              23 min.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>14:57</time>
+          <div>
+            <p class="t">
+              Re-ran the test report
+              <span class="badge"
+                >5 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              The test report fails while any browser-test job has failed;
+              re-run after Browser tests 4/6 passed at 14:54. Result: passed in
+              1 min.
+            </p>
+          </div>
+        </li>
+        <li class="row pass">
+          <time>14:58</time>
+          <div>
+            <p class="t">Checks passed, but could not merge</p>
+            <p class="d">
+              Auto-merge had been cancelled at 13:41; a rebase was still needed.
+            </p>
+          </div>
+        </li>
+        <li class="row gap">
+          <time></time>
+          <div>
+            <p class="t">No CI job active for 24 m 59 s</p>
+            <p class="d">14:58:04–15:23:03, until the next step below</p>
+          </div>
+        </li>
+        <li class="row change">
+          <time>15:23</time>
+          <div>
+            <p class="t">Rebased again onto the latest main branch</p>
+            <p class="d">New checks started; auto-merge turned on again.</p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>15:53</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 1/6
+              <span class="badge"
+                >6 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 1/6 had a failing test at 15:43. Result: had a
+              failing test again after 20 min.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>16:02</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 3/6 and 4/6
+              <span class="badge"
+                >×2 · 7–8 of 15<span class="sr">
+                  CI recovery actions</span
+                ></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 3/6 hit the 30-minute job limit at 15:56. Result:
+              passed in 17 min.
+            </p>
+            <p class="d">
+              Browser tests 4/6 hit the 30-minute job limit at 15:56. Result:
+              hit the 30-minute limit.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>16:30</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 1/6
+              <span class="badge"
+                >9 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 1/6 had a failing test at 16:16. Result: hit the
+              30-minute limit.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>16:38</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 4/6
+              <span class="badge"
+                >10 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 4/6 hit the 30-minute job limit at 16:32. Result:
+              passed in 22 min.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>17:02</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 1/6
+              <span class="badge"
+                >11 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 1/6 hit the 30-minute job limit at 17:00. Result:
+              passed its tests in 20 min, but the results upload failed (HTTP
+              502).
+            </p>
+          </div>
+        </li>
+        <li class="row outage">
+          <time>17:18–17:25</time>
+          <div>
+            <p class="t">DrupalCode outage</p>
+            <p class="d">Approximate, as reported by the automation session.</p>
+            <p class="d">
+              GitLab records show HTTP 502 errors during one job’s results
+              upload at 17:21:31–17:21:37.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>17:25</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 1/6
+              <span class="badge"
+                >12 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 1/6 passed its tests, but the results upload failed
+              (HTTP 502) at 17:22. Result: waited 15 min for a free test
+              machine, then hit the 30-minute limit.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>18:12</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 1/6
+              <span class="badge"
+                >13 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 1/6 hit the 30-minute job limit at 18:11. Result:
+              had a failing test again after 21 min.
+            </p>
+          </div>
+        </li>
+        <li class="row gap">
+          <time></time>
+          <div>
+            <p class="t">No CI job active for 8 m 8 s</p>
+            <p class="d">18:33:12–18:41:20, until the next step below</p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>18:41</time>
+          <div>
+            <p class="t">
+              Re-ran Browser tests 1/6
+              <span class="badge"
+                >14 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              Browser tests 1/6 had a failing test at 18:33. Result: passed in
+              16 min.
+            </p>
+          </div>
+        </li>
+        <li class="row retry">
+          <time>19:02</time>
+          <div>
+            <p class="t">
+              Re-ran the test report
+              <span class="badge"
+                >15 of 15<span class="sr"> CI recovery actions</span></span
+              >
+            </p>
+            <p class="d">
+              The test report fails while any browser-test job has failed;
+              re-run after Browser tests 1/6 passed at 18:57. Result: passed in
+              1 min.
+            </p>
+          </div>
+        </li>
+        <li class="row pass">
+          <time>19:03</time>
+          <div><p class="t">All checks passed</p></div>
+        </li>
+        <li class="row milestone">
+          <time>19:03</time>
+          <div><p class="t">Merged automatically</p></div>
+        </li>
+      </ol>
+      <p class="tlnote after">
+        Two pairs of jobs were re-run within a second of each other and share a
+        marker. GitLab records every re-run and both rebases under balintbrews
+        and can’t tell a person from automation. According to the automation
+        session, it supervised most re-runs, and the rebases were done outside
+        it. Not counted: Playwright’s automatic re-tries of a single test inside
+        a job (7 jobs needed one to pass).
+      </p>
+
+      <h2>What slowed it down</h2>
+      <ul class="causes">
+        <li>
+          <strong>Intermittent test failures.</strong> Two browser tests failed
+          on some runs and passed on others. One fails the same way on the main
+          branch, so it isn’t specific to this change.
+        </li>
+        <li>
+          <strong>Job time limits.</strong> Browser-test jobs hit the 30-minute
+          limit 11 times and had to run again.
+        </li>
+        <li>
+          <strong>Outages.</strong> The automation sandbox was unavailable for
+          about 47 minutes, and a brief DrupalCode outage stopped one passing
+          run from uploading its results.
+        </li>
+      </ul>
+
+      <details>
+        <summary>Where the 7 h 23 m after approval went</summary>
+        <p>
+          Elapsed time, not machine hours: CI jobs running 5 h 14 m 32 s (often
+          several at once), waiting for a free test machine 17 m 42 s, and no CI
+          job active (none running or queued) 1 h 50 m 43 s:
+        </p>
+        <ul>
+          <li>
+            <b>49 m 48 s</b> <span class="when">13:41:48–14:31:37</span> After a
+            failing test, before its re-run. Overlaps the automation sandbox
+            outage (about 13:44–14:31, session-reported). The rest of this
+            stretch has no recorded cause.
+          </li>
+          <li>
+            <b>24 m 59 s</b> <span class="when">14:58:04–15:23:03</span> Checks
+            had passed, but auto-merge had been cancelled at 13:41 when the main
+            branch moved. Rebased at 15:22:59. GitLab doesn’t record why the
+            rebase came when it did.
+          </li>
+          <li>
+            <b>11 m 6 s</b> <span class="when">12:33:07–12:44:13</span> Two jobs
+            had hit the 30-minute limit; their re-runs started at the end. No
+            recorded cause for the timing.
+          </li>
+          <li>
+            <b>24 m 48 s</b> <span class="when">6 shorter stretches</span> Each
+            between one job finishing and the next re-run. No recorded cause for
+            the timing.
+          </li>
+          <li>
+            <b>2 s</b> <span class="when">in stretches under a minute</span>
+          </li>
+        </ul>
+        <p class="fine">
+          From GitLab job and merge request records, except the two outages,
+          which are approximate and reported by the automation session. A
+          stretch ends when the next job began waiting for a test machine,
+          inferred as its start time minus GitLab’s recorded queue time.
+          <a href="details.html#gaps">All stretches</a> ·
+          <a href="details.html#attempts">every job attempt</a>
+        </p>
+      </details>
+
+      <footer>
+        <a href="details.html">Technical details</a>
+        <a href="evidence.json">Source data</a>
+        <span>From DrupalCode GitLab records</span>
+      </footer>
+    </main>
+  </body>
+</html>

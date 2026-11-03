@@ -1,0 +1,2184 @@
+{
+  "about": "Derived, sanitized evidence for canvas MR !1955 CI timeline. All times UTC. Raw API responses and job logs are not published; job logs were reduced to Playwright result counts, test titles and artifact-upload 502 counts.",
+  "generated_at": "2026-11-03T19:56:04.492Z",
+  "sources": [
+    "GET /projects/project%2Fcanvas/merge_requests/1955",
+    "GET .../merge_requests/1955/notes?sort=asc (paginated, 8 notes)",
+    "GET .../merge_requests/1955/approvals and /approval_state",
+    "GET .../merge_requests/1955/resource_state_events, /versions, /commits",
+    "GET .../merge_requests/1955/pipelines (paginated, 4 pipelines; no fork branch pipelines)",
+    "GET /projects/19391/pipelines/:id and /jobs?include_retried=true (paginated)",
+    "GET /projects/19391/repository/commits/:merge_result_sha (parents)",
+    "GET /projects/19391/jobs/:id/trace (Playwright jobs; reduced to counts)",
+    "GET /projects/19391/pipelines?ref=1.x and jobs for baseline pipelines"
+  ],
+  "method": {
+    "queued": "pending_at = started_at − queued_duration (GitLab: time pending for a runner). Waiting for earlier stages (status \"created\") is not counted as queue.",
+    "running": "started_at → finished_at per executed attempt (GitLab duration).",
+    "any_job_running": "Length of the union of all running intervals across all pipelines; parallel jobs are counted once.",
+    "queued_only": "Union of queued intervals minus the running union: some job waited for a runner while none ran.",
+    "no_job_queued_or_running": "Window minus the union of queued and running intervals. Covers review, retry decisions, rebases and time a pipeline sat with only failed/manual jobs.",
+    "runner_time_sum": "Sum of every attempt’s run time; parallel jobs add up, so it exceeds wall-clock.",
+    "targeted_retries": "Per pipeline and job name: attempts − 1 (jobs API include_retried=true). Playwright’s own in-job retries (playwright.config.ts retries: 3 on CI) are separate and are not counted here.",
+    "excluded": "Manual jobs never started (51 per pipeline in the last two) and jobs canceled before starting."
+  },
+  "mr": {
+    "url": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955",
+    "title": "fix(Page builder): #3592281 Editor preview can start at the wrong position after page height changes",
+    "created_at": "2026-11-03T11:05:12.935Z",
+    "merged_at": "2026-11-03T19:02:52.787Z",
+    "merged_via": "auto-merge (merge_when_pipeline_succeeds)",
+    "final_head": "75f162d0776763a0129959207aa74e1ba105e01c",
+    "final_target": "847e522eb2dd98fe8779cbb6e8cc2ae18fddccf1",
+    "squash_commit": "91b1d7633e49c2cd8498d4a12538eed7f97ba8f5",
+    "versions": [
+      {
+        "at": "2026-11-03T11:05:14.137Z",
+        "head": "f99fcaf399c5b8a0315fd61aa2d67c94e5284566",
+        "base": "780a0520929b41411cec368f337e8e3d0b429e07"
+      },
+      {
+        "at": "2026-11-03T11:07:27.970Z",
+        "head": "ae7bbad33c55f65d674a438a10711a01a9cb41d6",
+        "base": "780a0520929b41411cec368f337e8e3d0b429e07"
+      },
+      {
+        "at": "2026-11-03T11:45:41.699Z",
+        "head": "ee8a85e3c58420b3e601a735fb19fd0d9300bb52",
+        "base": "42bae7f54616f302490cfa8ffa2c511c41f314dd"
+      },
+      {
+        "at": "2026-11-03T15:22:59.764Z",
+        "head": "75f162d0776763a0129959207aa74e1ba105e01c",
+        "base": "847e522eb2dd98fe8779cbb6e8cc2ae18fddccf1"
+      }
+    ]
+  },
+  "approval": {
+    "approver": "lauriii",
+    "approved_at": "2026-11-03T11:39:56.089Z",
+    "system_note_at": "2026-11-03T11:39:56.575Z",
+    "approvals_required": 1,
+    "approvals_left_at_merge": 0,
+    "reset_or_revoked": "none recorded (no unapproval notes; approval still listed at merge)",
+    "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955 (API: merge_requests/1955/approvals approved_by[].approved_at)"
+  },
+  "events": [
+    {
+      "at": "2026-11-03T11:05:12.935Z",
+      "kind": "created",
+      "label": "MR created (draft)",
+      "actor": "balintbrews",
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955",
+      "source_field": "merge_requests/1955 created_at"
+    },
+    {
+      "at": "2026-11-03T11:07:28.090Z",
+      "kind": "push",
+      "label": "Push: test removed (ae7bbad3)",
+      "actor": "balintbrews",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336432"
+    },
+    {
+      "at": "2026-11-03T11:09:15.048Z",
+      "kind": "ready",
+      "label": "Marked ready",
+      "actor": "balintbrews",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336436"
+    },
+    {
+      "at": "2026-11-03T11:39:56.575Z",
+      "kind": "approved",
+      "label": "Approved",
+      "actor": "lauriii",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336564"
+    },
+    {
+      "at": "2026-11-03T11:45:41.802Z",
+      "kind": "push",
+      "label": "Rebase onto 1.x 42bae7f5 → head ee8a85e3",
+      "actor": "balintbrews",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336591"
+    },
+    {
+      "at": "2026-11-03T11:45:51.887Z",
+      "kind": "auto_merge_enabled",
+      "label": "Auto-merge enabled",
+      "actor": "balintbrews",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4336592"
+    },
+    {
+      "at": "2026-11-03T13:41:00.316Z",
+      "kind": "auto_merge_aborted",
+      "label": "Auto-merge aborted: target branch updated",
+      "actor": "AkhilBabu",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4337260"
+    },
+    {
+      "at": "2026-11-03T15:22:59.889Z",
+      "kind": "push",
+      "label": "Rebase onto 1.x 847e522e → head 75f162d0",
+      "actor": "balintbrews",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4361300"
+    },
+    {
+      "at": "2026-11-03T15:23:36.301Z",
+      "kind": "auto_merge_enabled",
+      "label": "Auto-merge enabled",
+      "actor": "balintbrews",
+      "system_note": true,
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955#note_4361479"
+    },
+    {
+      "at": "2026-11-03T19:02:52.787Z",
+      "kind": "merged",
+      "label": "Merged (auto-merge)",
+      "actor": "balintbrews",
+      "source": "https://git.drupalcode.org/project/canvas/-/merge_requests/1955",
+      "source_field": "merge_requests/1955 merged_at"
+    }
+  ],
+  "metrics": {
+    "posted_to_merged_s": 28659.852,
+    "posted_to_ready_s": 242.113,
+    "posted_to_approval_s": 2083.154,
+    "approval_to_merged_s": 26576.698,
+    "pipelines": 4,
+    "pipelines_by_status": {
+      "canceled": 1,
+      "failed": 1,
+      "success": 2
+    },
+    "full_pipeline_reruns": 0,
+    "targeted_job_retries_total": 15,
+    "targeted_job_retries_by_job": {
+      "playwright-reports": 2,
+      "playwright: [4/6]": 5,
+      "playwright: [3/6]": 2,
+      "playwright: [1/6]": 6
+    },
+    "executed_job_attempts": 62,
+    "manual_jobs_never_run": 102,
+    "playwright_attempts_reporting_flaky_tests": 7,
+    "cumulative_runner_time_s": 60583.3,
+    "lifetime": {
+      "from": "2026-11-03T11:05:12.935Z",
+      "to": "2026-11-03T19:02:52.787Z",
+      "elapsed_s": 28659.9,
+      "any_job_running_s": 20947.9,
+      "queued_only_s": 1065.1,
+      "no_job_queued_or_running_s": 6646.8,
+      "runner_time_sum_s": 60583.2
+    },
+    "before_approval": {
+      "from": "2026-11-03T11:05:12.935Z",
+      "to": "2026-11-03T11:39:56.089Z",
+      "elapsed_s": 2083.2,
+      "any_job_running_s": 2075.9,
+      "queued_only_s": 3.3,
+      "no_job_queued_or_running_s": 4.0,
+      "runner_time_sum_s": 15822.0
+    },
+    "after_approval": {
+      "from": "2026-11-03T11:39:56.089Z",
+      "to": "2026-11-03T19:02:52.787Z",
+      "elapsed_s": 26576.7,
+      "any_job_running_s": 18872.1,
+      "queued_only_s": 1061.8,
+      "no_job_queued_or_running_s": 6642.9,
+      "runner_time_sum_s": 44761.2
+    },
+    "idle_gaps_over_1min": [
+      {
+        "from": "2026-11-03T12:33:07.155Z",
+        "to": "2026-11-03T12:44:13.299Z",
+        "seconds": 666.1
+      },
+      {
+        "from": "2026-11-03T13:10:37.014Z",
+        "to": "2026-11-03T13:15:00.170Z",
+        "seconds": 263.2
+      },
+      {
+        "from": "2026-11-03T13:41:48.934Z",
+        "to": "2026-11-03T14:31:37.022Z",
+        "seconds": 2988.1
+      },
+      {
+        "from": "2026-11-03T14:54:08.821Z",
+        "to": "2026-11-03T14:57:10.999Z",
+        "seconds": 182.2
+      },
+      {
+        "from": "2026-11-03T14:58:04.510Z",
+        "to": "2026-11-03T15:23:03.066Z",
+        "seconds": 1498.6
+      },
+      {
+        "from": "2026-11-03T17:21:47.440Z",
+        "to": "2026-11-03T17:25:18.486Z",
+        "seconds": 211.0
+      },
+      {
+        "from": "2026-11-03T18:10:45.700Z",
+        "to": "2026-11-03T18:11:50.671Z",
+        "seconds": 65.0
+      },
+      {
+        "from": "2026-11-03T18:33:12.385Z",
+        "to": "2026-11-03T18:41:20.653Z",
+        "seconds": 488.3
+      },
+      {
+        "from": "2026-11-03T18:57:23.964Z",
+        "to": "2026-11-03T19:02:02.056Z",
+        "seconds": 278.1
+      }
+    ],
+    "final_pipeline_first_test_attempts_finished_at": "2026-11-03T15:56:15.228Z",
+    "final_pipeline_after_first_test_attempts_s": 11196.2
+  },
+  "pipelines": [
+    {
+      "id": 1029105,
+      "url": "https://git.drupalcode.org/project/canvas/-/pipelines/1029105",
+      "status": "canceled",
+      "source": "merge_request_event",
+      "ref": "refs/merge-requests/1955/merge",
+      "merge_result_sha": "6f89e4a085d236fccfbaa8a10f461498a9a7ffbe",
+      "target_parent": "780a0520929b41411cec368f337e8e3d0b429e07",
+      "mr_head": "f99fcaf399c5b8a0315fd61aa2d67c94e5284566",
+      "cause": "Initial push (f99fcaf3); canceled when the next push superseded it",
+      "created_at": "2026-11-03T11:05:16.152Z",
+      "started_at": "2026-11-03T11:05:19.373Z",
+      "finished_at": "2026-11-03T11:10:44.496Z",
+      "provider_duration_s": 325,
+      "provider_queued_duration_s": 3,
+      "wall_clock_s": 328.3,
+      "jobs_total_incl_retried": 66,
+      "job_status_counts": {
+        "canceled": 66
+      },
+      "attempts_executed": 2,
+      "targeted_retries": {},
+      "runner_time_s": 459.7,
+      "any_job_running_s": 325.1
+    },
+    {
+      "id": 1029109,
+      "url": "https://git.drupalcode.org/project/canvas/-/pipelines/1029109",
+      "status": "failed",
+      "source": "merge_request_event",
+      "ref": "refs/merge-requests/1955/merge",
+      "merge_result_sha": "0e52ce9f375cf2bc3ef451cb56045b43c332d14d",
+      "target_parent": "780a0520929b41411cec368f337e8e3d0b429e07",
+      "mr_head": "ae7bbad33c55f65d674a438a10711a01a9cb41d6",
+      "cause": "Push removing a redundant test (ae7bbad3); superseded by the rebase",
+      "created_at": "2026-11-03T11:07:29.478Z",
+      "started_at": "2026-11-03T11:07:32.268Z",
+      "finished_at": "2026-11-03T11:46:31.041Z",
+      "provider_duration_s": 2337,
+      "provider_queued_duration_s": 2,
+      "wall_clock_s": 2341.6,
+      "jobs_total_incl_retried": 66,
+      "job_status_counts": {
+        "canceled": 52,
+        "failed": 5,
+        "success": 9
+      },
+      "attempts_executed": 15,
+      "targeted_retries": {},
+      "runner_time_s": 16966.2,
+      "any_job_running_s": 2337.6
+    },
+    {
+      "id": 1029179,
+      "url": "https://git.drupalcode.org/project/canvas/-/pipelines/1029179",
+      "status": "success",
+      "source": "merge_request_event",
+      "ref": "refs/merge-requests/1955/merge",
+      "merge_result_sha": "de97e831fe41fc0f46e70cbb8460c8638d128350",
+      "target_parent": "42bae7f54616f302490cfa8ffa2c511c41f314dd",
+      "mr_head": "ee8a85e3c58420b3e601a735fb19fd0d9300bb52",
+      "cause": "Rebase onto 1.x 42bae7f5; passed after targeted retries, but auto-merge had been aborted when 1.x moved",
+      "created_at": "2026-11-03T11:45:43.206Z",
+      "started_at": "2026-11-03T11:45:46.502Z",
+      "finished_at": "2026-11-03T14:58:04.607Z",
+      "provider_duration_s": 4388,
+      "provider_queued_duration_s": 3,
+      "wall_clock_s": 11541.4,
+      "jobs_total_incl_retried": 71,
+      "job_status_counts": {
+        "success": 15,
+        "failed": 5,
+        "manual": 51
+      },
+      "attempts_executed": 20,
+      "targeted_retries": {
+        "playwright-reports": 1,
+        "playwright: [4/6]": 3,
+        "playwright: [3/6]": 1
+      },
+      "runner_time_s": 17957.1,
+      "any_job_running_s": 7313.7
+    },
+    {
+      "id": 1029629,
+      "url": "https://git.drupalcode.org/project/canvas/-/pipelines/1029629",
+      "status": "success",
+      "source": "merge_request_event",
+      "ref": "refs/merge-requests/1955/merge",
+      "merge_result_sha": "a4f4d9f8cd5fa9ff13dff0a5c22de85fcc1517ba",
+      "target_parent": "847e522eb2dd98fe8779cbb6e8cc2ae18fddccf1",
+      "mr_head": "75f162d0776763a0129959207aa74e1ba105e01c",
+      "cause": "Rebase onto 1.x 847e522e; passed after targeted retries, then auto-merged",
+      "created_at": "2026-11-03T15:23:01.299Z",
+      "started_at": "2026-11-03T15:23:05.351Z",
+      "finished_at": "2026-11-03T19:02:51.417Z",
+      "provider_duration_s": 4793,
+      "provider_queued_duration_s": 4,
+      "wall_clock_s": 13190.1,
+      "jobs_total_incl_retried": 76,
+      "job_status_counts": {
+        "success": 15,
+        "failed": 10,
+        "manual": 51
+      },
+      "attempts_executed": 25,
+      "targeted_retries": {
+        "playwright-reports": 1,
+        "playwright: [1/6]": 6,
+        "playwright: [4/6]": 2,
+        "playwright: [3/6]": 1
+      },
+      "runner_time_s": 25200.3,
+      "any_job_running_s": 11209.1
+    }
+  ],
+  "attempts": [
+    {
+      "job_id": 13324197,
+      "pipeline_id": 1029105,
+      "name": "lint (node)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "canceled",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:05:16.272Z",
+      "pending_at": "2026-11-03T11:05:16.832Z",
+      "started_at": "2026-11-03T11:05:20.206Z",
+      "finished_at": "2026-11-03T11:10:44.424Z",
+      "queued_s": 3.4,
+      "run_s": 324.2,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324197",
+      "category": "canceled"
+    },
+    {
+      "job_id": 13324196,
+      "pipeline_id": 1029105,
+      "name": "lint (php)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "canceled",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:05:16.272Z",
+      "pending_at": "2026-11-03T11:05:16.720Z",
+      "started_at": "2026-11-03T11:05:19.289Z",
+      "finished_at": "2026-11-03T11:07:34.764Z",
+      "queued_s": 2.6,
+      "run_s": 135.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324196",
+      "category": "canceled"
+    },
+    {
+      "job_id": 13324406,
+      "pipeline_id": 1029109,
+      "name": "playwright-reports",
+      "stage": "report",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "canceled",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:45:42.419Z",
+      "started_at": "2026-11-03T11:45:43.048Z",
+      "finished_at": "2026-11-03T11:46:30.964Z",
+      "queued_s": 0.6,
+      "run_s": 47.9,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324406",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "canceled"
+    },
+    {
+      "job_id": 13324404,
+      "pipeline_id": 1029109,
+      "name": "playwright: [6/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:36.715Z",
+      "started_at": "2026-11-03T11:15:41.654Z",
+      "finished_at": "2026-11-03T11:45:42.284Z",
+      "queued_s": 4.9,
+      "run_s": 1800.6,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324404",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13324403,
+      "pipeline_id": 1029109,
+      "name": "playwright: [5/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:36.653Z",
+      "started_at": "2026-11-03T11:15:41.191Z",
+      "finished_at": "2026-11-03T11:45:41.747Z",
+      "queued_s": 4.5,
+      "run_s": 1800.6,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324403",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13324402,
+      "pipeline_id": 1029109,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:36.516Z",
+      "started_at": "2026-11-03T11:15:40.787Z",
+      "finished_at": "2026-11-03T11:41:59.329Z",
+      "queued_s": 4.3,
+      "run_s": 1578.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324402",
+      "playwright": {
+        "counts": {
+          "failed": 1,
+          "passed": 21
+        },
+        "failed_tests": [
+          "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+        ],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "test_failed"
+    },
+    {
+      "job_id": 13324401,
+      "pipeline_id": 1029109,
+      "name": "playwright: [3/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:36.448Z",
+      "started_at": "2026-11-03T11:15:37.160Z",
+      "finished_at": "2026-11-03T11:45:37.652Z",
+      "queued_s": 0.7,
+      "run_s": 1800.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324401",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13324400,
+      "pipeline_id": 1029109,
+      "name": "playwright: [2/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.973Z",
+      "started_at": "2026-11-03T11:15:40.389Z",
+      "finished_at": "2026-11-03T11:36:52.289Z",
+      "queued_s": 2.4,
+      "run_s": 1271.9,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324400",
+      "playwright": {
+        "counts": {
+          "passed": 23
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13324399,
+      "pipeline_id": 1029109,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.857Z",
+      "started_at": "2026-11-03T11:15:39.974Z",
+      "finished_at": "2026-11-03T11:40:52.127Z",
+      "queued_s": 2.1,
+      "run_s": 1512.2,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324399",
+      "playwright": {
+        "counts": {
+          "flaky": 1,
+          "passed": 22
+        },
+        "failed_tests": [],
+        "flaky_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed_flaky"
+    },
+    {
+      "job_id": 13324398,
+      "pipeline_id": 1029109,
+      "name": "cypress unit",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.769Z",
+      "started_at": "2026-11-03T11:15:39.615Z",
+      "finished_at": "2026-11-03T11:24:00.056Z",
+      "queued_s": 1.8,
+      "run_s": 500.4,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324398",
+      "category": "passed"
+    },
+    {
+      "job_id": 13324397,
+      "pipeline_id": 1029109,
+      "name": "cypress E2E 4/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.690Z",
+      "started_at": "2026-11-03T11:15:39.237Z",
+      "finished_at": "2026-11-03T11:36:03.550Z",
+      "queued_s": 1.5,
+      "run_s": 1224.3,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324397",
+      "category": "passed"
+    },
+    {
+      "job_id": 13324396,
+      "pipeline_id": 1029109,
+      "name": "cypress E2E 3/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.621Z",
+      "started_at": "2026-11-03T11:15:38.861Z",
+      "finished_at": "2026-11-03T11:45:39.338Z",
+      "queued_s": 1.2,
+      "run_s": 1800.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324396",
+      "category": "timeout"
+    },
+    {
+      "job_id": 13324395,
+      "pipeline_id": 1029109,
+      "name": "cypress E2E 2/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.557Z",
+      "started_at": "2026-11-03T11:15:38.468Z",
+      "finished_at": "2026-11-03T11:36:48.379Z",
+      "queued_s": 0.9,
+      "run_s": 1269.9,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324395",
+      "category": "passed"
+    },
+    {
+      "job_id": 13324394,
+      "pipeline_id": 1029109,
+      "name": "cypress E2E 1/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.506Z",
+      "started_at": "2026-11-03T11:15:37.965Z",
+      "finished_at": "2026-11-03T11:36:15.285Z",
+      "queued_s": 0.5,
+      "run_s": 1237.3,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324394",
+      "category": "passed"
+    },
+    {
+      "job_id": 13324393,
+      "pipeline_id": 1029109,
+      "name": "vitest",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:15:37.470Z",
+      "started_at": "2026-11-03T11:15:37.546Z",
+      "finished_at": "2026-11-03T11:23:30.459Z",
+      "queued_s": 0.1,
+      "run_s": 472.9,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324393",
+      "category": "passed"
+    },
+    {
+      "job_id": 13324344,
+      "pipeline_id": 1029109,
+      "name": "lint (node)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:07:30.181Z",
+      "started_at": "2026-11-03T11:07:32.076Z",
+      "finished_at": "2026-11-03T11:15:36.234Z",
+      "queued_s": 1.9,
+      "run_s": 484.2,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324344",
+      "category": "passed"
+    },
+    {
+      "job_id": 13324343,
+      "pipeline_id": 1029109,
+      "name": "lint (php)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:07:29.589Z",
+      "pending_at": "2026-11-03T11:07:30.063Z",
+      "started_at": "2026-11-03T11:07:31.674Z",
+      "finished_at": "2026-11-03T11:10:16.136Z",
+      "queued_s": 1.6,
+      "run_s": 164.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13324343",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325703,
+      "pipeline_id": 1029179,
+      "name": "playwright-reports",
+      "stage": "report",
+      "attempt": 1,
+      "attempts_in_pipeline": 2,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T12:32:15.690Z",
+      "started_at": "2026-11-03T12:32:17.609Z",
+      "finished_at": "2026-11-03T12:33:07.155Z",
+      "queued_s": 1.9,
+      "run_s": 49.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325703",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "report_gate"
+    },
+    {
+      "job_id": 13333643,
+      "pipeline_id": 1029179,
+      "name": "playwright-reports",
+      "stage": "report",
+      "attempt": 2,
+      "attempts_in_pipeline": 2,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T14:57:10.846Z",
+      "pending_at": "2026-11-03T14:57:10.999Z",
+      "started_at": "2026-11-03T14:57:13.830Z",
+      "finished_at": "2026-11-03T14:58:04.510Z",
+      "queued_s": 2.8,
+      "run_s": 50.7,
+      "retry_of": 13325703,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13333643",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13325699,
+      "pipeline_id": 1029179,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 4,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:42.175Z",
+      "started_at": "2026-11-03T12:02:14.978Z",
+      "finished_at": "2026-11-03T12:32:15.564Z",
+      "queued_s": 512.8,
+      "run_s": 1800.6,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325699",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13327896,
+      "pipeline_id": 1029179,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 2,
+      "attempts_in_pipeline": 4,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": true,
+      "created_at": "2026-11-03T12:44:13.901Z",
+      "pending_at": "2026-11-03T12:44:13.972Z",
+      "started_at": "2026-11-03T12:44:14.647Z",
+      "finished_at": "2026-11-03T13:10:37.014Z",
+      "queued_s": 0.7,
+      "run_s": 1582.4,
+      "retry_of": 13325699,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13327896",
+      "playwright": {
+        "counts": {
+          "failed": 1,
+          "passed": 21
+        },
+        "failed_tests": [
+          "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+        ],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "test_failed"
+    },
+    {
+      "job_id": 13329151,
+      "pipeline_id": 1029179,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 3,
+      "attempts_in_pipeline": 4,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": true,
+      "created_at": "2026-11-03T13:15:00.002Z",
+      "pending_at": "2026-11-03T13:15:00.170Z",
+      "started_at": "2026-11-03T13:15:03.041Z",
+      "finished_at": "2026-11-03T13:41:48.934Z",
+      "queued_s": 2.9,
+      "run_s": 1605.9,
+      "retry_of": 13327896,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13329151",
+      "playwright": {
+        "counts": {
+          "failed": 1,
+          "passed": 21
+        },
+        "failed_tests": [
+          "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+        ],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "test_failed"
+    },
+    {
+      "job_id": 13332809,
+      "pipeline_id": 1029179,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 4,
+      "attempts_in_pipeline": 4,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T14:31:36.845Z",
+      "pending_at": "2026-11-03T14:31:37.022Z",
+      "started_at": "2026-11-03T14:31:37.262Z",
+      "finished_at": "2026-11-03T14:54:08.821Z",
+      "queued_s": 0.2,
+      "run_s": 1351.6,
+      "retry_of": 13329151,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13332809",
+      "playwright": {
+        "counts": {
+          "flaky": 1,
+          "passed": 21
+        },
+        "failed_tests": [],
+        "flaky_tests": [
+          "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+        ],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed_flaky"
+    },
+    {
+      "job_id": 13325698,
+      "pipeline_id": 1029179,
+      "name": "playwright: [3/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 2,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:42.117Z",
+      "started_at": "2026-11-03T12:02:13.209Z",
+      "finished_at": "2026-11-03T12:32:13.727Z",
+      "queued_s": 511.1,
+      "run_s": 1800.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325698",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13327895,
+      "pipeline_id": 1029179,
+      "name": "playwright: [3/6]",
+      "stage": "test",
+      "attempt": 2,
+      "attempts_in_pipeline": 2,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T12:44:13.144Z",
+      "pending_at": "2026-11-03T12:44:13.299Z",
+      "started_at": "2026-11-03T12:44:14.155Z",
+      "finished_at": "2026-11-03T12:57:25.358Z",
+      "queued_s": 0.9,
+      "run_s": 791.2,
+      "retry_of": 13325698,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13327895",
+      "playwright": {
+        "counts": {
+          "passed": 23
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13325701,
+      "pipeline_id": 1029179,
+      "name": "playwright: [6/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:42.312Z",
+      "started_at": "2026-11-03T12:02:18.670Z",
+      "finished_at": "2026-11-03T12:24:17.441Z",
+      "queued_s": 516.4,
+      "run_s": 1318.8,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325701",
+      "playwright": {
+        "counts": {
+          "flaky": 1,
+          "passed": 21
+        },
+        "failed_tests": [],
+        "flaky_tests": [
+          "routing.spec.ts › Routing › Can navigate between pages without page reloads"
+        ],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed_flaky"
+    },
+    {
+      "job_id": 13325700,
+      "pipeline_id": 1029179,
+      "name": "playwright: [5/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:42.231Z",
+      "started_at": "2026-11-03T12:02:15.455Z",
+      "finished_at": "2026-11-03T12:19:59.137Z",
+      "queued_s": 513.2,
+      "run_s": 1063.7,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325700",
+      "playwright": {
+        "counts": {
+          "passed": 22
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13325697,
+      "pipeline_id": 1029179,
+      "name": "playwright: [2/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.280Z",
+      "started_at": "2026-11-03T12:02:12.380Z",
+      "finished_at": "2026-11-03T12:16:17.321Z",
+      "queued_s": 509.1,
+      "run_s": 844.9,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325697",
+      "playwright": {
+        "counts": {
+          "passed": 23
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13325696,
+      "pipeline_id": 1029179,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.248Z",
+      "started_at": "2026-11-03T12:02:09.500Z",
+      "finished_at": "2026-11-03T12:20:37.215Z",
+      "queued_s": 506.3,
+      "run_s": 1107.7,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325696",
+      "playwright": {
+        "counts": {
+          "passed": 23
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13325695,
+      "pipeline_id": 1029179,
+      "name": "cypress unit",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.182Z",
+      "started_at": "2026-11-03T11:56:41.607Z",
+      "finished_at": "2026-11-03T11:59:34.422Z",
+      "queued_s": 178.4,
+      "run_s": 172.8,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325695",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325694,
+      "pipeline_id": 1029179,
+      "name": "cypress E2E 4/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.126Z",
+      "started_at": "2026-11-03T11:56:28.618Z",
+      "finished_at": "2026-11-03T12:09:45.013Z",
+      "queued_s": 165.5,
+      "run_s": 796.4,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325694",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325693,
+      "pipeline_id": 1029179,
+      "name": "cypress E2E 3/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.094Z",
+      "started_at": "2026-11-03T11:56:17.914Z",
+      "finished_at": "2026-11-03T12:15:33.286Z",
+      "queued_s": 154.8,
+      "run_s": 1155.4,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325693",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325692,
+      "pipeline_id": 1029179,
+      "name": "cypress E2E 2/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.065Z",
+      "started_at": "2026-11-03T11:55:46.636Z",
+      "finished_at": "2026-11-03T12:07:56.790Z",
+      "queued_s": 123.6,
+      "run_s": 730.2,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325692",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325691,
+      "pipeline_id": 1029179,
+      "name": "cypress E2E 1/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.038Z",
+      "started_at": "2026-11-03T11:55:44.053Z",
+      "finished_at": "2026-11-03T12:11:09.616Z",
+      "queued_s": 121.0,
+      "run_s": 925.6,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325691",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325690,
+      "pipeline_id": 1029179,
+      "name": "vitest",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:53:43.010Z",
+      "started_at": "2026-11-03T11:55:38.248Z",
+      "finished_at": "2026-11-03T11:59:01.460Z",
+      "queued_s": 115.2,
+      "run_s": 203.2,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325690",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325641,
+      "pipeline_id": 1029179,
+      "name": "lint (node)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:45:44.462Z",
+      "started_at": "2026-11-03T11:45:46.431Z",
+      "finished_at": "2026-11-03T11:53:41.935Z",
+      "queued_s": 2.0,
+      "run_s": 475.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325641",
+      "category": "passed"
+    },
+    {
+      "job_id": 13325640,
+      "pipeline_id": 1029179,
+      "name": "lint (php)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T11:45:43.313Z",
+      "pending_at": "2026-11-03T11:45:44.175Z",
+      "started_at": "2026-11-03T11:45:46.041Z",
+      "finished_at": "2026-11-03T11:47:56.549Z",
+      "queued_s": 1.9,
+      "run_s": 130.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325640",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334269,
+      "pipeline_id": 1029629,
+      "name": "playwright-reports",
+      "stage": "report",
+      "attempt": 1,
+      "attempts_in_pipeline": 2,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T17:00:39.476Z",
+      "started_at": "2026-11-03T17:00:41.839Z",
+      "finished_at": "2026-11-03T17:01:43.263Z",
+      "queued_s": 2.4,
+      "run_s": 61.4,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334269",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "report_gate"
+    },
+    {
+      "job_id": 13340181,
+      "pipeline_id": 1029629,
+      "name": "playwright-reports",
+      "stage": "report",
+      "attempt": 2,
+      "attempts_in_pipeline": 2,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T19:02:01.914Z",
+      "pending_at": "2026-11-03T19:02:02.056Z",
+      "started_at": "2026-11-03T19:02:02.381Z",
+      "finished_at": "2026-11-03T19:02:51.335Z",
+      "queued_s": 0.3,
+      "run_s": 49.0,
+      "retry_of": 13334269,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13340181",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13334262,
+      "pipeline_id": 1029629,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 7,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": true,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:07.942Z",
+      "started_at": "2026-11-03T15:26:12.209Z",
+      "finished_at": "2026-11-03T15:42:38.924Z",
+      "queued_s": 4.3,
+      "run_s": 986.7,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334262",
+      "playwright": {
+        "counts": {
+          "failed": 1,
+          "passed": 22
+        },
+        "failed_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "test_failed"
+    },
+    {
+      "job_id": 13335511,
+      "pipeline_id": 1029629,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 2,
+      "attempts_in_pipeline": 7,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": true,
+      "created_at": "2026-11-03T15:52:56.364Z",
+      "pending_at": "2026-11-03T15:52:56.438Z",
+      "started_at": "2026-11-03T15:56:01.898Z",
+      "finished_at": "2026-11-03T16:16:06.039Z",
+      "queued_s": 185.5,
+      "run_s": 1204.1,
+      "retry_of": 13334262,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13335511",
+      "playwright": {
+        "counts": {
+          "failed": 1,
+          "passed": 22
+        },
+        "failed_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "test_failed"
+    },
+    {
+      "job_id": 13336233,
+      "pipeline_id": 1029629,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 3,
+      "attempts_in_pipeline": 7,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T16:29:41.404Z",
+      "pending_at": "2026-11-03T16:29:41.500Z",
+      "started_at": "2026-11-03T16:29:50.458Z",
+      "finished_at": "2026-11-03T16:59:50.996Z",
+      "queued_s": 9.0,
+      "run_s": 1800.5,
+      "retry_of": 13335511,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13336233",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13337945,
+      "pipeline_id": 1029629,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 4,
+      "attempts_in_pipeline": 7,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": true,
+      "created_at": "2026-11-03T17:01:41.003Z",
+      "pending_at": "2026-11-03T17:01:41.077Z",
+      "started_at": "2026-11-03T17:01:41.849Z",
+      "finished_at": "2026-11-03T17:21:47.440Z",
+      "queued_s": 0.8,
+      "run_s": 1205.6,
+      "retry_of": 13336233,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13337945",
+      "playwright": {
+        "counts": {
+          "flaky": 1,
+          "passed": 22
+        },
+        "failed_tests": [],
+        "flaky_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "artifact_upload_502s": 3
+      },
+      "category": "upload_502"
+    },
+    {
+      "job_id": 13338347,
+      "pipeline_id": 1029629,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 5,
+      "attempts_in_pipeline": 7,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T17:25:18.346Z",
+      "pending_at": "2026-11-03T17:25:18.486Z",
+      "started_at": "2026-11-03T17:40:45.154Z",
+      "finished_at": "2026-11-03T18:10:45.700Z",
+      "queued_s": 926.7,
+      "run_s": 1800.5,
+      "retry_of": 13337945,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13338347",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13339524,
+      "pipeline_id": 1029629,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 6,
+      "attempts_in_pipeline": 7,
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "allow_failure": true,
+      "created_at": "2026-11-03T18:11:50.518Z",
+      "pending_at": "2026-11-03T18:11:50.671Z",
+      "started_at": "2026-11-03T18:11:50.802Z",
+      "finished_at": "2026-11-03T18:33:12.385Z",
+      "queued_s": 0.1,
+      "run_s": 1281.6,
+      "retry_of": 13338347,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13339524",
+      "playwright": {
+        "counts": {
+          "failed": 1,
+          "passed": 22
+        },
+        "failed_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "test_failed"
+    },
+    {
+      "job_id": 13339984,
+      "pipeline_id": 1029629,
+      "name": "playwright: [1/6]",
+      "stage": "test",
+      "attempt": 7,
+      "attempts_in_pipeline": 7,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T18:41:20.528Z",
+      "pending_at": "2026-11-03T18:41:20.653Z",
+      "started_at": "2026-11-03T18:41:22.980Z",
+      "finished_at": "2026-11-03T18:57:23.964Z",
+      "queued_s": 2.3,
+      "run_s": 961.0,
+      "retry_of": 13339524,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13339984",
+      "playwright": {
+        "counts": {
+          "passed": 23
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13334265,
+      "pipeline_id": 1029629,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 3,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:08.274Z",
+      "started_at": "2026-11-03T15:26:14.243Z",
+      "finished_at": "2026-11-03T15:56:15.228Z",
+      "queued_s": 6.0,
+      "run_s": 1801.0,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334265",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13335724,
+      "pipeline_id": 1029629,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 2,
+      "attempts_in_pipeline": 3,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T16:01:36.307Z",
+      "pending_at": "2026-11-03T16:01:36.449Z",
+      "started_at": "2026-11-03T16:02:18.888Z",
+      "finished_at": "2026-11-03T16:32:20.208Z",
+      "queued_s": 42.4,
+      "run_s": 1801.3,
+      "retry_of": 13334265,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13335724",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13336796,
+      "pipeline_id": 1029629,
+      "name": "playwright: [4/6]",
+      "stage": "test",
+      "attempt": 3,
+      "attempts_in_pipeline": 3,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T16:38:15.181Z",
+      "pending_at": "2026-11-03T16:38:15.273Z",
+      "started_at": "2026-11-03T16:38:55.491Z",
+      "finished_at": "2026-11-03T17:00:39.394Z",
+      "queued_s": 40.2,
+      "run_s": 1303.9,
+      "retry_of": 13335724,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13336796",
+      "playwright": {
+        "counts": {
+          "flaky": 1,
+          "passed": 21
+        },
+        "failed_tests": [],
+        "flaky_tests": [
+          "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+        ],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed_flaky"
+    },
+    {
+      "job_id": 13334264,
+      "pipeline_id": 1029629,
+      "name": "playwright: [3/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 2,
+      "status": "failed",
+      "failure_reason": "job_execution_timeout",
+      "allow_failure": true,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:08.179Z",
+      "started_at": "2026-11-03T15:26:13.813Z",
+      "finished_at": "2026-11-03T15:56:14.472Z",
+      "queued_s": 5.6,
+      "run_s": 1800.7,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334264",
+      "playwright": {
+        "counts": {},
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "timeout"
+    },
+    {
+      "job_id": 13335723,
+      "pipeline_id": 1029629,
+      "name": "playwright: [3/6]",
+      "stage": "test",
+      "attempt": 2,
+      "attempts_in_pipeline": 2,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T16:01:35.226Z",
+      "pending_at": "2026-11-03T16:01:35.305Z",
+      "started_at": "2026-11-03T16:02:17.889Z",
+      "finished_at": "2026-11-03T16:19:15.187Z",
+      "queued_s": 42.6,
+      "run_s": 1017.3,
+      "retry_of": 13334264,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13335723",
+      "playwright": {
+        "counts": {
+          "passed": 23
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13334267,
+      "pipeline_id": 1029629,
+      "name": "playwright: [6/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:08.469Z",
+      "started_at": "2026-11-03T15:26:15.093Z",
+      "finished_at": "2026-11-03T15:47:30.699Z",
+      "queued_s": 6.6,
+      "run_s": 1275.6,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334267",
+      "playwright": {
+        "counts": {
+          "flaky": 1,
+          "passed": 21
+        },
+        "failed_tests": [],
+        "flaky_tests": [
+          "responsiveImage.spec.ts › Responsive Image › cards with responsive images"
+        ],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed_flaky"
+    },
+    {
+      "job_id": 13334266,
+      "pipeline_id": 1029629,
+      "name": "playwright: [5/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:08.379Z",
+      "started_at": "2026-11-03T15:26:14.664Z",
+      "finished_at": "2026-11-03T15:44:46.922Z",
+      "queued_s": 6.3,
+      "run_s": 1112.3,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334266",
+      "playwright": {
+        "counts": {
+          "passed": 22
+        },
+        "failed_tests": [],
+        "flaky_tests": [],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed"
+    },
+    {
+      "job_id": 13334263,
+      "pipeline_id": 1029629,
+      "name": "playwright: [2/6]",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": true,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:08.037Z",
+      "started_at": "2026-11-03T15:26:13.001Z",
+      "finished_at": "2026-11-03T15:45:44.942Z",
+      "queued_s": 5.0,
+      "run_s": 1171.9,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334263",
+      "playwright": {
+        "counts": {
+          "flaky": 1,
+          "passed": 22
+        },
+        "failed_tests": [],
+        "flaky_tests": [
+          "codeComponents.spec.ts › Code Components › Delete gate"
+        ],
+        "artifact_upload_502s": 0
+      },
+      "category": "passed_flaky"
+    },
+    {
+      "job_id": 13334261,
+      "pipeline_id": 1029629,
+      "name": "cypress unit",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:07.863Z",
+      "started_at": "2026-11-03T15:26:11.697Z",
+      "finished_at": "2026-11-03T15:29:28.443Z",
+      "queued_s": 3.8,
+      "run_s": 196.7,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334261",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334260,
+      "pipeline_id": 1029629,
+      "name": "cypress E2E 4/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:07.763Z",
+      "started_at": "2026-11-03T15:26:11.122Z",
+      "finished_at": "2026-11-03T15:42:23.227Z",
+      "queued_s": 3.4,
+      "run_s": 972.1,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334260",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334259,
+      "pipeline_id": 1029629,
+      "name": "cypress E2E 3/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:07.694Z",
+      "started_at": "2026-11-03T15:26:10.533Z",
+      "finished_at": "2026-11-03T15:43:08.393Z",
+      "queued_s": 2.8,
+      "run_s": 1017.9,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334259",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334258,
+      "pipeline_id": 1029629,
+      "name": "cypress E2E 2/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:07.626Z",
+      "started_at": "2026-11-03T15:26:09.756Z",
+      "finished_at": "2026-11-03T15:41:40.287Z",
+      "queued_s": 2.1,
+      "run_s": 930.5,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334258",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334257,
+      "pipeline_id": 1029629,
+      "name": "cypress E2E 1/4",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:07.560Z",
+      "started_at": "2026-11-03T15:26:09.291Z",
+      "finished_at": "2026-11-03T15:41:16.276Z",
+      "queued_s": 1.7,
+      "run_s": 907.0,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334257",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334256,
+      "pipeline_id": 1029629,
+      "name": "vitest",
+      "stage": "test",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:26:06.307Z",
+      "started_at": "2026-11-03T15:26:08.692Z",
+      "finished_at": "2026-11-03T15:29:16.924Z",
+      "queued_s": 2.4,
+      "run_s": 188.2,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334256",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334207,
+      "pipeline_id": 1029629,
+      "name": "lint (node)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:23:03.377Z",
+      "started_at": "2026-11-03T15:23:05.640Z",
+      "finished_at": "2026-11-03T15:25:58.293Z",
+      "queued_s": 2.3,
+      "run_s": 172.7,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334207",
+      "category": "passed"
+    },
+    {
+      "job_id": 13334206,
+      "pipeline_id": 1029629,
+      "name": "lint (php)",
+      "stage": "validate",
+      "attempt": 1,
+      "attempts_in_pipeline": 1,
+      "status": "success",
+      "failure_reason": null,
+      "allow_failure": false,
+      "created_at": "2026-11-03T15:23:01.475Z",
+      "pending_at": "2026-11-03T15:23:03.066Z",
+      "started_at": "2026-11-03T15:23:05.172Z",
+      "finished_at": "2026-11-03T15:26:05.933Z",
+      "queued_s": 2.1,
+      "run_s": 180.8,
+      "retry_of": null,
+      "triggered_by": "balintbrews",
+      "url": "https://git.drupalcode.org/project/canvas/-/jobs/13334206",
+      "category": "passed"
+    }
+  ],
+  "baseline_1x": [
+    {
+      "pipeline_id": 1028258,
+      "url": "https://git.drupalcode.org/project/canvas/-/pipelines/1028258",
+      "target_sha": "780a0520",
+      "status": "failed",
+      "playwright": [
+        {
+          "job_id": 13307538,
+          "name": "playwright: [1/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13307538"
+        },
+        {
+          "job_id": 13307539,
+          "name": "playwright: [2/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13307539"
+        },
+        {
+          "job_id": 13307540,
+          "name": "playwright: [3/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13307540"
+        },
+        {
+          "job_id": 13307541,
+          "name": "playwright: [4/6]",
+          "status": "failed",
+          "failure_reason": "script_failure",
+          "failed_tests": [
+            "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+          ],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13307541"
+        },
+        {
+          "job_id": 13307542,
+          "name": "playwright: [5/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [
+            "pageVariants.spec.ts › Page variants › changing the site default updates an inherited page preview"
+          ],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13307542"
+        },
+        {
+          "job_id": 13307543,
+          "name": "playwright: [6/6]",
+          "status": "failed",
+          "failure_reason": "script_failure",
+          "failed_tests": [
+            "templates.spec.ts › Templates - Preview content updates across entity types › Preview updates when navigating from a content template preview to a canvas_page"
+          ],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13307543"
+        }
+      ],
+      "other_job_timeouts": []
+    },
+    {
+      "pipeline_id": 1029172,
+      "url": "https://git.drupalcode.org/project/canvas/-/pipelines/1029172",
+      "target_sha": "42bae7f5",
+      "status": "failed",
+      "playwright": [
+        {
+          "job_id": 13325488,
+          "name": "playwright: [1/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [
+            "brandKitColors.spec.ts › brand kit colors › basic color"
+          ],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325488"
+        },
+        {
+          "job_id": 13325489,
+          "name": "playwright: [2/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [
+            "codeComponents.spec.ts › Code Components › Delete gate"
+          ],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325489"
+        },
+        {
+          "job_id": 13325490,
+          "name": "playwright: [3/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325490"
+        },
+        {
+          "job_id": 13325491,
+          "name": "playwright: [4/6]",
+          "status": "failed",
+          "failure_reason": "script_failure",
+          "failed_tests": [
+            "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+          ],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325491"
+        },
+        {
+          "job_id": 13325492,
+          "name": "playwright: [5/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325492"
+        },
+        {
+          "job_id": 13325493,
+          "name": "playwright: [6/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [
+            "templates.spec.ts › Templates - Preview content updates across entity types › Preview updates when navigating from a content template preview to a canvas_page"
+          ],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13325493"
+        }
+      ],
+      "other_job_timeouts": [
+        "phpunit (11.4 sqlite): [PHPUnit-Kernel, 1, 4, 10, 20]"
+      ]
+    },
+    {
+      "pipeline_id": 1029426,
+      "url": "https://git.drupalcode.org/project/canvas/-/pipelines/1029426",
+      "target_sha": "847e522e",
+      "status": "failed",
+      "playwright": [
+        {
+          "job_id": 13330529,
+          "name": "playwright: [1/6]",
+          "status": "failed",
+          "failure_reason": "job_execution_timeout",
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13330529"
+        },
+        {
+          "job_id": 13330530,
+          "name": "playwright: [2/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [
+            "contentEntityReferenceProps.spec.ts › Content entity reference props › Adds and edits a content entity reference prop in the code editor",
+            "contentEntityReferenceProps.spec.ts › Content entity reference props › Browses a multi-target-bundle reference field and coalesces per-bundle picks"
+          ],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13330530"
+        },
+        {
+          "job_id": 13330531,
+          "name": "playwright: [3/6]",
+          "status": "failed",
+          "failure_reason": "runner_system_failure",
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13330531"
+        },
+        {
+          "job_id": 13330532,
+          "name": "playwright: [4/6]",
+          "status": "failed",
+          "failure_reason": "script_failure",
+          "failed_tests": [
+            "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+          ],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13330532"
+        },
+        {
+          "job_id": 13330533,
+          "name": "playwright: [5/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13330533"
+        },
+        {
+          "job_id": 13330534,
+          "name": "playwright: [6/6]",
+          "status": "success",
+          "failure_reason": null,
+          "failed_tests": [],
+          "flaky_tests": [
+            "responsiveImage.spec.ts › Responsive Image › cards with responsive images"
+          ],
+          "url": "https://git.drupalcode.org/project/canvas/-/jobs/13330534"
+        }
+      ],
+      "other_job_timeouts": [
+        "cypress E2E 2/4",
+        "cypress E2E 1/4",
+        "phpunit (11.3 sqlite): [PHPUnit-Kernel, 2, 4, 10, 20]"
+      ]
+    }
+  ]
+}

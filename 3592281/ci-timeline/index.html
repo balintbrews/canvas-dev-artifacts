@@ -21,6 +21,8 @@
         --ok: #5fc472;
         --fail: #f2a7a2;
         --blue: #8fbdd0;
+        --orange: #f0a36b;
+        --yellow: #f2c94c;
       }
       * {
         box-sizing: border-box;
@@ -128,13 +130,13 @@
         color: var(--faint);
         max-width: 74ch;
       }
-      .tl {
+      ol.tl {
         list-style: none;
         margin: 0;
         padding: 0;
         position: relative;
       }
-      .tl::before {
+      ol.tl::before {
         content: '';
         position: absolute;
         left: 105px;
@@ -247,6 +249,53 @@
       .row.gap::before {
         border-style: dashed;
         border-color: var(--faint);
+      }
+      .cat {
+        display: inline-block;
+        margin-right: 4px;
+        padding: 0 7px;
+        border-radius: 4px;
+        border: 1px solid;
+        font-size: 12.5px;
+        font-weight: 600;
+        line-height: 1.5;
+        white-space: nowrap;
+      }
+      .cat.tf {
+        color: var(--fail);
+        border-color: var(--fail);
+      }
+      .cat.tl {
+        color: var(--orange);
+        border-color: var(--orange);
+      }
+      .cat.mx {
+        color: var(--orange);
+        border-color: var(--orange);
+        border-style: dashed;
+      }
+      .cat.sv {
+        color: var(--yellow);
+        border-color: var(--yellow);
+      }
+      .cat.rr {
+        color: var(--muted);
+        border-color: var(--line);
+      }
+      .legend {
+        list-style: none;
+        margin: 0 0 8px;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .legend b {
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+        margin-left: 2px;
       }
       .badge {
         display: inline-block;
@@ -368,7 +417,7 @@
         main {
           padding-top: 32px;
         }
-        .tl::before {
+        ol.tl::before {
           left: 7px;
         }
         .row {
@@ -445,7 +494,29 @@
       <h2>Timeline</h2>
       <p class="tlnote">
         Blue markers are CI recovery actions: failed jobs re-run individually,
-        counted 1–15. Times are rounded to the nearest minute.
+        counted 1–15. Each re-run is tagged with why the job it replaced failed.
+        Times are rounded to the nearest minute.
+      </p>
+      <ul class="legend" aria-label="Why jobs were re-run">
+        <li>
+          <span class="cat tf">Test failure (intermittent)</span> <b>5</b>
+        </li>
+        <li><span class="cat tl">30-min limit</span> <b>4</b></li>
+        <li>
+          <span class="cat mx">30-min limit + failing test</span> <b>3</b>
+        </li>
+        <li><span class="cat sv">Service failure</span> <b>1</b></li>
+        <li><span class="cat rr">Report refresh</span> <b>2</b></li>
+        <li>= <b>15</b> re-runs</li>
+      </ul>
+      <p class="tlnote">
+        30-min limit: the job was stopped at its configured 30-minute limit;
+        this does not by itself identify why it took too long, and it is not
+        automatically an infrastructure problem. 7 re-runs followed such a stop,
+        3 of them with a test already failing. Test failures were intermittent:
+        each failing test passed in a later attempt. Report refresh is not a new
+        failure: the test report job fails while any browser-test job has
+        failed.
       </p>
       <ol class="tl">
         <li class="phase"><span>Before approval · 35 min</span></li>
@@ -479,8 +550,9 @@
           <div>
             <p class="t">Checks failed</p>
             <p class="d">
-              5 jobs failed: 4 hit the 30-minute limit, 1 had a failing test.
-              Not re-run: the rebase below replaced these checks.
+              5 jobs failed: 4 were stopped at the 30-minute limit, 1 had a
+              failing test. Not re-run, and not among the 15: the rebase below
+              replaced these checks.
             </p>
           </div>
         </li>
@@ -510,12 +582,16 @@
               >
             </p>
             <p class="d">
-              Browser tests 3/6 hit the 30-minute job limit at 12:32. Result:
-              passed in 13 min.
+              <span class="cat mx">30-min limit + failing test</span> Browser
+              tests 3/6 was stopped at the 30-minute limit at 12:32; before
+              that, two tests had failed all four tries. Result: passed in 13
+              min.
             </p>
             <p class="d">
-              Browser tests 4/6 hit the 30-minute job limit at 12:32. Result:
-              had a failing test again after 26 min.
+              <span class="cat tl">30-min limit</span> Browser tests 4/6 was
+              stopped at the 30-minute limit at 12:32; no unresolved test
+              failure in the available log. Result: had a failing test after 26
+              min.
             </p>
           </div>
         </li>
@@ -529,8 +605,8 @@
               >
             </p>
             <p class="d">
-              Browser tests 4/6 had a failing test at 13:11. Result: had a
-              failing test again after 27 min.
+              <span class="cat tf">Test failure</span> Browser tests 4/6 had a
+              failing test at 13:11. Result: had a failing test after 27 min.
             </p>
           </div>
         </li>
@@ -568,8 +644,8 @@
               >
             </p>
             <p class="d">
-              Browser tests 4/6 had a failing test at 13:42. Result: passed in
-              23 min.
+              <span class="cat tf">Test failure</span> Browser tests 4/6 had a
+              failing test at 13:42. Result: passed in 23 min.
             </p>
           </div>
         </li>
@@ -583,9 +659,9 @@
               >
             </p>
             <p class="d">
-              The test report fails while any browser-test job has failed;
-              re-run after Browser tests 4/6 passed at 14:54. Result: passed in
-              1 min.
+              <span class="cat rr">Report refresh</span> The test report fails
+              while any browser-test job has failed; re-run after Browser tests
+              4/6 passed at 14:54. Result: passed in 1 min.
             </p>
           </div>
         </li>
@@ -622,8 +698,8 @@
               >
             </p>
             <p class="d">
-              Browser tests 1/6 had a failing test at 15:43. Result: had a
-              failing test again after 20 min.
+              <span class="cat tf">Test failure</span> Browser tests 1/6 had a
+              failing test at 15:43. Result: had a failing test after 20 min.
             </p>
           </div>
         </li>
@@ -639,12 +715,15 @@
               >
             </p>
             <p class="d">
-              Browser tests 3/6 hit the 30-minute job limit at 15:56. Result:
-              passed in 17 min.
+              <span class="cat mx">30-min limit + failing test</span> Browser
+              tests 3/6 was stopped at the 30-minute limit at 15:56; before
+              that, a test had failed all four tries. Result: passed in 17 min.
             </p>
             <p class="d">
-              Browser tests 4/6 hit the 30-minute job limit at 15:56. Result:
-              hit the 30-minute limit.
+              <span class="cat tl">30-min limit</span> Browser tests 4/6 was
+              stopped at the 30-minute limit at 15:56; no unresolved test
+              failure in the available log. Result: was stopped at the 30-minute
+              limit.
             </p>
           </div>
         </li>
@@ -658,8 +737,8 @@
               >
             </p>
             <p class="d">
-              Browser tests 1/6 had a failing test at 16:16. Result: hit the
-              30-minute limit.
+              <span class="cat tf">Test failure</span> Browser tests 1/6 had a
+              failing test at 16:16. Result: was stopped at the 30-minute limit.
             </p>
           </div>
         </li>
@@ -673,8 +752,9 @@
               >
             </p>
             <p class="d">
-              Browser tests 4/6 hit the 30-minute job limit at 16:32. Result:
-              passed in 22 min.
+              <span class="cat tl">30-min limit</span> Browser tests 4/6 was
+              stopped at the 30-minute limit at 16:32; no unresolved test
+              failure in the available log. Result: passed in 22 min.
             </p>
           </div>
         </li>
@@ -688,9 +768,10 @@
               >
             </p>
             <p class="d">
-              Browser tests 1/6 hit the 30-minute job limit at 17:00. Result:
-              passed its tests in 20 min, but the results upload failed (HTTP
-              502).
+              <span class="cat tl">30-min limit</span> Browser tests 1/6 was
+              stopped at the 30-minute limit at 17:00; no unresolved test
+              failure in the available log. Result: passed its tests in 20 min,
+              but the results upload failed (HTTP 502).
             </p>
           </div>
         </li>
@@ -715,9 +796,10 @@
               >
             </p>
             <p class="d">
-              Browser tests 1/6 passed its tests, but the results upload failed
-              (HTTP 502) at 17:22. Result: waited 15 min for a free test
-              machine, then hit the 30-minute limit.
+              <span class="cat sv">Service failure</span> Browser tests 1/6
+              passed its tests, but the results upload failed (HTTP 502) at
+              17:22. Result: waited 15 min for a free test machine, then was
+              stopped at the 30-minute limit.
             </p>
           </div>
         </li>
@@ -731,8 +813,10 @@
               >
             </p>
             <p class="d">
-              Browser tests 1/6 hit the 30-minute job limit at 18:11. Result:
-              had a failing test again after 21 min.
+              <span class="cat mx">30-min limit + failing test</span> Browser
+              tests 1/6 was stopped at the 30-minute limit at 18:11; before
+              that, three failures of one test were recorded. Result: had a
+              failing test after 21 min.
             </p>
           </div>
         </li>
@@ -753,8 +837,8 @@
               >
             </p>
             <p class="d">
-              Browser tests 1/6 had a failing test at 18:33. Result: passed in
-              16 min.
+              <span class="cat tf">Test failure</span> Browser tests 1/6 had a
+              failing test at 18:33. Result: passed in 16 min.
             </p>
           </div>
         </li>
@@ -768,9 +852,9 @@
               >
             </p>
             <p class="d">
-              The test report fails while any browser-test job has failed;
-              re-run after Browser tests 1/6 passed at 18:57. Result: passed in
-              1 min.
+              <span class="cat rr">Report refresh</span> The test report fails
+              while any browser-test job has failed; re-run after Browser tests
+              1/6 passed at 18:57. Result: passed in 1 min.
             </p>
           </div>
         </li>
@@ -795,13 +879,14 @@
       <h2>What slowed it down</h2>
       <ul class="causes">
         <li>
-          <strong>Intermittent test failures.</strong> Two browser tests failed
-          on some runs and passed on others. One fails the same way on the main
-          branch, so it isn’t specific to this change.
+          <strong>Intermittent test failures.</strong> Browser tests failed on
+          some runs and passed on others; 5 re-runs followed one. One of these
+          tests fails the same way on the main branch, so it isn’t specific to
+          this change.
         </li>
         <li>
-          <strong>Job time limits.</strong> Browser-test jobs hit the 30-minute
-          limit 11 times and had to run again.
+          <strong>Job time limits.</strong> 7 re-runs followed a job stopped at
+          the 30-minute limit, 3 of them with a test already failing.
         </li>
         <li>
           <strong>Outages.</strong> The automation sandbox was unavailable for

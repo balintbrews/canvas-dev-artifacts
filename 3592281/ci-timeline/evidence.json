@@ -2180,5 +2180,296 @@
         "phpunit (11.3 sqlite): [PHPUnit-Kernel, 2, 4, 10, 20]"
       ]
     }
-  ]
+  ],
+  "rerun_reasons": {
+    "method": "Each of the 15 targeted re-runs is classified by the attempt it replaced (retry_of). For attempts stopped at the 30-minute limit, the Playwright per-test lines printed before the stop were read: a test whose last recorded result is a failure counts as unresolved. A stop can interrupt an in-flight, unlogged try, and a missing summary means not every test is proven to have finished. Failed attempts in pipeline 1029109 were superseded by a rebase, never re-run, and are not among the 15.",
+    "categories": {
+      "test_failure": "Test failure (intermittent): the replaced attempt finished with a test that failed all its tries; the test passed in a later attempt.",
+      "time_limit": "Job stopped at the configured 30-minute limit; no unresolved test failure in the available log. This does not by itself identify why it took too long.",
+      "time_limit_with_test_failure": "Job stopped at the configured 30-minute limit; the available log already showed a test failing (no pass recorded after its failures).",
+      "service_failure": "Service/infrastructure failure: tests passed, but the artifact upload got HTTP 502.",
+      "report_refresh": "Report refresh: the test report job had failed because a Playwright job had failed; re-run once that job passed. Not a new failure."
+    },
+    "counts": {
+      "time_limit_with_test_failure": 3,
+      "time_limit": 4,
+      "test_failure": 5,
+      "report_refresh": 2,
+      "service_failure": 1
+    },
+    "time_limit_related_total": 7,
+    "failed_attempts_not_rerun": [
+      13324404, 13324403, 13324402, 13324401, 13324396
+    ],
+    "reruns": [
+      {
+        "n": 1,
+        "rerun_job_id": 13327895,
+        "rerun_created_at": "2026-11-03T12:44:13.144Z",
+        "job": "playwright: [3/6]",
+        "pipeline_id": 1029179,
+        "replaced_job_id": 13325698,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "job_execution_timeout",
+        "replaced_finished_at": "2026-11-03T12:32:13.727Z",
+        "rerun_category_of_own_outcome": "passed",
+        "log_before_stop": {
+          "last_result_at": "2026-11-03T12:32:05.498032Z",
+          "unresolved_failures": [
+            {
+              "test": "infiniteScroll.spec.ts › Infinite scroll › Pages panel loads more items when scrolling to the bottom",
+              "failures_recorded": 4
+            },
+            {
+              "test": "infiniteScroll.spec.ts › Infinite scroll › Top navigation loads more items when scrolling to the bottom",
+              "failures_recorded": 4
+            }
+          ],
+          "failed_then_recovered": []
+        },
+        "category": "time_limit_with_test_failure"
+      },
+      {
+        "n": 2,
+        "rerun_job_id": 13327896,
+        "rerun_created_at": "2026-11-03T12:44:13.901Z",
+        "job": "playwright: [4/6]",
+        "pipeline_id": 1029179,
+        "replaced_job_id": 13325699,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "job_execution_timeout",
+        "replaced_finished_at": "2026-11-03T12:32:15.564Z",
+        "rerun_category_of_own_outcome": "test_failed",
+        "log_before_stop": {
+          "last_result_at": "2026-11-03T12:31:33.260919Z",
+          "unresolved_failures": [],
+          "failed_then_recovered": []
+        },
+        "category": "time_limit"
+      },
+      {
+        "n": 3,
+        "rerun_job_id": 13329151,
+        "rerun_created_at": "2026-11-03T13:15:00.002Z",
+        "job": "playwright: [4/6]",
+        "pipeline_id": 1029179,
+        "replaced_job_id": 13327896,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T13:10:37.014Z",
+        "rerun_category_of_own_outcome": "test_failed",
+        "failed_tests": [
+          "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+        ],
+        "category": "test_failure"
+      },
+      {
+        "n": 4,
+        "rerun_job_id": 13332809,
+        "rerun_created_at": "2026-11-03T14:31:36.845Z",
+        "job": "playwright: [4/6]",
+        "pipeline_id": 1029179,
+        "replaced_job_id": 13329151,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T13:41:48.934Z",
+        "rerun_category_of_own_outcome": "passed_flaky",
+        "failed_tests": [
+          "multivaluePropTypes.spec.ts › Multivalue Prop Types › Helper functions"
+        ],
+        "category": "test_failure"
+      },
+      {
+        "n": 5,
+        "rerun_job_id": 13333643,
+        "rerun_created_at": "2026-11-03T14:57:10.846Z",
+        "job": "playwright-reports",
+        "pipeline_id": 1029179,
+        "replaced_job_id": 13325703,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T12:33:07.155Z",
+        "rerun_category_of_own_outcome": "passed",
+        "category": "report_refresh"
+      },
+      {
+        "n": 6,
+        "rerun_job_id": 13335511,
+        "rerun_created_at": "2026-11-03T15:52:56.364Z",
+        "job": "playwright: [1/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13334262,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T15:42:38.924Z",
+        "rerun_category_of_own_outcome": "test_failed",
+        "failed_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "category": "test_failure"
+      },
+      {
+        "n": 7,
+        "rerun_job_id": 13335723,
+        "rerun_created_at": "2026-11-03T16:01:35.226Z",
+        "job": "playwright: [3/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13334264,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "job_execution_timeout",
+        "replaced_finished_at": "2026-11-03T15:56:14.472Z",
+        "rerun_category_of_own_outcome": "passed",
+        "log_before_stop": {
+          "last_result_at": "2026-11-03T15:54:51.029883Z",
+          "unresolved_failures": [
+            {
+              "test": "infiniteScroll.spec.ts › Infinite scroll › Top navigation loads more items when scrolling to the bottom",
+              "failures_recorded": 4
+            }
+          ],
+          "failed_then_recovered": []
+        },
+        "category": "time_limit_with_test_failure"
+      },
+      {
+        "n": 8,
+        "rerun_job_id": 13335724,
+        "rerun_created_at": "2026-11-03T16:01:36.307Z",
+        "job": "playwright: [4/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13334265,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "job_execution_timeout",
+        "replaced_finished_at": "2026-11-03T15:56:15.228Z",
+        "rerun_category_of_own_outcome": "timeout",
+        "log_before_stop": {
+          "last_result_at": "2026-11-03T15:55:51.597838Z",
+          "unresolved_failures": [],
+          "failed_then_recovered": [
+            "multivaluePropTypes.spec.ts › Multivalue Prop Types › Datetime and Date"
+          ]
+        },
+        "category": "time_limit"
+      },
+      {
+        "n": 9,
+        "rerun_job_id": 13336233,
+        "rerun_created_at": "2026-11-03T16:29:41.404Z",
+        "job": "playwright: [1/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13335511,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T16:16:06.039Z",
+        "rerun_category_of_own_outcome": "timeout",
+        "failed_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "category": "test_failure"
+      },
+      {
+        "n": 10,
+        "rerun_job_id": 13336796,
+        "rerun_created_at": "2026-11-03T16:38:15.181Z",
+        "job": "playwright: [4/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13335724,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "job_execution_timeout",
+        "replaced_finished_at": "2026-11-03T16:32:20.208Z",
+        "rerun_category_of_own_outcome": "passed_flaky",
+        "log_before_stop": {
+          "last_result_at": "2026-11-03T16:31:58.060416Z",
+          "unresolved_failures": [],
+          "failed_then_recovered": []
+        },
+        "category": "time_limit"
+      },
+      {
+        "n": 11,
+        "rerun_job_id": 13337945,
+        "rerun_created_at": "2026-11-03T17:01:41.003Z",
+        "job": "playwright: [1/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13336233,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "job_execution_timeout",
+        "replaced_finished_at": "2026-11-03T16:59:50.996Z",
+        "rerun_category_of_own_outcome": "upload_502",
+        "log_before_stop": {
+          "last_result_at": "2026-11-03T16:59:23.868479Z",
+          "unresolved_failures": [],
+          "failed_then_recovered": [
+            "brandKitColors.spec.ts › brand kit colors › basic color"
+          ]
+        },
+        "category": "time_limit"
+      },
+      {
+        "n": 12,
+        "rerun_job_id": 13338347,
+        "rerun_created_at": "2026-11-03T17:25:18.346Z",
+        "job": "playwright: [1/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13337945,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T17:21:47.440Z",
+        "rerun_category_of_own_outcome": "timeout",
+        "category": "service_failure"
+      },
+      {
+        "n": 13,
+        "rerun_job_id": 13339524,
+        "rerun_created_at": "2026-11-03T18:11:50.518Z",
+        "job": "playwright: [1/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13338347,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "job_execution_timeout",
+        "replaced_finished_at": "2026-11-03T18:10:45.700Z",
+        "rerun_category_of_own_outcome": "test_failed",
+        "log_before_stop": {
+          "last_result_at": "2026-11-03T18:09:27.440042Z",
+          "unresolved_failures": [
+            {
+              "test": "brandKitColors.spec.ts › brand kit colors › basic color",
+              "failures_recorded": 3
+            }
+          ],
+          "failed_then_recovered": []
+        },
+        "category": "time_limit_with_test_failure"
+      },
+      {
+        "n": 14,
+        "rerun_job_id": 13339984,
+        "rerun_created_at": "2026-11-03T18:41:20.528Z",
+        "job": "playwright: [1/6]",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13339524,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T18:33:12.385Z",
+        "rerun_category_of_own_outcome": "passed",
+        "failed_tests": [
+          "brandKitColors.spec.ts › brand kit colors › basic color"
+        ],
+        "category": "test_failure"
+      },
+      {
+        "n": 15,
+        "rerun_job_id": 13340181,
+        "rerun_created_at": "2026-11-03T19:02:01.914Z",
+        "job": "playwright-reports",
+        "pipeline_id": 1029629,
+        "replaced_job_id": 13334269,
+        "replaced_status": "failed",
+        "replaced_failure_reason": "script_failure",
+        "replaced_finished_at": "2026-11-03T17:01:43.263Z",
+        "rerun_category_of_own_outcome": "passed",
+        "category": "report_refresh"
+      }
+    ]
+  }
 }

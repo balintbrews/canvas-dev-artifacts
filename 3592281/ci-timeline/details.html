@@ -2624,6 +2624,17 @@
               4, 10, 20], Playwright 1/6).
             </li>
             <li>
+              <b>Failed attempts are not the same as re-runs.</b> The counts
+              above cover every failed attempt, including the 5 in P2 that were
+              replaced by a rebase and never re-run. The 15 re-runs, classified
+              by the attempt each replaced: 5 test failure, 4 stopped at the
+              30-minute limit with no unresolved test failure in the available
+              log, 3 stopped at the limit with a test already failing, 1
+              artifact upload failure and 2 report refresh (see
+              <code>rerun_reasons</code> in
+              <a href="evidence.json">evidence.json</a>).
+            </li>
+            <li>
               Playwright retries a failing test up to 3 times inside a job on CI
               (<code>playwright.config.ts</code>). 7 attempts report a test that
               only passed on such a retry; these are not counted as job retries.

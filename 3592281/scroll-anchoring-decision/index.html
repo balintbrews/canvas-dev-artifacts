@@ -764,8 +764,8 @@
             <p>
               <code>overflow-anchor: none</code> on <code>.editorPane</code>.
               Smallest change, and the only one that removes the measured
-              misalignment in every run. Covered by a Playwright check of the
-              computed style. That's configuration coverage, not a reproduction.
+              misalignment in every run. Verified through browser comparisons;
+              the configuration-only test was subsequently removed from the MR.
             </p>
           </div>
           <div class="card">
@@ -841,11 +841,11 @@
 
       <footer>
         Decision context for 3592281. The scroll anchoring tradeoff was accepted
-        on 2026-11-03. Fix: local branch
-        <code>3592281-issue-branch</code> (<code>9adbfb2f</code>, with the
-        Playwright check in <code>f99fcaf3</code>, not pushed) on
-        <code>780a0520</code>. Measurements from 2026-11-02 and 2026-11-03 in
-        Chrome for Testing 153.
+        on 2026-11-03. Fix: <code>9adbfb2f</code> on <code>780a0520</code> in MR
+        !1955. Videos and measurements used <code>f99fcaf3</code>, which added a
+        configuration-only test that was later removed from the MR; the CSS is
+        unchanged. Measurements from 2026-11-02 and 2026-11-03 in Chrome for
+        Testing 153.
       </footer>
     </main>
   </body>

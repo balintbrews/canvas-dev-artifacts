@@ -179,7 +179,6 @@
   <body>
     <a class="skip" href="#content">Skip to content</a>
     <main id="content">
-      <nav aria-label="Breadcrumb"><a href="../">All issues</a></nav>
       <header>
         <div class="eyebrow">Issue 3592259 / Walkthrough</div>
         <h1>Translate the interface text of code components</h1>
@@ -540,42 +539,9 @@
                 </td>
                 <td class="shown">Video 5</td>
               </tr>
-              <tr>
-                <td>Preview links through signed sandbox URLs</td>
-                <td>
-                  Not verified: all recordings use local 127.0.0.1 and localhost
-                  origins
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
-
-        <h3>Notes</h3>
-        <ul>
-          <li>
-            The code-editor videos publish once and then leave the editor. The
-            known auto-save issue after publishing is not fixed by this change,
-            and these videos do not exercise it.
-          </li>
-          <li>
-            Video 4 opens Workbench at <code>localhost</code>, a different host
-            name from Drupal's <code>127.0.0.1</code>. When it was recorded,
-            translation lookups failed if Workbench and Drupal shared a host
-            name and the browser was logged in to Drupal. That is now fixed:
-            videos 3 and 5 run Workbench on the same host as Drupal, with a
-            Drupal session.
-          </li>
-          <li>
-            In video 6, leaving the app's draft mode redirects to the app's
-            front page, which this demo app does not have, so "Not found"
-            flashes briefly.
-          </li>
-          <li>
-            Video 2's error and video 4's file edit are deliberate. Every change
-            was reverted after recording.
-          </li>
-        </ul>
       </section>
 
       <footer>

@@ -1,0 +1,17 @@
+WEBVTT
+
+1
+00:00:00.200 --> 00:00:05.500
+The app's pricing table has a t() label
+
+2
+00:00:05.500 --> 00:00:09.400
+Replace it with an empty string
+
+3
+00:00:09.400 --> 00:00:10.700
+Build the app
+
+4
+00:00:10.700 --> 00:00:15.200
+The build fails with the file, line, and column

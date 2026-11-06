@@ -1,0 +1,33 @@
+{
+  "recordStartMonotonic": 16442527.495491423,
+  "milestones": [
+    {
+      "t": 0.0,
+      "label": "record start"
+    },
+    {
+      "t": 1.2,
+      "label": "The article template, with real article content"
+    },
+    {
+      "t": 3.801,
+      "label": "Prose adds a reading-time plural"
+    },
+    {
+      "t": 5.801,
+      "label": "Preview the template in Polish"
+    },
+    {
+      "t": 12.14,
+      "label": "The Polish article page in Drupal"
+    },
+    {
+      "t": 17.84,
+      "label": "end"
+    },
+    {
+      "t": 17.84,
+      "label": "record stop"
+    }
+  ]
+}

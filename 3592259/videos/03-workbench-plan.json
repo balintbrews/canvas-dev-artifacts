@@ -1,0 +1,29 @@
+{
+  "title": "Preview Starter translations in Workbench",
+  "start": 1.0,
+  "end": 22.9,
+  "captions": [
+    {
+      "start": 1.5,
+      "end": 3.0,
+      "text": "A Starter page in Workbench, in English"
+    },
+    { "start": 3.0, "end": 6.2, "text": "Pick a language of the Drupal site" },
+    {
+      "start": 6.2,
+      "end": 12.0,
+      "text": "Workbench reads Drupal's Polish translations"
+    },
+    {
+      "start": 12.0,
+      "end": 18.0,
+      "text": "Mock: annual billing with varied savings"
+    },
+    { "start": 18.0, "end": 19.7, "text": "Reload: the language persists" },
+    {
+      "start": 19.7,
+      "end": 22.9,
+      "text": "Polish plural forms for 1, 2, and 5"
+    }
+  ]
+}

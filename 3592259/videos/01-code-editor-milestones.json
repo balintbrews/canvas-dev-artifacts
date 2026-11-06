@@ -1,0 +1,49 @@
+{
+  "recordStartMonotonic": 16439234.493133854,
+  "milestones": [
+    {
+      "t": 0.0,
+      "label": "record start"
+    },
+    {
+      "t": 1.2,
+      "label": "Add a label with t()"
+    },
+    {
+      "t": 14.886,
+      "label": "Empty string: error with line and column"
+    },
+    {
+      "t": 17.491,
+      "label": "Write the string; the preview is back"
+    },
+    {
+      "t": 21.807,
+      "label": "Publish the component"
+    },
+    {
+      "t": 28.157,
+      "label": "Drupal lists the new string"
+    },
+    {
+      "t": 34.907,
+      "label": "Translate it into Polish"
+    },
+    {
+      "t": 41.456,
+      "label": "The Polish page shows the new label"
+    },
+    {
+      "t": 45.755,
+      "label": "Annual billing: Polish plural form"
+    },
+    {
+      "t": 49.454,
+      "label": "end"
+    },
+    {
+      "t": 49.454,
+      "label": "record stop"
+    }
+  ]
+}

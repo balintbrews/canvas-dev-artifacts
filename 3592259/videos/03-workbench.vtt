@@ -1,0 +1,25 @@
+WEBVTT
+
+1
+00:00:00.500 --> 00:00:02.000
+A Starter page in Workbench, in English
+
+2
+00:00:02.000 --> 00:00:05.200
+Pick a language of the Drupal site
+
+3
+00:00:05.200 --> 00:00:11.000
+Workbench reads Drupal's Polish translations
+
+4
+00:00:11.000 --> 00:00:17.000
+Mock: annual billing with varied savings
+
+5
+00:00:17.000 --> 00:00:18.700
+Reload: the language persists
+
+6
+00:00:18.700 --> 00:00:21.900
+Polish plural forms for 1, 2, and 5

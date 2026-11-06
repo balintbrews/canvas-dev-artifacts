@@ -1,0 +1,16 @@
+{
+  "title": "Publish with strings that cannot be determined",
+  "start": 0.6,
+  "end": 20.1,
+  "captions": [
+    { "start": 1.2, "end": 3.8, "text": "Add an empty t('') call" },
+    { "start": 3.8, "end": 6.2, "text": "The strings cannot be determined" },
+    { "start": 6.2, "end": 13.0, "text": "Publishing is still allowed" },
+    { "start": 13.0, "end": 15.4, "text": "Other components stay translated" },
+    {
+      "start": 15.4,
+      "end": 20.1,
+      "text": "This component shows its source strings"
+    }
+  ]
+}

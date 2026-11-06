@@ -1,0 +1,39 @@
+{
+  "title": "Translate a Starter component in the code editor",
+  "start": 0.6,
+  "end": 49.4,
+  "captions": [
+    { "start": 1.2, "end": 14.9, "text": "Add an interface label with t()" },
+    {
+      "start": 14.9,
+      "end": 17.5,
+      "text": "An empty string shows an error with its line"
+    },
+    {
+      "start": 17.5,
+      "end": 21.8,
+      "text": "Write the string: the preview is back"
+    },
+    {
+      "start": 21.8,
+      "end": 28.1,
+      "text": "Publish the component and its strings"
+    },
+    {
+      "start": 28.1,
+      "end": 34.9,
+      "text": "Drupal lists the new string for translation"
+    },
+    { "start": 34.9, "end": 41.4, "text": "Translate it into Polish" },
+    {
+      "start": 41.4,
+      "end": 45.7,
+      "text": "The Polish page shows the translated labels"
+    },
+    {
+      "start": 45.7,
+      "end": 49.4,
+      "text": "Annual billing: a Polish plural form"
+    }
+  ]
+}

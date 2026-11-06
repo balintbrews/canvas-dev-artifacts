@@ -1,0 +1,6 @@
+empty source        translatableStrings.0.source: This value should not be blank.
+U+0003 in source    translatableStrings.0.source: A translatable string must not contain the U+0003 character, which separates plural forms.
+non-ASCII context   translatableStrings.0.context: A translation context must contain only ASCII characters.
+unknown (null)      valid
+valid               valid
+stored navigation unchanged: [{"source":"Open menu"},{"source":"Register"}]

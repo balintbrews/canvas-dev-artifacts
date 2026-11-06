@@ -1,0 +1,37 @@
+{
+  "recordStartMonotonic": 16439441.778424608,
+  "milestones": [
+    {
+      "t": 0.0,
+      "label": "record start"
+    },
+    {
+      "t": 1.2,
+      "label": "Add an invalid string"
+    },
+    {
+      "t": 3.816,
+      "label": "The strings cannot be determined"
+    },
+    {
+      "t": 6.217,
+      "label": "Publishing is still allowed"
+    },
+    {
+      "t": 12.967,
+      "label": "Other components stay translated"
+    },
+    {
+      "t": 15.4,
+      "label": "This component shows its source strings"
+    },
+    {
+      "t": 20.154,
+      "label": "end"
+    },
+    {
+      "t": 20.155,
+      "label": "record stop"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Workbench reports strings it cannot determine",
+  "start": 1.0,
+  "end": 10.6,
+  "captions": [
+    { "start": 1.5, "end": 3.0, "text": "The header in Polish" },
+    {
+      "start": 3.0,
+      "end": 7.5,
+      "text": "navigation.tsx saved with t(''): file, line, column"
+    },
+    {
+      "start": 7.5,
+      "end": 10.6,
+      "text": "Fixed: the header is translated again"
+    }
+  ]
+}

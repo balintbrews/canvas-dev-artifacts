@@ -1,0 +1,15 @@
+Workbench preview manifest (GET /__canvas/preview-manifest), Canvas Starter.
+
+Registered component imports are aggregated:
+  image-feature imports { LogoMark } from '@/components/logo' and has no t() of its own.
+  image-feature translatableStrings: [{"source": "Home", "context": "Front page link"}]
+  image (also imports LogoMark): [{"source": "Home", "context": "Front page link"}]
+  logo: [{"source": "Home", "context": "Front page link"}]
+  In Drupal, the pushed image-feature stores no strings of its own (translatableStrings: []); Drupal adds the strings of the components it imports from their stored metadata.
+
+Helper modules are not scanned (temporary probe, both files restored byte for byte afterwards):
+  src/lib/pricing-utils.ts got a custom hook that calls useTranslation() and t('Helper probe string').
+  src/components/pricing-table.tsx called that hook, and its own control t('Entry probe string').
+  pricing-table strings after the change:
+    ['1 month free', 'Annual', 'Entry probe string', 'Monthly', 'Most popular', 'Per month', 'Per year', 'Plan: @name', 'Selected plan: @name', 'Toggle annual billing']
+  The control string from the entry file is found; the helper's string is not.

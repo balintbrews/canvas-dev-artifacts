@@ -1,0 +1,9 @@
+npx canvas-workbench preview-build, Canvas Starter. Output: 4 HTML files (Default and 3 mocks) each.
+
+--component-path src/components/pricing-table.component.yml
+  --langcode pl  ok, no warnings. Mock "Annual billing with varied savings": MIESIĘCZNIE | ROCZNIE | ZA ROK | 1 MIESIĄC GRATIS | NAJPOPULARNIEJSZY | 2 MIESIĄCE GRATIS | 5 MIESIĘCY GRATIS
+  (no --langcode) ok, no warnings. The site negotiates English: MONTHLY | ANNUAL | PER YEAR | 1 MONTH FREE | MOST POPULAR
+  --langcode fr  ok, warning: "The language 'fr' is not an interface language of the Drupal site. The preview shows source strings." Shows English source strings.
+
+--page-path pages/home.json --langcode pl
+  ok, no warnings. Contains REJESTRACJA, NAJPOPULARNIEJSZY, and MIESIĘCZNIE.

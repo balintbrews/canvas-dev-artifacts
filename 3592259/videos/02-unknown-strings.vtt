@@ -1,0 +1,21 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:03.200
+Add an empty t('') call
+
+2
+00:00:03.200 --> 00:00:05.600
+The strings cannot be determined
+
+3
+00:00:05.600 --> 00:00:12.400
+Publishing is still allowed
+
+4
+00:00:12.400 --> 00:00:14.800
+Other components stay translated
+
+5
+00:00:14.800 --> 00:00:19.500
+This component shows its source strings

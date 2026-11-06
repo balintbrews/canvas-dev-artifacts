@@ -1,0 +1,53 @@
+{
+  "recordStartMonotonic": 16440749.697286824,
+  "milestones": [
+    {
+      "t": 0.0,
+      "label": "record start"
+    },
+    {
+      "t": 1.2,
+      "label": "Register the Next.js app as a frontend"
+    },
+    {
+      "t": 8.645,
+      "label": "Opening a page syncs the app components"
+    },
+    {
+      "t": 14.235,
+      "label": "Drupal lists the app's new string"
+    },
+    {
+      "t": 21.19,
+      "label": "Translate it into Polish"
+    },
+    {
+      "t": 27.352,
+      "label": "Next.js renders it from page.context"
+    },
+    {
+      "t": 29.725,
+      "label": "Leave the draft mode of the editor preview"
+    },
+    {
+      "t": 33.611,
+      "label": "Hydrated: annual billing in Polish"
+    },
+    {
+      "t": 37.21,
+      "label": "TranslationsProvider: the app's dictionary"
+    },
+    {
+      "t": 40.274,
+      "label": "TranslationsProvider with null: source strings"
+    },
+    {
+      "t": 43.336,
+      "label": "end"
+    },
+    {
+      "t": 43.337,
+      "label": "record stop"
+    }
+  ]
+}

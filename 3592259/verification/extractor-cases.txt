@@ -1,0 +1,6 @@
+literal, aliased, and namespaced calls: [{"source":"1 item","plural":"@count items"},{"source":"Bye"},{"source":"Hello"},{"source":"May","context":"Long month name"}]
+dynamic argument, template literal, concatenation: []
+context that is not a literal: []
+t() not from useTranslation(): []
+string with U+0003: [{"message":"A translatable string must not contain the U+0003 character, which separates plural forms.","line":3,"column":44}]
+non-ASCII context: [{"message":"A translation context must contain only ASCII characters.","line":3,"column":66}]

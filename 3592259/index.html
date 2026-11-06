@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="Short videos of interface translation for Canvas Code Components in the code editor, Workbench, and a headless Next.js app."
+    />
+    <title>Canvas · Code component translation</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #101518;
+        --panel: #192126;
+        --text: #edf1ec;
+        --muted: #b0bdbf;
+        --amber: #f4c274;
+        --line: #344249;
+        --ok: #9fd89a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          17px/1.65 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 1040px;
+        margin: auto;
+        padding: 56px 16px;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 54px);
+        letter-spacing: -1.2px;
+        line-height: 1.12;
+        margin: 18px 0;
+      }
+      h2 {
+        font-size: 23px;
+        margin: 0 0 8px;
+      }
+      h3 {
+        font-size: 17px;
+        margin: 22px 0 6px;
+      }
+      p,
+      li {
+        color: var(--muted);
+      }
+      p {
+        max-width: 760px;
+      }
+      a {
+        color: var(--amber);
+        text-underline-offset: 4px;
+      }
+      a:focus-visible,
+      video:focus-visible {
+        outline: 3px solid var(--amber);
+        outline-offset: 4px;
+      }
+      code {
+        font:
+          0.9em ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        color: var(--text);
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+      }
+      .toc {
+        margin: 28px 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 6px;
+      }
+      article {
+        margin: 32px 0;
+        padding: 24px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+      video {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        border-radius: 8px;
+        margin: 14px 0 6px;
+      }
+      .steps {
+        margin: 8px 0 0;
+        padding-left: 20px;
+      }
+      .meta {
+        font-size: 14px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+      }
+      th,
+      td {
+        text-align: left;
+        vertical-align: top;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      th {
+        color: var(--text);
+        font-weight: 600;
+      }
+      td {
+        color: var(--muted);
+      }
+      .shown {
+        color: var(--ok);
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .skip {
+        position: absolute;
+        top: -100px;
+      }
+      .skip:focus {
+        top: 10px;
+      }
+      @media print {
+        :root {
+          color-scheme: light;
+          --bg: white;
+          --text: #101518;
+          --muted: #39494e;
+          --panel: #f6f6f3;
+          --amber: #705015;
+          --line: #bbb;
+          --ok: #1d5f19;
+        }
+        main {
+          padding: 0;
+        }
+        article {
+          break-inside: avoid;
+        }
+        video {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <main id="content">
+      <nav aria-label="Breadcrumb"><a href="../">All issues</a></nav>
+      <header>
+        <div class="eyebrow">Issue 3592259 / Walkthrough</div>
+        <h1>Translate the interface text of code components</h1>
+        <p>
+          Components write their fixed labels with <code>t()</code> and
+          <code>formatPlural()</code> from <code>useTranslation()</code>. Canvas
+          finds the strings, Drupal lists them for translation, and every place
+          that renders the component uses the translations: Drupal pages,
+          Workbench previews, and headless frontends.
+        </p>
+        <p>
+          Seven short videos follow real Canvas Starter components, mainly the
+          pricing table, through the code editor, Workbench, a content template,
+          and a headless Next.js app, in Polish.
+        </p>
+        <nav aria-label="Public discussion">
+          <a
+            href="https://git.drupalcode.org/project/canvas/-/work_items/3592259"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Issue ↗</a
+          >
+        </nav>
+      </header>
+
+      <ol class="toc" aria-label="Videos">
+        <li>
+          <a href="#code-editor"
+            >1. Code editor: add, publish, and translate a label</a
+          >
+        </li>
+        <li>
+          <a href="#unknown-strings"
+            >2. Code editor: strings that cannot be determined</a
+          >
+        </li>
+        <li><a href="#workbench">3. Workbench: preview in Polish</a></li>
+        <li>
+          <a href="#workbench-notice">4. Workbench: report an invalid string</a>
+        </li>
+        <li>
+          <a href="#content-template"
+            >5. Content template: a translated reading-time label</a
+          >
+        </li>
+        <li>
+          <a href="#headless"
+            >6. Headless: sync, translate, and render in Next.js</a
+          >
+        </li>
+        <li>
+          <a href="#headless-build"
+            >7. Headless: the build rejects an invalid string</a
+          >
+        </li>
+        <li><a href="#coverage">What is covered, and what is not</a></li>
+      </ol>
+
+      <article id="code-editor" aria-labelledby="code-editor-title">
+        <div class="eyebrow">1 · Code editor · 50 seconds</div>
+        <h2 id="code-editor-title">Add, publish, and translate a label</h2>
+        <p>
+          A new label starts as <code>t('')</code>, which the editor reports
+          with its line and column. Once it has text, the component is
+          published, and the new string appears on Drupal's
+          <em>User interface translation</em> page. After it is translated, the
+          Polish page shows it with the other labels, including the plural "2
+          miesiące gratis".
+        </p>
+        <video
+          poster="videos/01-code-editor-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-describedby="code-editor-title"
+        >
+          <source src="videos/01-code-editor.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            srclang="en"
+            label="English"
+            src="videos/01-code-editor.vtt"
+          />
+          <a href="videos/01-code-editor.mp4">Download the video</a>
+        </video>
+      </article>
+
+      <article id="unknown-strings" aria-labelledby="unknown-strings-title">
+        <div class="eyebrow">2 · Code editor · 20 seconds</div>
+        <h2 id="unknown-strings-title">
+          Publish with strings that cannot be determined
+        </h2>
+        <p>
+          The editor does not block publishing for an invalid string. It sends
+          the component without its strings, so Drupal treats them as unknown:
+          this component falls back to its English source strings, while other
+          components, like the header, stay translated. Locale keeps the
+          existing translations for when the string is fixed.
+        </p>
+        <video
+          poster="videos/02-unknown-strings-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-describedby="unknown-strings-title"
+        >
+          <source src="videos/02-unknown-strings.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            srclang="en"
+            label="English"
+            src="videos/02-unknown-strings.vtt"
+          />
+          <a href="videos/02-unknown-strings.mp4">Download the video</a>
+        </video>
+      </article>
+
+      <article id="workbench" aria-labelledby="workbench-title">
+        <div class="eyebrow">3 · Workbench · 23 seconds</div>
+        <h2 id="workbench-title">Preview Starter pages and mocks in Polish</h2>
+        <p>
+          Workbench lists the Drupal site's languages and previews pages,
+          content templates, and component mocks with the site's translations.
+          It only reads them, with the credentials Workbench already uses. The
+          selected language is kept in the tab's session storage, per Drupal
+          site, so it survives a reload of the tab, which also opens the mock
+          with varied annual savings: all three Polish plural forms.
+        </p>
+        <video
+          poster="videos/03-workbench-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-describedby="workbench-title"
+        >
+          <source src="videos/03-workbench.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            srclang="en"
+            label="English"
+            src="videos/03-workbench.vtt"
+          />
+          <a href="videos/03-workbench.mp4">Download the video</a>
+        </video>
+      </article>
+
+      <article id="workbench-notice" aria-labelledby="workbench-notice-title">
+        <div class="eyebrow">4 · Workbench · 11 seconds</div>
+        <h2 id="workbench-notice-title">
+          Report a string that cannot be determined
+        </h2>
+        <p>
+          <code>navigation.tsx</code> is saved with <code>t('')</code> outside
+          the browser. Workbench updates the preview, names the file, line, and
+          column, and shows the navigation in English until the file is fixed. A
+          string that simply has no translation yet shows its source text,
+          without a notice.
+        </p>
+        <video
+          poster="videos/04-workbench-notice-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-describedby="workbench-notice-title"
+        >
+          <source src="videos/04-workbench-notice.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            srclang="en"
+            label="English"
+            src="videos/04-workbench-notice.vtt"
+          />
+          <a href="videos/04-workbench-notice.mp4">Download the video</a>
+        </video>
+      </article>
+
+      <article id="content-template" aria-labelledby="content-template-title">
+        <div class="eyebrow">5 · Content template · 18 seconds</div>
+        <h2 id="content-template-title">
+          Translate a content template's interface text
+        </h2>
+        <p>
+          The article template's body uses the Starter's prose component, which
+          can show a reading-time plural. Workbench previews the template with a
+          real article from Drupal, in English and then in Polish, and the
+          Drupal-rendered Polish article shows the same label. The article
+          content itself stays as authored. These articles are about 200 words
+          long, so they all show the one-minute form.
+        </p>
+        <video
+          poster="videos/05-content-template-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-describedby="content-template-title"
+        >
+          <source src="videos/05-content-template.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            srclang="en"
+            label="English"
+            src="videos/05-content-template.vtt"
+          />
+          <a href="videos/05-content-template.mp4">Download the video</a>
+        </video>
+      </article>
+
+      <article id="headless" aria-labelledby="headless-title">
+        <div class="eyebrow">6 · Headless Next.js · 44 seconds</div>
+        <h2 id="headless-title">
+          Sync, translate, and render in a headless app
+        </h2>
+        <p>
+          The Next.js app's copy of the pricing table adds one label. After the
+          app is registered, opening a page syncs its components, and Drupal
+          lists the new string. Once translated, Next.js renders it from
+          <code>page.context.translations</code>, on the server and after
+          hydration. <code>TranslationsProvider</code> can replace Drupal's
+          translations with the app's own dictionary, or with
+          <code>null</code> for the source strings.
+        </p>
+        <video
+          poster="videos/06-headless-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-describedby="headless-title"
+        >
+          <source src="videos/06-headless.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            srclang="en"
+            label="English"
+            src="videos/06-headless.vtt"
+          />
+          <a href="videos/06-headless.mp4">Download the video</a>
+        </video>
+      </article>
+
+      <article id="headless-build" aria-labelledby="headless-build-title">
+        <div class="eyebrow">7 · Headless build · 16 seconds</div>
+        <h2 id="headless-build-title">The build rejects an invalid string</h2>
+        <p>
+          Unlike the code editor, the Headless SDK fails the build for an
+          invalid string, and reports its file, line, and column.
+        </p>
+        <video
+          poster="videos/07-headless-build-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-describedby="headless-build-title"
+        >
+          <source src="videos/07-headless-build.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            srclang="en"
+            label="English"
+            src="videos/07-headless-build.vtt"
+          />
+          <a href="videos/07-headless-build.mp4">Download the video</a>
+        </video>
+      </article>
+
+      <section id="coverage" aria-labelledby="coverage-title">
+        <h2 id="coverage-title">What is covered, and what is not</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Behavior</th>
+                <th scope="col">Evidence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  String literals, <code>@</code> placeholders, contexts, and
+                  Polish plural forms
+                </td>
+                <td class="shown">Videos 1, 3, and 6</td>
+              </tr>
+              <tr>
+                <td>
+                  Strings appear for translation after publishing or syncing
+                </td>
+                <td class="shown">Videos 1 and 6</td>
+              </tr>
+              <tr>
+                <td>Unused untranslated strings are removed from Locale</td>
+                <td>
+                  Checked locally: "Cancel anytime" was removed after the
+                  component no longer used it
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  An invalid string: editor error, publishing allowed, source
+                  strings shown
+                </td>
+                <td class="shown">Videos 1 and 2</td>
+              </tr>
+              <tr>
+                <td>
+                  An invalid string: the Workbench notice and the headless build
+                  failure
+                </td>
+                <td class="shown">Videos 4 and 7</td>
+              </tr>
+              <tr>
+                <td>
+                  Drupal rejects invalid supplied strings, and accepts unknown
+                  ones
+                </td>
+                <td>
+                  Checked with config validation:
+                  <a href="verification/drupal-validation-cases.txt">results</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Dynamic arguments, template literals, non-literal contexts,
+                  and other <code>t()</code> functions are skipped silently;
+                  aliases and namespaces are found
+                </td>
+                <td>
+                  Checked with the extractor:
+                  <a href="verification/extractor-cases.txt">results</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Helper modules are never scanned; strings of registered
+                  imported components are aggregated by Workbench and the
+                  Headless SDK, and Drupal adds them from stored metadata
+                </td>
+                <td>
+                  Checked in Workbench, not filmed:
+                  <a href="verification/workbench-imports-and-helpers.txt"
+                    >results</a
+                  >. <code>image-feature</code> gets <code>logo</code>'s string;
+                  a <code>useTranslation()</code> hook in a helper is ignored
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Generated previews with <code>preview-build --langcode</code>
+                </td>
+                <td>
+                  Checked, not filmed:
+                  <a href="verification/preview-build-langcode.txt">results</a>,
+                  including the warning for a language the site lacks
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  The article content template in Workbench and on Drupal pages
+                </td>
+                <td class="shown">Video 5</td>
+              </tr>
+              <tr>
+                <td>Preview links through signed sandbox URLs</td>
+                <td>
+                  Not verified: all recordings use local 127.0.0.1 and localhost
+                  origins
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Notes</h3>
+        <ul>
+          <li>
+            The code-editor videos publish once and then leave the editor. The
+            known auto-save issue after publishing is not fixed by this change,
+            and these videos do not exercise it.
+          </li>
+          <li>
+            Video 4 opens Workbench at <code>localhost</code>, a different host
+            name from Drupal's <code>127.0.0.1</code>. When it was recorded,
+            translation lookups failed if Workbench and Drupal shared a host
+            name and the browser was logged in to Drupal. That is now fixed:
+            videos 3 and 5 run Workbench on the same host as Drupal, with a
+            Drupal session.
+          </li>
+          <li>
+            In video 6, leaving the app's draft mode redirects to the app's
+            front page, which this demo app does not have, so "Not found"
+            flashes briefly.
+          </li>
+          <li>
+            Video 2's error and video 4's file edit are deliberate. Every change
+            was reverted after recording.
+          </li>
+        </ul>
+      </section>
+
+      <footer>
+        Recorded on 2026-11-06 with local demo data: Canvas Starter components,
+        Drupal with English and Polish, and the headless Next.js template with a
+        local demo patch. The videos folder has each render plan and the
+        measured milestone log.
+      </footer>
+    </main>
+  </body>
+</html>

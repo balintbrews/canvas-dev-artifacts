@@ -1,0 +1,33 @@
+{
+  "recordStartMonotonic": 16439890.41526654,
+  "milestones": [
+    {
+      "t": 0.0,
+      "label": "record start"
+    },
+    {
+      "t": 1.5,
+      "label": "The header in Polish"
+    },
+    {
+      "t": 3.001,
+      "label": "navigation.tsx saved with t('') off screen"
+    },
+    {
+      "t": 3.498,
+      "label": "Workbench names the file, line, and column"
+    },
+    {
+      "t": 7.498,
+      "label": "Fixed: the header is translated again"
+    },
+    {
+      "t": 10.668,
+      "label": "end"
+    },
+    {
+      "t": 10.669,
+      "label": "record stop"
+    }
+  ]
+}

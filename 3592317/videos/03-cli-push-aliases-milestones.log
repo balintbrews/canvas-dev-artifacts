@@ -1,0 +1,13 @@
+# termctrl markers (ms from recording start; video exported with --include-startup)
+1023	start
+1025	show-spec
+4182	push-create
+7067	created
+9070	retitle
+16645	updated
+18648	show-invalid
+24830	push-invalid
+27932	rejected
+30935	guard
+40729	guarded
+43732	end

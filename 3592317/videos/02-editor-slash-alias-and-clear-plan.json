@@ -1,0 +1,26 @@
+{
+  "title": "Reject a slash-only alias, then clear the alias",
+  "start": 0.4,
+  "end": 37.4,
+  "captions": [
+    { "start": 1.0, "end": 5.0, "text": "Enter a slash-only alias: /" },
+    { "start": 5.0, "end": 12.3, "text": "Try to publish" },
+    {
+      "start": 12.3,
+      "end": 14.9,
+      "text": "Publishing is blocked with an error"
+    },
+    {
+      "start": 15.0,
+      "end": 17.5,
+      "text": "The existing alias /demo-our-team is kept"
+    },
+    { "start": 17.5, "end": 25.3, "text": "Clear the alias field" },
+    { "start": 25.3, "end": 34.4, "text": "Publish without an alias" },
+    {
+      "start": 34.6,
+      "end": 37.4,
+      "text": "Core alias list: the alias is removed"
+    }
+  ]
+}

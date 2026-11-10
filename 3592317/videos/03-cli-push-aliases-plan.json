@@ -1,0 +1,29 @@
+{
+  "title": "Push page URL aliases with the Canvas CLI",
+  "start": 0.5,
+  "end": 43.2,
+  "captions": [
+    {
+      "start": 1.0,
+      "end": 4.2,
+      "text": "A page spec with the alias /demo-contact"
+    },
+    { "start": 4.2, "end": 9.1, "text": "Push: page created with its alias" },
+    {
+      "start": 9.1,
+      "end": 18.6,
+      "text": "Change only the title and push again"
+    },
+    {
+      "start": 18.6,
+      "end": 24.8,
+      "text": "Add specs with / and a duplicate alias"
+    },
+    { "start": 24.8, "end": 30.9, "text": "The site rejects both aliases" },
+    {
+      "start": 30.9,
+      "end": 43.2,
+      "text": "Existing CLI guard: alias changes refused"
+    }
+  ]
+}

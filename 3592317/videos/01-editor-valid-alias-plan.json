@@ -1,0 +1,19 @@
+{
+  "title": "Set and change a page URL alias in the Canvas editor",
+  "start": 0.4,
+  "end": 33.8,
+  "captions": [
+    { "start": 1.0, "end": 5.7, "text": "Enter /demo-team/ as the URL alias" },
+    { "start": 5.7, "end": 14.5, "text": "Publish: stored as /demo-team" },
+    {
+      "start": 14.5,
+      "end": 31.3,
+      "text": "Change it to /demo-our-team and publish"
+    },
+    {
+      "start": 31.3,
+      "end": 33.8,
+      "text": "Core alias list: one alias, updated in place"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+group,classification,changed_lines,denominator_lines,notes
+all_published_changes,Form-focused authored or captured,13556,42672,Production code plus direct tests plus authored READMEs plus captured form data
+all_published_changes,Copied form runtime and licenses,18002,42672,17118 copied runtime lines plus 884 copied license lines
+all_published_changes,Remaining or shared,11114,42672,Includes shared tests and CI; not necessarily unrelated to forms
+form_focused_components,Production forms AJAX and autocomplete,3872,31558,Direct form production category
+form_focused_components,Directly form-related tests and support,8004,31558,Excludes 4472 shared test lines
+form_focused_components,Form transport fixtures,18537,31558,17118 copied runtime lines plus 1419 captured data lines
+form_focused_components,Authored form-test READMEs,261,31558,Two documentation files
+form_focused_components,Copied form runtime licenses,884,31558,Four licenses attributed by the published form fixture README and manifest
+copied_material,Copied Drupal and vendor runtime,17118,18002,Removed from both numerator and denominator in the companion measure
+copied_material,Copied license text,884,18002,Removed from both numerator and denominator in the companion measure
+excluding_copied_material,Form-focused authored or captured,13556,24670,31558 minus 18002; retains all 1419 captured-data lines
+excluding_copied_material,Remaining or shared,11114,24670,42672 minus 18002 is the new denominator

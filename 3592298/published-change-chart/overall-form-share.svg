@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="580" viewBox="0 0 1200 580" role="img" aria-labelledby="overall-title overall-desc">
+<title id="overall-title">Overall form-focused share of published MR changes: 73.95 percent</title>
+<desc id="overall-desc">All 42,672 changed lines partition into 13,556 form-focused authored or captured lines, 18,002 copied form runtime and license lines, and 11,114 remaining or shared lines. The first two slices total 31,558 form-focused lines, or 73.95 percent. Changed-line volume is not effort or failure causation.</desc>
+<defs><pattern id="copied-form-assets" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#7955a3"/><circle cx="6" cy="6" r="1.8" fill="white" fill-opacity=".7"/></pattern></defs>
+<style>text{font-family:system-ui,-apple-system,Segoe UI,sans-serif;fill:#192b3e}.muted{fill:#526376}.label{font-size:20px;font-weight:650}</style>
+<rect width="1200" height="580" rx="20" fill="#f5f8fb"/>
+<text x="48" y="52" font-size="30" font-weight="750">Overall form-focused change volume</text>
+<text x="48" y="84" font-size="18" class="muted">One denominator: all published MR additions + deletions</text>
+<path d="M285.000000,130.000000 A180,180 0 0 1 448.969159,384.257087 L383.381495,354.554252 A108,108 0 0 0 285.000000,202.000000 Z" fill="#1769aa" stroke="#f5f8fb" stroke-width="2"><title>Form-focused authored/captured: 13,556 changed lines</title></path>
+<path d="M448.969159,384.257087 A180,180 0 0 1 105.387998,321.812234 L177.232799,317.087340 A108,108 0 0 0 383.381495,354.554252 Z" fill="url(#copied-form-assets)" stroke="#f5f8fb" stroke-width="2"><title>Copied form runtime and licenses: 18,002 changed lines</title></path>
+<path d="M105.387998,321.812234 A180,180 0 0 1 285.000000,130.000000 L285.000000,202.000000 A108,108 0 0 0 177.232799,317.087340 Z" fill="#5b6775" stroke="#f5f8fb" stroke-width="2"><title>Remaining/shared: 11,114 changed lines</title></path>
+<text x="285" y="303" text-anchor="middle" font-size="42" font-weight="750">73.95%</text>
+<text x="285" y="333" text-anchor="middle" font-size="18" class="muted">form-focused</text>
+<rect x="530" y="164" width="26" height="26" rx="4" fill="#1769aa"/>
+<text x="574" y="184" class="label">Form code, tests, docs + captured data</text>
+<text x="574" y="214" font-size="18" class="muted">13,556 lines · 31.77% of the full patch</text>
+<rect x="530" y="264" width="26" height="26" rx="4" fill="url(#copied-form-assets)"/>
+<text x="574" y="284" class="label">Copied form runtime + licenses</text>
+<text x="574" y="314" font-size="18" class="muted">18,002 lines · 42.19% of the full patch</text>
+<rect x="530" y="364" width="26" height="26" rx="4" fill="#5b6775"/>
+<text x="574" y="384" class="label">Remaining / shared changes</text>
+<text x="574" y="414" font-size="18" class="muted">11,114 lines · 26.05% of the full patch</text>
+<text x="48" y="536" font-size="18" font-weight="650">Blue + dotted purple = 31,558 of 42,672 changed lines. Copied material is not authored implementation.</text>
+<text x="48" y="562" font-size="15" class="muted">Published 5cda95aa1e75 · base 4430db3cc6a3 · attribution of patch volume, not effort or failure frequency</text>
+</svg>

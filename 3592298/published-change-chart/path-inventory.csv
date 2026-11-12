@@ -1,0 +1,175 @@
+path,category,area,additions,deletions,changed_lines,binary
+.gitlab-ci.yml,CI/tooling implementation,CI YAML,78,11,89,False
+.gitlab/ci/canvas.yml,CI/tooling implementation,CI YAML,47,1,48,False
+.gitlab/ci/npm-diagnostics.mjs,CI/tooling implementation,Artifact/diagnostic/reporting helpers,384,0,384,False
+.gitlab/ci/playwright-failure-reporter.mjs,CI/tooling implementation,Artifact/diagnostic/reporting helpers,174,0,174,False
+.gitlab/ci/test-npm-diagnostics.mjs,Tests & test infrastructure,CI helper contract tests,339,0,339,False
+.gitlab/ci/test-playwright-failure-reporter.mjs,Tests & test infrastructure,CI helper contract tests,382,0,382,False
+.gitlab/ci/test-ui-build-artifact.py,Tests & test infrastructure,CI helper contract tests,200,0,200,False
+.gitlab/ci/test.yml,CI/tooling implementation,CI YAML,46,0,46,False
+.gitlab/ci/ui-build-artifact.php,CI/tooling implementation,Artifact/diagnostic/reporting helpers,169,0,169,False
+dictionary.txt,Documentation & other,Spelling dictionary,12,0,12,False
+js/ajax.command.customizations.js,Production implementation,"Forms, AJAX ownership & autocomplete",129,16,145,False
+js/ajax.hyperscriptify.js,Production implementation,"Forms, AJAX ownership & autocomplete",1,1,2,False
+playwright.config.ts,Tests & test infrastructure,Test runner configuration,10,3,13,False
+src/Form/ComponentInstanceForm.php,Production implementation,"Forms, AJAX ownership & autocomplete",9,0,9,False
+src/Hook/ReduxIntegratedFieldWidgetsHooks.php,Production implementation,"Forms, AJAX ownership & autocomplete",10,0,10,False
+src/Plugin/Canvas/ComponentSource/JsonSchemaPropsComponentSourceBase.php,Production implementation,"Forms, AJAX ownership & autocomplete",4,1,5,False
+src/PropSource/StaticPropSource.php,Production implementation,"Forms, AJAX ownership & autocomplete",174,1,175,False
+tests/src/Functional/ContentWithComponentTreeTmgmtUiTest.php,Tests & test infrastructure,PHP tests/producer fixtures,36,10,46,False
+tests/src/Kernel/ComponentInstanceFormTest.php,Tests & test infrastructure,PHP tests/producer fixtures,38,0,38,False
+tests/src/Kernel/PropSource/Form/WidgetProvenanceTestForm.php,Tests & test infrastructure,PHP tests/producer fixtures,45,0,45,False
+tests/src/Kernel/PropSource/LinkSourceConsumerFixtureTest.php,Tests & test infrastructure,PHP tests/producer fixtures,172,0,172,False
+tests/src/Kernel/PropSource/StaticPropSourceWidgetProvenanceTest.php,Tests & test infrastructure,PHP tests/producer fixtures,370,0,370,False
+tests/src/Playwright/objects/canvas/CanvasBase.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,1,1,2,False
+tests/src/Playwright/objects/canvas/CanvasComponents.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,24,3,27,False
+tests/src/Playwright/objects/canvas/CanvasNavigation.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,38,26,64,False
+tests/src/Playwright/readiness/playwright.config.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,11,0,11,False
+tests/src/Playwright/readiness/preview-readiness.pw.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,292,0,292,False
+tests/src/Playwright/tests/isolatedPerTest/brandKitColors.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,20,1,21,False
+tests/src/Playwright/tests/isolatedPerTest/contentEntityReferenceProps.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,18,4,22,False
+tests/src/Playwright/tests/isolatedPerTest/folders.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,112,9,121,False
+tests/src/Playwright/tests/isolatedPerTest/multivaluePropTypes.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,4,2,6,False
+tests/src/Playwright/tests/isolatedPerTest/optionalImageDefault.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,19,2,21,False
+tests/src/Playwright/tests/isolatedPerTest/pagePreview.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,12,1,13,False
+tests/src/Playwright/tests/isolatedPerTest/pageVariants.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,108,15,123,False
+tests/src/Playwright/tests/isolatedPerTest/templates.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,3,0,3,False
+tests/src/Playwright/tests/isolatedPerTest/uiPermissions.spec.ts,Tests & test infrastructure,Playwright tests/helpers/readiness,2,1,3,False
+ui/cypress.config.js,Tests & test infrastructure,Test runner configuration,8,1,9,False
+ui/src/components/ComponentInstanceForm.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",237,28,265,False
+ui/src/components/form/components/TextFieldAutocomplete.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",22,4,26,False
+ui/src/components/form/components/drupal/DrupalDatetimeMultivalueForm.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",31,0,31,False
+ui/src/components/form/components/drupal/DrupalForm.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",1364,26,1390,False
+ui/src/components/form/components/drupal/DrupalInputMultivalueForm.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",87,6,93,False
+ui/src/components/form/components/drupal/DrupalMultivalueSubmit.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",26,2,28,False
+ui/src/components/form/components/drupal/multivalueFormUtils.test.ts,Tests & test infrastructure,UI tests/transport/support,194,0,194,False
+ui/src/components/form/components/drupal/multivalueFormUtils.ts,Production implementation,"Forms, AJAX ownership & autocomplete",36,3,39,False
+ui/src/components/form/contexts/FormContext.test.tsx,Tests & test infrastructure,UI tests/transport/support,143,0,143,False
+ui/src/components/form/contexts/FormContext.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",211,4,215,False
+ui/src/components/form/contexts/componentFormOperation.test.ts,Tests & test infrastructure,UI tests/transport/support,290,0,290,False
+ui/src/components/form/contexts/componentFormOperation.ts,Production implementation,"Forms, AJAX ownership & autocomplete",196,0,196,False
+ui/src/components/form/contexts/componentFormTree.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",85,0,85,False
+ui/src/components/form/contexts/componentLinkSource.ts,Production implementation,"Forms, AJAX ownership & autocomplete",345,0,345,False
+ui/src/components/form/contexts/retireComponentBindings.test.tsx,Tests & test infrastructure,UI tests/transport/support,75,0,75,False
+ui/src/components/form/contexts/retireComponentBindings.ts,Production implementation,"Forms, AJAX ownership & autocomplete",17,0,17,False
+ui/src/components/form/react-hook-form/fields/ComponentFormField.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",148,29,177,False
+ui/src/components/form/react-hook-form/fields/PageDataFormField.test.tsx,Tests & test infrastructure,UI tests/transport/support,220,0,220,False
+ui/src/components/form/react-hook-form/fields/PageDataFormField.tsx,Production implementation,"Publication, page data & response ordering",29,17,46,False
+ui/src/components/form/react-hook-form/fields/componentFieldValidation.ts,Production implementation,"Forms, AJAX ownership & autocomplete",22,1,23,False
+ui/src/components/form/react-hook-form/fields/componentFormEdits.test.ts,Tests & test infrastructure,UI tests/transport/support,187,0,187,False
+ui/src/components/form/react-hook-form/fields/componentFormEdits.ts,Production implementation,"Forms, AJAX ownership & autocomplete",236,0,236,False
+ui/src/components/form/react-hook-form/fields/componentFormHandlers.test.ts,Tests & test infrastructure,UI tests/transport/support,86,0,86,False
+ui/src/components/form/react-hook-form/fields/componentFormHandlers.ts,Production implementation,"Forms, AJAX ownership & autocomplete",74,26,100,False
+ui/src/components/form/react-hook-form/fields/useFieldHandlers.test.tsx,Tests & test infrastructure,UI tests/transport/support,114,0,114,False
+ui/src/components/form/react-hook-form/fields/useFieldHandlers.ts,Production implementation,"Forms, AJAX ownership & autocomplete",80,4,84,False
+ui/src/components/form/react-hook-form/hooks/useComponentFormInputInfo.ts,Production implementation,"Forms, AJAX ownership & autocomplete",12,1,13,False
+ui/src/components/form/react-hook-form/utils/index.ts,Production implementation,"Forms, AJAX ownership & autocomplete",18,1,19,False
+ui/src/components/frontendSelect/FrontendSelect.test.tsx,Tests & test infrastructure,UI tests/transport/support,31,3,34,False
+ui/src/components/list/ListItem.test.tsx,Tests & test infrastructure,UI tests/transport/support,121,9,130,False
+ui/src/components/list/ListItem.tsx,Production implementation,"Preview, menus, overlays & focus",2,2,4,False
+ui/src/components/review/PublishReview.slice.ts,Production implementation,"Publication, page data & response ordering",97,0,97,False
+ui/src/components/review/UnpublishedChanges.readiness.test.tsx,Tests & test infrastructure,UI tests/transport/support,590,0,590,False
+ui/src/components/review/UnpublishedChanges.test.tsx,Tests & test infrastructure,UI tests/transport/support,1,0,1,False
+ui/src/components/review/UnpublishedChanges.tsx,Production implementation,"Publication, page data & response ordering",5,13,18,False
+ui/src/components/review/usePublishPendingChanges.test.tsx,Tests & test infrastructure,UI tests/transport/support,355,0,355,False
+ui/src/components/review/usePublishPendingChanges.ts,Production implementation,"Publication, page data & response ordering",9,27,36,False
+ui/src/components/sidePanel/SidebarNode.tsx,Production implementation,"Preview, menus, overlays & focus",6,1,7,False
+ui/src/features/brandKit/BrandKitColorsSection.test.tsx,Tests & test infrastructure,UI tests/transport/support,107,3,110,False
+ui/src/features/brandKit/BrandKitColorsSection.tsx,Production implementation,"Preview, menus, overlays & focus",11,0,11,False
+ui/src/features/brandKit/components/ColorFormPopover.test.tsx,Tests & test infrastructure,UI tests/transport/support,41,2,43,False
+ui/src/features/code-editor/Preview.metadata.test.tsx,Tests & test infrastructure,UI tests/transport/support,460,0,460,False
+ui/src/features/code-editor/Preview.tsx,Production implementation,Code-editor hydration/autosave,15,6,21,False
+ui/src/features/code-editor/codeEditorSlice.ts,Production implementation,Code-editor hydration/autosave,26,0,26,False
+ui/src/features/code-editor/hooks/useAutoSave.tsx,Production implementation,Code-editor hydration/autosave,5,8,13,False
+ui/src/features/code-editor/hooks/useCodeEditor.hydration.test.tsx,Tests & test infrastructure,UI tests/transport/support,570,0,570,False
+ui/src/features/code-editor/hooks/useCodeEditor.test.tsx,Tests & test infrastructure,UI tests/transport/support,18,21,39,False
+ui/src/features/code-editor/hooks/useSourceCode.ts,Production implementation,Code-editor hydration/autosave,62,14,76,False
+ui/src/features/form/formStateSlice.quarantine.test.ts,Tests & test infrastructure,UI tests/transport/support,125,0,125,False
+ui/src/features/form/formStateSlice.ts,Production implementation,"Forms, AJAX ownership & autocomplete",101,1,102,False
+ui/src/features/layout/layers/ComponentLayer.tsx,Production implementation,"Preview, menus, overlays & focus",5,0,5,False
+ui/src/features/layout/preview/ComponentContextMenu.test.tsx,Tests & test infrastructure,UI tests/transport/support,314,0,314,False
+ui/src/features/layout/preview/ComponentContextMenu.tsx,Production implementation,"Preview, menus, overlays & focus",5,21,26,False
+ui/src/features/layout/preview/IframeSwapper.test.tsx,Tests & test infrastructure,UI tests/transport/support,279,0,279,False
+ui/src/features/layout/preview/IframeSwapper.tsx,Production implementation,"Preview, menus, overlays & focus",141,52,193,False
+ui/src/features/layout/preview/Viewport.mapping.test.tsx,Tests & test infrastructure,UI tests/transport/support,380,0,380,False
+ui/src/features/layout/preview/Viewport.tsx,Production implementation,"Preview, menus, overlays & focus",26,8,34,False
+ui/src/features/layout/preview/useComponentMenuOpenState.ts,Production implementation,"Preview, menus, overlays & focus",26,0,26,False
+ui/src/features/layout/previewOverlay/ComponentOverlay.tsx,Production implementation,"Preview, menus, overlays & focus",13,7,20,False
+ui/src/features/layout/previewOverlay/OverlayMenuLifetime.test.tsx,Tests & test infrastructure,UI tests/transport/support,377,0,377,False
+ui/src/features/layout/previewOverlay/RegionOverlay.tsx,Production implementation,"Preview, menus, overlays & focus",20,11,31,False
+ui/src/features/layout/previewOverlay/SlotOverlay.tsx,Production implementation,"Preview, menus, overlays & focus",10,7,17,False
+ui/src/features/layout/previewOverlay/ViewportOverlay.tsx,Production implementation,"Preview, menus, overlays & focus",27,2,29,False
+ui/src/hooks/useComponentHtmlMap.ts,Production implementation,"Preview, menus, overlays & focus",15,4,19,False
+ui/src/hooks/useDropOnFolderHandler.test.tsx,Tests & test infrastructure,UI tests/transport/support,678,0,678,False
+ui/src/hooks/useDropOnFolderHandler.ts,Production implementation,Folder transactions,332,188,520,False
+ui/src/main.tsx,Production implementation,"Forms, AJAX ownership & autocomplete",10,1,11,False
+ui/src/services/componentAndLayout.test.ts,Tests & test infrastructure,UI tests/transport/support,120,0,120,False
+ui/src/services/componentAndLayout.ts,Production implementation,"Publication, page data & response ordering",40,9,49,False
+ui/src/services/componentInstanceForm.ts,Production implementation,"Forms, AJAX ownership & autocomplete",10,2,12,False
+ui/src/services/pendingChangesApi.test.ts,Tests & test infrastructure,UI tests/transport/support,392,1,393,False
+ui/src/services/pendingChangesApi.ts,Production implementation,"Publication, page data & response ordering",173,18,191,False
+ui/src/services/preview.responseOrdering.test.tsx,Tests & test infrastructure,UI tests/transport/support,585,0,585,False
+ui/src/services/preview.ts,Production implementation,"Publication, page data & response ordering",140,39,179,False
+ui/src/types/Ajax.ts,Production implementation,"Forms, AJAX ownership & autocomplete",18,1,19,False
+ui/tests/e2e/auto-path-alias.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,1,4,False
+ui/tests/e2e/code-component-image.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,1,4,False
+ui/tests/e2e/entity-form-field-types-test.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,2,5,False
+ui/tests/e2e/link-code-component.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,1,4,False
+ui/tests/e2e/media-library-component-instance.cy.js,Tests & test infrastructure,Cypress tests/retry support,6,3,9,False
+ui/tests/e2e/media-library-entity-form.cy.js,Tests & test infrastructure,Cypress tests/retry support,4,2,6,False
+ui/tests/e2e/navigation.cy.js,Tests & test infrastructure,Cypress tests/retry support,6,4,10,False
+ui/tests/e2e/overlay-ui.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,1,4,False
+ui/tests/e2e/page-data-form.cy.js,Tests & test infrastructure,Cypress tests/retry support,11,1,12,False
+ui/tests/e2e/pattern.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,1,4,False
+ui/tests/e2e/primary-panel.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,1,4,False
+ui/tests/e2e/prop-types.cy.js,Tests & test infrastructure,Cypress tests/retry support,71,85,156,False
+ui/tests/e2e/publish-review.cy.js,Tests & test infrastructure,Cypress tests/retry support,4,2,6,False
+ui/tests/e2e/publish-validation.cy.js,Tests & test infrastructure,Cypress tests/retry support,4,2,6,False
+ui/tests/e2e/realtime-preview-code-component.cy.js,Tests & test infrastructure,Cypress tests/retry support,3,1,4,False
+ui/tests/e2e/topbar-layout-preview-mode.cy.js,Tests & test infrastructure,Cypress tests/retry support,6,4,10,False
+ui/tests/fixtures/component-form/.cspell.json,Tests & test infrastructure,Fixture integrity/configuration,34,0,34,False
+ui/tests/fixtures/component-form/README.md,Documentation & other,Test/fixture documentation,165,0,165,False
+ui/tests/fixtures/component-form/component-fixture.json,Pinned/captured fixture assets,Captured producer/form data,590,0,590,False
+ui/tests/fixtures/component-form/core/LICENSE.txt,Documentation & other,Licenses,339,0,339,False
+ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/keycode.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,49,0,49,False
+ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/unique-id.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,52,0,52,False
+ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/version.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,20,0,20,False
+ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/widget.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,759,0,759,False
+ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/widgets/autocomplete.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,640,0,640,False
+ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/widgets/menu.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,712,0,712,False
+ui/tests/fixtures/component-form/core/assets/vendor/jquery/jquery.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,9680,0,9680,False
+ui/tests/fixtures/component-form/core/assets/vendor/loadjs/loadjs.min.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,1,0,1,False
+ui/tests/fixtures/component-form/core/assets/vendor/once/once.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,393,0,393,False
+ui/tests/fixtures/component-form/core/misc/ajax.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,1914,0,1914,False
+ui/tests/fixtures/component-form/core/misc/announce.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,117,0,117,False
+ui/tests/fixtures/component-form/core/misc/autocomplete.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,298,0,298,False
+ui/tests/fixtures/component-form/core/misc/debounce.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,48,0,48,False
+ui/tests/fixtures/component-form/core/misc/jquery.form.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,1535,0,1535,False
+ui/tests/fixtures/component-form/core/misc/message.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,267,0,267,False
+ui/tests/fixtures/component-form/core/misc/position.js.txt,Pinned/captured fixture assets,Pinned third-party/Drupal runtime copies,633,0,633,False
+ui/tests/fixtures/component-form/initial-form.json,Pinned/captured fixture assets,Captured producer/form data,1,0,1,False
+ui/tests/fixtures/component-form/licenses/jquery-MIT.txt,Documentation & other,Licenses,20,0,20,False
+ui/tests/fixtures/component-form/licenses/jquery-form.txt,Documentation & other,Licenses,504,0,504,False
+ui/tests/fixtures/component-form/licenses/loadjs-MIT.txt,Documentation & other,Licenses,21,0,21,False
+ui/tests/fixtures/component-form/manifest.json,Tests & test infrastructure,Fixture integrity/configuration,119,0,119,False
+ui/tests/fixtures/component-form/producer.json,Pinned/captured fixture assets,Captured producer/form data,826,0,826,False
+ui/tests/fixtures/component-form/remove-ajax.json,Pinned/captured fixture assets,Captured producer/form data,1,0,1,False
+ui/tests/fixtures/component-form/removed-form.json,Pinned/captured fixture assets,Captured producer/form data,1,0,1,False
+ui/tests/support/retry-modes.js,Tests & test infrastructure,Cypress tests/retry support,10,0,10,False
+ui/tests/vitest/components/ComponentInstanceForm.autocomplete.test.tsx,Tests & test infrastructure,UI tests/transport/support,530,0,530,False
+ui/tests/vitest/components/ComponentInstanceForm.scalar-autocomplete.test.tsx,Tests & test infrastructure,UI tests/transport/support,671,0,671,False
+ui/tests/vitest/components/ComponentInstanceForm.transport.test.tsx,Tests & test infrastructure,UI tests/transport/support,2467,0,2467,False
+ui/tests/vitest/nonlink-admission/README.md,Documentation & other,Test/fixture documentation,96,0,96,False
+ui/tests/vitest/nonlink-admission/admission.contract.tsx,Tests & test infrastructure,UI tests/transport/support,1141,0,1141,False
+ui/tests/vitest/nonlink-admission/completion.test.ts,Tests & test infrastructure,UI tests/transport/support,222,0,222,False
+ui/tests/vitest/nonlink-admission/observation.mjs,Tests & test infrastructure,UI tests/transport/support,60,0,60,False
+ui/tests/vitest/nonlink-admission/vitest.config.mjs,Tests & test infrastructure,UI tests/transport/support,27,0,27,False
+ui/tests/vitest/support/compareComponentFormProducer.mjs,Tests & test infrastructure,UI tests/transport/support,135,0,135,False
+ui/tests/vitest/support/componentFormTransport.assets.mjs,Tests & test infrastructure,UI tests/transport/support,18,0,18,False
+ui/tests/vitest/support/componentFormTransport.counterfactual.config.mjs,Tests & test infrastructure,UI tests/transport/support,122,0,122,False
+ui/tests/vitest/support/componentFormTransport.shared.ts,Tests & test infrastructure,UI tests/transport/support,4,0,4,False
+ui/tests/vitest/support/componentFormTransport.tsx,Tests & test infrastructure,UI tests/transport/support,559,0,559,False
+ui/tests/vitest/unit/CanvasComponents.pattern.test.ts,Tests & test infrastructure,UI tests/transport/support,388,0,388,False
+ui/tests/vitest/unit/CanvasNavigation.test.ts,Tests & test infrastructure,UI tests/transport/support,315,0,315,False
+ui/tests/vitest/unit/browser-retries.test.js,Tests & test infrastructure,UI tests/transport/support,186,0,186,False
+ui/vitest.config.js,Tests & test infrastructure,Test runner configuration,9,2,11,False

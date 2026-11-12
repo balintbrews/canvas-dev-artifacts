@@ -1,0 +1,6 @@
+category,files,additions,deletions,changed_lines,percent_total
+Production implementation,54,4953,613,5566,13.043682039745033
+Tests & test infrastructure,86,16270,232,16502,38.671728533933255
+CI/tooling implementation,6,898,12,910,2.1325459317585302
+Pinned/captured fixture assets,21,18537,0,18537,43.44066366704162
+Documentation & other,7,1157,0,1157,2.7113798275215597

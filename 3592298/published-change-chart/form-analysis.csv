@@ -1,0 +1,30 @@
+group,classification,changed_lines,paths,denominator_lines,notes
+production,Forms AJAX ownership and autocomplete,3872,29,5566,Published production subset
+production,Other production,1694,25,5566,Complement of the form production subset
+tests,Directly form-related,8004,30,16502,Line partition is disjoint; path counts overlap in two mixed files
+tests,Shared or mixed-purpose,4472,37,16502,Not exclusively attributable to forms
+tests,Other,4026,21,16502,86 unique test paths across the three classifications
+direct_test_file_roles,Suite files,6698,18,8004,Includes setup mocks and assertions; not a test-case count
+direct_test_file_roles,Support files,1306,12,8004,Test infrastructure rather than additional suite cases
+direct_test_components,PHP provenance rendering and producer,625,,8004,Component breakdown of the same direct test lines
+direct_test_components,Field context operation and quarantine,1214,,8004,Component breakdown of the same direct test lines
+direct_test_components,FrontendSelect cleanup,34,,8004,Component breakdown of the same direct test lines
+direct_test_components,Three ComponentInstanceForm suites,3668,3,8004,Component breakdown of the same direct test lines
+direct_test_components,Non-link admission,1450,,8004,Component breakdown of the same direct test lines
+direct_test_components,Transport and producer support,838,,8004,Component breakdown of the same direct test lines
+direct_test_components,Manifest and spelling configuration,153,2,8004,Component breakdown of the same direct test lines
+direct_test_components,Vitest enrollment,11,1,8004,Component breakdown of the same direct test lines
+direct_test_components,Multivalue Playwright assertions,6,1,8004,Component breakdown of the same direct test lines
+direct_test_components,Media widget AJAX,5,1,8004,Direct portion of media-library-component-instance.cy.js
+fixtures,Copied Drupal and vendor runtime,17118,16,18537,All fixture assets serve form transport; copied runtime is not authored implementation
+fixtures,Captured producer and form data,1419,5,18537,Captured data is not authored implementation
+fixture_detail,jQuery runtime copy,9680,1,17118,Subset of copied runtime; do not add again
+docs,Authored form-test READMEs,261,2,1157,Documentation rather than implementation
+docs,Copied licenses,884,4,1157,Copied text rather than authored prose
+docs,General spelling dictionary,12,1,1157,Not exclusively form-specific
+ci,Shared CI and tooling implementation,910,6,910,Zero lines classified as exclusively form-specific
+mixed_file_detail,media-library-component-instance.cy.js direct,5,1,9,The other 4 lines are shared retry-policy changes
+mixed_file_detail,media-library-component-instance.cy.js shared,4,1,9,Same file as the direct portion; do not add path counts
+mixed_file_detail,CanvasNavigation.test.ts shared,240,1,315,The other 75 lines belong to other test work
+mixed_file_detail,CanvasNavigation.test.ts other,75,1,315,Same file as the shared portion; do not add path counts
+shared_file_detail,prop-types.cy.js shared retry and formatting,156,1,156,Entire changed-line volume is shared work rather than form-fix lines

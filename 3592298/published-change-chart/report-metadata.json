@@ -1,0 +1,125 @@
+{
+  "base_sha": "4364e97bf4452c4a303b170aa01d872d3d926739",
+  "published_sha": "d078798975238ec2f824de14c66954d026441564",
+  "merge_base_sha": "4364e97bf4452c4a303b170aa01d872d3d926739",
+  "measure": "added + deleted lines; not net LOC",
+  "universe": "Excludes copied third-party dependencies and licenses.",
+  "total": {
+    "files": 167,
+    "additions": 27940,
+    "deletions": 925,
+    "changed_lines": 28865
+  },
+  "form_focused": {
+    "additions": 17136,
+    "deletions": 215,
+    "changed_lines": 17351
+  },
+  "remaining_or_shared": {
+    "additions": 10804,
+    "deletions": 710,
+    "changed_lines": 11514
+  },
+  "form_percent": 60.11086090420925,
+  "captured_data_retained": {
+    "additions": 1419,
+    "deletions": 0,
+    "changed_lines": 1419
+  },
+  "exclusions_manifest": "exclusions.json",
+  "direct_test_components": {
+    "PHP provenance rendering and producer": [
+      "tests/src/Kernel/ComponentInstanceFormTest.php",
+      "tests/src/Kernel/PropSource/Form/WidgetProvenanceTestForm.php",
+      "tests/src/Kernel/PropSource/LinkSourceConsumerFixtureTest.php",
+      "tests/src/Kernel/PropSource/StaticPropSourceWidgetProvenanceTest.php"
+    ],
+    "Field context operation and quarantine": [
+      "ui/src/components/form/components/drupal/multivalueFormUtils.test.ts",
+      "ui/src/components/form/contexts/FormContext.test.tsx",
+      "ui/src/components/form/contexts/componentFormOperation.test.ts",
+      "ui/src/components/form/contexts/retireComponentBindings.test.tsx",
+      "ui/src/components/form/react-hook-form/fields/componentFormEdits.test.ts",
+      "ui/src/components/form/react-hook-form/fields/componentFormHandlers.test.ts",
+      "ui/src/components/form/react-hook-form/fields/useFieldHandlers.test.tsx",
+      "ui/src/features/form/formStateSlice.quarantine.test.ts"
+    ],
+    "FrontendSelect cleanup": [
+      "ui/src/components/frontendSelect/FrontendSelect.test.tsx"
+    ],
+    "Three ComponentInstanceForm suites": [
+      "ui/tests/vitest/components/ComponentInstanceForm.autocomplete.test.tsx",
+      "ui/tests/vitest/components/ComponentInstanceForm.scalar-autocomplete.test.tsx",
+      "ui/tests/vitest/components/ComponentInstanceForm.transport.test.tsx"
+    ],
+    "Non-link admission": [
+      "ui/tests/vitest/nonlink-admission/admission.contract.tsx",
+      "ui/tests/vitest/nonlink-admission/completion.test.ts",
+      "ui/tests/vitest/nonlink-admission/observation.mjs",
+      "ui/tests/vitest/nonlink-admission/vitest.config.mjs"
+    ],
+    "Transport and producer support": [
+      "ui/tests/vitest/support/compareComponentFormProducer.mjs",
+      "ui/tests/vitest/support/componentFormTransport.assets.mjs",
+      "ui/tests/vitest/support/componentFormTransport.counterfactual.config.mjs",
+      "ui/tests/vitest/support/componentFormTransport.shared.ts",
+      "ui/tests/vitest/support/componentFormTransport.tsx"
+    ],
+    "Manifest and spelling configuration": [
+      "ui/tests/fixtures/component-form/manifest.json",
+      "ui/tests/fixtures/component-form/.cspell.json"
+    ],
+    "Vitest enrollment": [
+      "ui/vitest.config.js"
+    ],
+    "Multivalue Playwright assertions": [
+      "tests/src/Playwright/tests/isolatedPerTest/multivaluePropTypes.spec.ts"
+    ],
+    "Media widget AJAX": [
+      "ui/tests/e2e/media-library-component-instance.cy.js"
+    ],
+    "Non-link retention": [
+      "ui/tests/vitest/nonlink-retention/cleanup.ts",
+      "ui/tests/vitest/nonlink-retention/native-ack-lifecycle.test.tsx",
+      "ui/tests/vitest/nonlink-retention/native-ack.test.tsx",
+      "ui/tests/vitest/nonlink-retention/native-first.test.tsx",
+      "ui/tests/vitest/nonlink-retention/owner-retention.test.tsx",
+      "ui/tests/vitest/nonlink-retention/projection.test.ts",
+      "ui/tests/vitest/nonlink-retention/promotion.test.tsx",
+      "ui/tests/vitest/nonlink-retention/transport.ts"
+    ],
+    "List integer save acknowledgement": [
+      "tests/src/Playwright/tests/isolatedPerTest/listIntegerRemoval.ts",
+      "ui/tests/vitest/unit/listIntegerRemoval.test.ts"
+    ]
+  },
+  "direct_test_support_paths": [
+    "tests/src/Kernel/PropSource/Form/WidgetProvenanceTestForm.php",
+    "tests/src/Kernel/PropSource/LinkSourceConsumerFixtureTest.php",
+    "tests/src/Playwright/tests/isolatedPerTest/listIntegerRemoval.ts",
+    "ui/tests/fixtures/component-form/.cspell.json",
+    "ui/tests/fixtures/component-form/manifest.json",
+    "ui/tests/vitest/nonlink-admission/observation.mjs",
+    "ui/tests/vitest/nonlink-admission/vitest.config.mjs",
+    "ui/tests/vitest/nonlink-retention/cleanup.ts",
+    "ui/tests/vitest/nonlink-retention/transport.ts",
+    "ui/tests/vitest/support/compareComponentFormProducer.mjs",
+    "ui/tests/vitest/support/componentFormTransport.assets.mjs",
+    "ui/tests/vitest/support/componentFormTransport.counterfactual.config.mjs",
+    "ui/tests/vitest/support/componentFormTransport.shared.ts",
+    "ui/tests/vitest/support/componentFormTransport.tsx",
+    "ui/vitest.config.js"
+  ],
+  "shared_tests": {
+    "additions": 4423,
+    "deletions": 147,
+    "changed_lines": 4570
+  },
+  "other_tests": {
+    "additions": 4194,
+    "deletions": 76,
+    "changed_lines": 4270
+  },
+  "test_classification": "Historical per-path partition recovered and verified against immutable diff payloads. Additional npm diagnostics remain shared; new Viewport regression is other feature work, consistent with existing preview tests. Media direct/shared split is +3/-2 and +3/-1. CanvasNavigation partitions 240/75 added lines.",
+  "binary_paths": []
+}

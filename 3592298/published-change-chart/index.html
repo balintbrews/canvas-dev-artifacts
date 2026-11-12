@@ -1,48 +1,36 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Canvas !1972 | Executive change summary</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Canvas !1972 | Executive change summary</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#192b3e;font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1240px;margin:auto;padding:24px}section{background:white;padding:28px;border-radius:16px;margin:24px 0}svg,img.chart{display:block;width:100%;height:auto;box-shadow:0 10px 40px #172b3e12;border-radius:20px}h1,h2{line-height:1.25}h1{font-size:25px}h2{font-size:22px}p{max-width:100ch}a{color:#075b9b;text-underline-offset:3px}nav{display:flex;flex-wrap:wrap;gap:12px}nav a{background:#e9f2fa;padding:8px 14px;border-radius:8px;font-weight:650}code{overflow-wrap:anywhere;font-size:13px}.badge{font-size:13px;letter-spacing:1px;font-weight:750;color:#526376}footer{font-size:14px;color:#526376;padding:12px 0 32px}@media print{body{background:white}main{padding:0}section{break-inside:avoid}svg,img.chart{box-shadow:none}}
 </style>
-</head>
-<body>
-<main>
-<section aria-labelledby="headline">
-<p class="badge">CANVAS · MR !1972</p>
-<h1 id="headline">73.95% of all changed lines are form-focused</h1>
-<p>Published snapshot <code>5cda95aa1e75</code> against <code>4430db3cc6a3</code> · <strong>174 files · 42,672 added + deleted lines.</strong></p>
-<p>Forms dominate this published patch when production code, directly related tests, transport fixtures and their documentation are counted together. That is <strong>31,558 of 42,672 changed lines</strong>. The total covers the whole MR, not just production implementation.</p>
-<img class="chart" src="overall-form-share.svg" width="1200" height="580" alt="Overall form share: form-focused authored or captured material, copied form runtime and licenses, and remaining or shared changes.">
-<h2>54.95% after excluding copied runtime and licenses</h2>
-<p>Copied runtime and licenses inflate the headline’s denominator as well as its form-focused numerator. They contribute <strong>17,118 + 884 = 18,002 lines</strong>. Removing these from both sides gives <strong>13,556 / 24,670 = 54.95%</strong>. This still includes <strong>1,419 captured-data lines</strong>; it is an authored-or-captured view, not authored code alone.</p>
+</head><body><main>
+<section aria-labelledby="headline"><p class="badge">CANVAS · MR !1972</p>
+<h1 id="headline">60.11% of reported changed lines are form-focused</h1>
+<p>Published snapshot <code>d07879897523</code> against <code>4364e97bf445</code> · <strong>167 counted files · 28,865 changed lines (+27,940 added / −925 removed).</strong></p>
+<p>Excludes copied third-party dependencies and licenses.</p>
+<p>Form production code, directly related tests, supporting code, documentation and captured data account for <strong>17,351 of 28,865 changed lines: +17,136 added / −215 removed</strong>. This includes <strong>1,419 captured-data lines</strong>; it is not a measure of authored code alone.</p>
+<img class="chart" src="overall-form-share.svg" width="1200" height="580" alt="Form-focused changes are 60.11 percent of the filtered report total; remaining or shared changes are 39.89 percent.">
 </section>
-<section aria-labelledby="material-heading">
-<h2 id="material-heading">Implementation, tests and supporting material</h2>
-<p>The original classification separates implementation from tests and test infrastructure, copied or captured fixtures, and documentation. This chart shows the same 42,672 changed lines by type of material; it is not an additional total.</p>
-<img class="chart" src="published-change-chart.svg" width="1200" height="1040" alt="Original change-volume chart comparing production implementation, tests, CI/tooling, fixtures and documentation, with the production breakdown below.">
-<p>Forms account for <strong>69.6% of production changed lines</strong>: 3,872 of 5,566. Within tests and test infrastructure, <strong>48.5%</strong>—8,004 of 16,502 lines—is directly form-related. The remaining/shared category includes 4,472 shared test lines and 910 CI/tooling lines; neither is credited exclusively to forms.</p>
+<section aria-labelledby="material-heading"><h2 id="material-heading">Implementation, tests and supporting material</h2>
+<p>The material breakdown uses the same 28,865 changed lines, not an additional total. It separates implementation, tests and test infrastructure, CI/tooling, captured data and documentation.</p>
+<img class="chart" src="published-change-chart.svg" width="1200" height="1040" alt="Report change volume by material, with the production breakdown below.">
+<p>Forms account for <strong>74.5% of production changed lines</strong>: 5,124 of 6,876. Within tests and test infrastructure, <strong>54.2%</strong>—10,468 of 19,308 lines—is directly form-related. The remaining/shared category includes 4,570 shared test lines and 910 CI/tooling lines; neither is credited exclusively to forms.</p>
 </section>
-<section aria-labelledby="interpretation-heading">
-<h2 id="interpretation-heading">What this suggests</h2>
+<section aria-labelledby="interpretation-heading"><h2 id="interpretation-heading">What this suggests</h2>
 <p>The concentration supports a focused boundary refactor: clarify ownership and handoffs between Drupal forms/AJAX, React bindings and canonical model updates. Prefer fewer competing authorities over simply moving code between files. Keep validation, draft recovery and widget compatibility intact while simplifying those transitions and reducing duplicated synchronization. Patch size alone is not proof that the form system needs a rewrite, nor evidence that forms cause a matching share of flakes.</p>
 </section>
-<section aria-labelledby="downloads-heading">
-<h2 id="downloads-heading">Downloads</h2>
-<p>The charts and CSVs retain the file-level counts, production breakdown and direct/shared test split. The detailed 174-path inventory remains available below rather than repeated as a long table on this page.</p>
+<section aria-labelledby="downloads-heading"><h2 id="downloads-heading">Downloads</h2>
+<p>The charts and CSVs use the same filtered universe. The 167-path inventory records exact additions, deletions and form attribution; exclusion metadata is separate and is not counted.</p>
 <nav aria-label="Chart and data downloads">
-<a href="overall-form-share.svg" download>Overall form share · SVG</a>
-<a href="overall-form-share.csv" download>Overall form share · CSV</a>
-<a href="published-change-chart.svg" download>Original change chart · SVG</a>
-<a href="path-inventory.csv" download>All 174 paths · CSV</a>
+<a href="overall-form-share.svg" download>Form share · SVG</a>
+<a href="overall-form-share.csv" download>Form share · CSV</a>
+<a href="published-change-chart.svg" download>Change chart · SVG</a>
+<a href="path-inventory.csv" download>167 counted paths · CSV</a>
 <a href="categories.csv" download>Categories · CSV</a>
 <a href="production-areas.csv" download>Production areas · CSV</a>
 <a href="form-analysis.csv" download>Direct/shared form analysis · CSV</a>
-</nav>
-</section>
+<a href="report-metadata.json" download>Snapshot and attribution · JSON</a>
+<a href="exclusions.json" download>Exclusion manifest · JSON</a>
+</nav></section>
 <footer>Size measures added + deleted lines, not effort or failure frequency.</footer>
-</main>
-</body>
-</html>
+</main></body></html>

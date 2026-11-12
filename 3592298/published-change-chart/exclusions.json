@@ -1,0 +1,134 @@
+{
+  "base_sha": "4364e97bf4452c4a303b170aa01d872d3d926739",
+  "published_sha": "d078798975238ec2f824de14c66954d026441564",
+  "counted_in_report": false,
+  "reason": "Copied third-party dependencies and their licenses",
+  "excluded_paths": 20,
+  "excluded_changes": {
+    "additions": 18002,
+    "deletions": 0,
+    "changed_lines": 18002
+  },
+  "paths": [
+    {
+      "path": "ui/tests/fixtures/component-form/core/LICENSE.txt",
+      "additions": 339,
+      "deletions": 0,
+      "reason": "Copied license"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/keycode.js.txt",
+      "additions": 49,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/unique-id.js.txt",
+      "additions": 52,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/version.js.txt",
+      "additions": 20,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/widget.js.txt",
+      "additions": 759,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/widgets/autocomplete.js.txt",
+      "additions": 640,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/jquery.ui/ui/widgets/menu.js.txt",
+      "additions": 712,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/jquery/jquery.js.txt",
+      "additions": 9680,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/loadjs/loadjs.min.js.txt",
+      "additions": 1,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/assets/vendor/once/once.js.txt",
+      "additions": 393,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/misc/ajax.js.txt",
+      "additions": 1914,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/misc/announce.js.txt",
+      "additions": 117,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/misc/autocomplete.js.txt",
+      "additions": 298,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/misc/debounce.js.txt",
+      "additions": 48,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/misc/jquery.form.js.txt",
+      "additions": 1535,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/misc/message.js.txt",
+      "additions": 267,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/core/misc/position.js.txt",
+      "additions": 633,
+      "deletions": 0,
+      "reason": "Copied runtime dependency"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/licenses/jquery-MIT.txt",
+      "additions": 20,
+      "deletions": 0,
+      "reason": "Copied license"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/licenses/jquery-form.txt",
+      "additions": 504,
+      "deletions": 0,
+      "reason": "Copied license"
+    },
+    {
+      "path": "ui/tests/fixtures/component-form/licenses/loadjs-MIT.txt",
+      "additions": 21,
+      "deletions": 0,
+      "reason": "Copied license"
+    }
+  ]
+}

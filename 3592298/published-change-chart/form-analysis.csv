@@ -1,30 +1,30 @@
-group,classification,changed_lines,paths,denominator_lines,notes
-production,Forms AJAX ownership and autocomplete,3872,29,5566,Published production subset
-production,Other production,1694,25,5566,Complement of the form production subset
-tests,Directly form-related,8004,30,16502,Line partition is disjoint; path counts overlap in two mixed files
-tests,Shared or mixed-purpose,4472,37,16502,Not exclusively attributable to forms
-tests,Other,4026,21,16502,86 unique test paths across the three classifications
-direct_test_file_roles,Suite files,6698,18,8004,Includes setup mocks and assertions; not a test-case count
-direct_test_file_roles,Support files,1306,12,8004,Test infrastructure rather than additional suite cases
-direct_test_components,PHP provenance rendering and producer,625,,8004,Component breakdown of the same direct test lines
-direct_test_components,Field context operation and quarantine,1214,,8004,Component breakdown of the same direct test lines
-direct_test_components,FrontendSelect cleanup,34,,8004,Component breakdown of the same direct test lines
-direct_test_components,Three ComponentInstanceForm suites,3668,3,8004,Component breakdown of the same direct test lines
-direct_test_components,Non-link admission,1450,,8004,Component breakdown of the same direct test lines
-direct_test_components,Transport and producer support,838,,8004,Component breakdown of the same direct test lines
-direct_test_components,Manifest and spelling configuration,153,2,8004,Component breakdown of the same direct test lines
-direct_test_components,Vitest enrollment,11,1,8004,Component breakdown of the same direct test lines
-direct_test_components,Multivalue Playwright assertions,6,1,8004,Component breakdown of the same direct test lines
-direct_test_components,Media widget AJAX,5,1,8004,Direct portion of media-library-component-instance.cy.js
-fixtures,Copied Drupal and vendor runtime,17118,16,18537,All fixture assets serve form transport; copied runtime is not authored implementation
-fixtures,Captured producer and form data,1419,5,18537,Captured data is not authored implementation
-fixture_detail,jQuery runtime copy,9680,1,17118,Subset of copied runtime; do not add again
-docs,Authored form-test READMEs,261,2,1157,Documentation rather than implementation
-docs,Copied licenses,884,4,1157,Copied text rather than authored prose
-docs,General spelling dictionary,12,1,1157,Not exclusively form-specific
-ci,Shared CI and tooling implementation,910,6,910,Zero lines classified as exclusively form-specific
-mixed_file_detail,media-library-component-instance.cy.js direct,5,1,9,The other 4 lines are shared retry-policy changes
-mixed_file_detail,media-library-component-instance.cy.js shared,4,1,9,Same file as the direct portion; do not add path counts
-mixed_file_detail,CanvasNavigation.test.ts shared,240,1,315,The other 75 lines belong to other test work
-mixed_file_detail,CanvasNavigation.test.ts other,75,1,315,Same file as the shared portion; do not add path counts
-shared_file_detail,prop-types.cy.js shared retry and formatting,156,1,156,Entire changed-line volume is shared work rather than form-fix lines
+group,classification,changed_lines,paths,denominator_lines,notes,additions,deletions,base_sha,published_sha
+production,Forms AJAX ownership and autocomplete,5124,30,6876,Published production subset,4926,198,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+production,Other production,1752,25,6876,Complement of the form production subset,1275,477,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+tests,Directly form-related,10468,40,19308,Disjoint line partition; 97 unique test paths; two mixed-file path counts overlap,10451,17,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+tests,Shared or mixed-purpose,4570,37,19308,Disjoint line partition; 97 unique test paths; two mixed-file path counts overlap,4423,147,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+tests,Other,4270,22,19308,Disjoint line partition; 97 unique test paths; two mixed-file path counts overlap,4194,76,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_file_roles,Suite files,8769,25,10468,Includes setup mocks and assertions; not a test-case count,8754,15,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_file_roles,Support files,1699,15,10468,Test infrastructure rather than additional suite cases,1697,2,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,PHP provenance rendering and producer,625,4,10468,Component breakdown of the same direct test lines,625,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Field context operation and quarantine,1214,8,10468,Component breakdown of the same direct test lines,1214,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,FrontendSelect cleanup,34,1,10468,Component breakdown of the same direct test lines,31,3,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Three ComponentInstanceForm suites,3668,3,10468,Component breakdown of the same direct test lines,3668,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Non-link admission,1630,4,10468,Component breakdown of the same direct test lines,1630,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Transport and producer support,838,5,10468,Component breakdown of the same direct test lines,838,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Manifest and spelling configuration,153,2,10468,Component breakdown of the same direct test lines,153,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Vitest enrollment,11,1,10468,Component breakdown of the same direct test lines,9,2,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Multivalue Playwright assertions,48,1,10468,Component breakdown of the same direct test lines,38,10,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Media widget AJAX,5,1,10468,Direct portion of media-library-component-instance.cy.js,3,2,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+fixtures,Captured producer and form data,1419,5,1419,Captured form data retained in the report,1419,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+docs,Authored form-test READMEs,340,3,352,Documentation rather than implementation,340,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+docs,General spelling dictionary,12,1,352,Not exclusively form-specific,12,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+ci,Shared CI and tooling implementation,910,6,910,Zero lines classified as exclusively form-specific,900,10,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+mixed_file_detail,media-library-component-instance.cy.js direct,5,1,9,The other 4 lines are shared retry-policy changes,3,2,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+mixed_file_detail,media-library-component-instance.cy.js shared,4,1,9,Same file as the direct portion; do not add path counts,3,1,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+mixed_file_detail,CanvasNavigation.test.ts shared,240,1,315,The other 75 lines belong to other test work,240,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+mixed_file_detail,CanvasNavigation.test.ts other,75,1,315,Same file as the shared portion; do not add path counts,75,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+shared_file_detail,prop-types.cy.js shared retry and formatting,156,1,156,Entire changed-line volume is shared work rather than form-fix lines,71,85,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,Non-link retention,1809,8,10468,Component breakdown of the same direct test lines,1809,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+direct_test_components,List integer save acknowledgement,433,2,10468,Component breakdown of the same direct test lines,433,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+other_file_detail,Viewport.inPlaceUpdate.test.tsx preview feature tests,244,1,4270,"Other feature work, consistent with IframeSwapper and Viewport.mapping; not exclusive form work",244,0,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564

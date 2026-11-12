@@ -1,6 +1,6 @@
-area,files,additions,deletions,changed_lines
-"Forms, AJAX ownership & autocomplete",29,3713,159,3872
-"Publication, page data & response ordering",7,493,123,616
-Folder transactions,1,332,188,520
-"Preview, menus, overlays & focus",13,307,115,422
-Code-editor hydration/autosave,4,108,28,136
+area,files,additions,deletions,changed_lines,base_sha,published_sha
+"Forms, AJAX ownership & autocomplete",30,4926,198,5124,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+"Publication, page data & response ordering",7,493,123,616,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+Folder transactions,1,332,188,520,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+"Preview, menus, overlays & focus",13,342,138,480,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564
+Code-editor hydration/autosave,4,108,28,136,4364e97bf4452c4a303b170aa01d872d3d926739,d078798975238ec2f824de14c66954d026441564

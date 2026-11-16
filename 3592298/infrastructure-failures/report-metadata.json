@@ -1,5 +1,10 @@
 {
-  "title": "At least 19.91% of pipelines encountered confirmed infrastructure failures",
+  "title": "Infrastructure failures across 1,728 pipelines",
+  "display_labels": {
+    "confirmed": "Confirmed infrastructure failures",
+    "complement": "No confirmed infrastructure failures",
+    "caveat": "No confirmed infrastructure failure does not mean the pipeline passed."
+  },
   "prepared_at_utc": "2026-11-16T15:07:36.264136+00:00",
   "project": {
     "id": 19391,
@@ -8,7 +13,8 @@
   "creation_window": {
     "start_utc": "2026-10-07T08:34:26Z",
     "end_utc": "2026-11-06T08:34:26Z",
-    "selection": "Frozen pipeline creation-time window; outcomes observed during collection, not an as-of reconstruction"
+    "selection": "Frozen pipeline creation-time window; outcomes observed during collection, not an as-of reconstruction",
+    "boundary": "API inclusive bounds, verified against retained window.json and audit.py; timestamps are not midnight"
   },
   "metric": {
     "unit": "distinct pipelines",
@@ -93,5 +99,6 @@
       "bytes": 774
     }
   ],
-  "executive_summary_word_count": 187
+  "executive_summary_word_count": 36,
+  "executive_summary_word_count_scope": "Prose only; excludes title, date, table labels and download links"
 }

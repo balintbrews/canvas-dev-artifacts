@@ -1,0 +1,5 @@
+pipeline_id,job_id,classification,pipeline_url,job_url,verification
+1030175,13344413,shutdown,https://git.drupalcode.org/project/canvas/-/pipelines/1030175,https://git.drupalcode.org/project/canvas/-/jobs/13344413,IDs and canonical public URLs checked against retained evidence; not fetched live
+1030412,13349609,memory_eviction,https://git.drupalcode.org/project/canvas/-/pipelines/1030412,https://git.drupalcode.org/project/canvas/-/jobs/13349609,IDs and canonical public URLs checked against retained evidence; not fetched live
+1025968,13269346,platform_noexecute_eviction,https://git.drupalcode.org/project/canvas/-/pipelines/1025968,https://git.drupalcode.org/project/canvas/-/jobs/13269346,IDs and canonical public URLs checked against retained evidence; not fetched live
+1029843,13338083,artifact_coordinator_transport,https://git.drupalcode.org/project/canvas/-/pipelines/1029843,https://git.drupalcode.org/project/canvas/-/jobs/13338083,IDs and canonical public URLs checked against retained evidence; not fetched live

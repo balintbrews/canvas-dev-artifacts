@@ -1,0 +1,12 @@
+classification,label,distinct_pipelines,failed_job_attempts,counting_note
+shutdown,Explicit imminent node shutdown,298,695,Pipeline categories overlap; do not sum distinct-pipeline counts
+registry,Container-registry transport / throttling failure,29,39,Pipeline categories overlap; do not sum distinct-pipeline counts
+memory_eviction,Node-memory-pressure eviction,7,7,Pipeline categories overlap; do not sum distinct-pipeline counts
+packagist_connection_timeout,Fatal Packagist connection timeout,6,9,Pipeline categories overlap; do not sum distinct-pipeline counts
+runner_backend_tls,Runner / Kubernetes backend TLS failure,6,6,Pipeline categories overlap; do not sum distinct-pipeline counts
+artifact_coordinator_transport,GitLab artifact-upload transport failure,3,6,Pipeline categories overlap; do not sum distinct-pipeline counts
+checkout_dns,Fatal checkout DNS failure,1,1,Pipeline categories overlap; do not sum distinct-pipeline counts
+checkout_http2_transport,Fatal checkout HTTP/2 transport failure,1,1,Pipeline categories overlap; do not sum distinct-pipeline counts
+dependency_git_transport,Fatal dependency Git-transfer failure,1,1,Pipeline categories overlap; do not sum distinct-pipeline counts
+npm_registry_502,npm registry 502 aborting dependency installation,1,3,Pipeline categories overlap; do not sum distinct-pipeline counts
+platform_noexecute_eviction,Explicit NoExecute taint-manager eviction,1,4,Pipeline categories overlap; do not sum distinct-pipeline counts

@@ -1,0 +1,3 @@
+category,distinct_pipelines,denominator_failed_pipelines,percentage,with_first_job_attempt_evidence,with_later_attempt_only_evidence,scope
+Confirmed infrastructure-affected among failed pipelines,245,738,33.2,239,6,"Among ONLY the 738 failed pipelines in the same historical dataset; involvement, not sole cause"
+No confirmed infrastructure evidence among failed pipelines,493,738,66.8,0,0,Not an exclusive product-failure category

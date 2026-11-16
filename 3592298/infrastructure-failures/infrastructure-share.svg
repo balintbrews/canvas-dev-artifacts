@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="590" viewBox="0 0 1200 590" role="img" aria-labelledby="infra-title infra-desc">
-<title id="infra-title">Across all pipelines, how many encountered an infrastructure failure? 344 of 1,728, or 19.91%</title>
-<desc id="infra-desc">All-pipeline view of the same historical dataset as the failed-pipeline figure: 344 of all 1,728 pipelines had confirmed infrastructure evidence. The other 1,384 have no confirmed infrastructure evidence, not proof they were infrastructure-free. Counts include mixed failures and all recorded statuses. Creation window: 7 October 2026 08:34:26 UTC through 6 November 2026 08:34:26 UTC.</desc>
+<title id="infra-title">At least 19.91% of pipelines encountered confirmed infrastructure failures</title>
+<desc id="infra-desc">344 of 1,728 historical pipelines had confirmed infrastructure evidence in at least one failed attempt. The other 1,384 have no confirmed infrastructure evidence, not proof they were infrastructure-free. Includes all recorded statuses, recovered and mixed-failure runs. Created 7 October 2026 08:34:26 UTC through 6 November 2026 08:34:26 UTC.</desc>
 <style>text{font-family:system-ui,-apple-system,Segoe UI,sans-serif;fill:#192b3e}.muted{fill:#526376}.label{font-size:21px;font-weight:650}</style>
 <rect width="1200" height="590" rx="20" fill="#f5f8fb"/>
-<text x="48" y="48" font-size="14" font-weight="750" class="muted">ALL-PIPELINE VIEW · SAME HISTORICAL DATASET · DENOMINATOR: 1,728</text>
-<text x="48" y="89" font-size="27" font-weight="750">Across all pipelines, how often was infrastructure involved?</text>
+<text x="48" y="48" font-size="14" font-weight="750" class="muted">HISTORICAL CREATION COHORT · ALL 1,728 PIPELINES</text>
+<text x="48" y="89" font-size="30" font-weight="750">Confirmed infrastructure involvement</text>
 <path d="M280.000,128.000 A170,170 0 0 1 441.371,244.527 L384.417,263.400 A110,110 0 0 0 280.000,188.000 Z" fill="#1769aa" stroke="#f5f8fb" stroke-width="2"><title>344 confirmed infrastructure-affected pipelines, 19.91%</title></path>
 <path d="M441.371,244.527 A170,170 0 1 1 280.000,128.000 L280.000,188.000 A110,110 0 1 0 384.417,263.400 Z" fill="#788695" stroke="#f5f8fb" stroke-width="2"><title>1,384 pipelines with no confirmed infrastructure evidence, 80.09%</title></path>
 <text x="280" y="292" text-anchor="middle" font-size="43" font-weight="750">19.91%</text>
@@ -16,8 +16,8 @@
 <text x="555" y="332" class="label">No confirmed infrastructure evidence</text>
 <text x="555" y="365" font-size="22" font-weight="750">1,384 / 1,728 pipelines · 80.09%</text>
 <text x="555" y="397" font-size="16" class="muted">Not proof of infrastructure-free or product-caused failures.</text>
-<text x="48" y="499" font-size="18" font-weight="650">Any failed attempt, including retries · all pipeline statuses · each pipeline counted once</text>
+<text x="48" y="499" font-size="18" font-weight="650">Any confirmed failed attempt · all recorded statuses · each pipeline counted once</text>
 <text x="48" y="533" font-size="17" class="muted">Created 7 Oct 2026 08:34:26 UTC → 6 Nov 2026 08:34:26 UTC</text>
-<text x="48" y="563" font-size="16" class="muted">Historical lower bound from retained classifications, not current reliability or sole-cause attribution.</text>
-<metadata>{&quot;scope&quot;: &quot;all pipelines in the same historical dataset&quot;, &quot;confirmed&quot;: 344, &quot;denominator&quot;: 1728, &quot;no_confirmed_evidence&quot;: 1384}</metadata>
+<text x="48" y="563" font-size="16" class="muted">Historical lower bound from retained classifications; involvement is not sole-cause attribution.</text>
+<metadata>{&quot;confirmed&quot;: 344, &quot;denominator&quot;: 1728, &quot;no_confirmed_evidence&quot;: 1384}</metadata>
 </svg>

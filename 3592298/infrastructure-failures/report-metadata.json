@@ -1,21 +1,6 @@
 {
-  "title": "Historical Canvas infrastructure-failure incidence",
-  "figure_order": [
-    "failed_pipeline_view",
-    "all_pipeline_view"
-  ],
-  "lead_question": "Of the 738 pipelines recorded as failed, how many encountered an infrastructure failure?",
-  "all_pipeline_question": "Across all 1728 pipelines in the same historical dataset, how many encountered an infrastructure failure?",
-  "interpretation": "Infrastructure was involved, not necessarily the only cause; fixing it would not necessarily turn all 245 pipelines green.",
-  "same_dataset_reconciliation": {
-    "affected_failed": 245,
-    "affected_not_failed": 99,
-    "affected_successful": 91,
-    "affected_canceled": 7,
-    "affected_running": 1,
-    "does_not_claim_all_successful_affected_recovered_via_retry": true
-  },
-  "prepared_at_utc": "2026-11-16T14:57:51.288701+00:00",
+  "title": "At least 19.91% of pipelines encountered confirmed infrastructure failures",
+  "prepared_at_utc": "2026-11-16T15:07:36.264136+00:00",
   "project": {
     "id": 19391,
     "path": "project/canvas"
@@ -23,84 +8,58 @@
   "creation_window": {
     "start_utc": "2026-10-07T08:34:26Z",
     "end_utc": "2026-11-06T08:34:26Z",
-    "selection": "Frozen provider creation-time window; outcomes observed during collection, not as-of reconstruction"
+    "selection": "Frozen pipeline creation-time window; outcomes observed during collection, not an as-of reconstruction"
   },
-  "status_snapshot": "Original pipeline enumeration; later outcomes do not overwrite this snapshot",
-  "counts": {
-    "pipelines": 1728,
-    "job_attempt_records": 95740,
-    "failed_job_attempts": 4068,
-    "confirmed_infra_failed_attempts": 772,
-    "confirmed_affected_pipelines": 344,
-    "no_confirmed_evidence_pipelines": 1384,
-    "failed_pipelines": 738,
-    "failed_any_attempt_infra": 245,
-    "failed_first_attempt_infra": 239,
-    "failed_later_attempt_only_infra": 6,
-    "failed_no_confirmed_evidence": 493,
-    "baseline_confirmed_pipelines": 324,
-    "additional_confirmed_pipelines": 20
+  "metric": {
+    "unit": "distinct pipelines",
+    "confirmed_affected": 344,
+    "denominator_all_pipelines": 1728,
+    "confirmed_percentage": 19.91,
+    "no_confirmed_evidence": 1384,
+    "no_confirmed_evidence_is_not_non_infrastructure": true,
+    "confirmed_failed_job_attempts": 772
   },
-  "percentages": {
-    "failed_pipeline_involvement_245_of_738": 33.2,
-    "all_pipeline_involvement_344_of_1728": 19.91,
-    "failed_first_attempt_239_of_738": 32.38
-  },
-  "deduplication": "Union of pipeline IDs from confirmed failed-attempt records; retries and overlapping classes never add pipeline units",
-  "first_attempt_definition": "Retained attempt_index == 0 within pipeline + expanded job name/stage; not first pipeline per SHA",
+  "deduplication": "Union of pipeline IDs with at least one confirmed infrastructure-failed attempt, including retries, recovered and mixed-failure runs; all recorded statuses",
+  "interpretation": "Infrastructure involvement, not sole cause or a guarantee of green pipelines after mitigation; historical lower bound, not current reliability",
+  "status_snapshot": "Original collection; status alone does not establish retry recovery",
   "confirmed_selection": {
     "retained_failure_classes": [
       "memory_eviction",
       "registry",
       "shutdown"
     ],
-    "additional_evidence": "Union of exact job IDs in confirmed-additions.json; additions must join to same pipeline in failure-evidence.json"
+    "additional_evidence": "Exact job-ID union from deep-audit/confirmed-additions.json, joined to failure-evidence.json with matching pipeline IDs"
   },
-  "category_pipeline_sum": 354,
-  "category_pipeline_sum_is_not_incidence": true,
-  "status_breakdown": [
-    {
-      "status_at_original_enumeration": "failed",
-      "all_pipelines": 738,
-      "confirmed_infra_affected": 245,
-      "no_confirmed_infra_evidence": 493,
-      "confirmed_share_of_status_percentage": 33.2
-    },
-    {
-      "status_at_original_enumeration": "success",
-      "all_pipelines": 846,
-      "confirmed_infra_affected": 91,
-      "no_confirmed_infra_evidence": 755,
-      "confirmed_share_of_status_percentage": 10.76
-    },
-    {
-      "status_at_original_enumeration": "canceled",
-      "all_pipelines": 143,
-      "confirmed_infra_affected": 7,
-      "no_confirmed_infra_evidence": 136,
-      "confirmed_share_of_status_percentage": 4.9
-    },
-    {
-      "status_at_original_enumeration": "running",
-      "all_pipelines": 1,
-      "confirmed_infra_affected": 1,
-      "no_confirmed_infra_evidence": 0,
-      "confirmed_share_of_status_percentage": 100.0
-    }
-  ],
+  "category_pipeline_counts": {
+    "sum": 354,
+    "deduplicated_union": 344,
+    "overlapping_not_additive": true
+  },
   "excluded_from_automatic_infra_classification": [
     "ordinary job/test/assertion timeout",
-    "container OOM without causal evidence",
-    "DB shutdown/lost-connection symptoms without established platform trigger",
+    "unexplained container OOM",
+    "database availability symptoms without established platform trigger",
     "authentication symptoms",
     "unknown or empty traces"
   ],
-  "exclusive_causal_partition": "Not established; no exhaustive infrastructure-only/mixed/product-only split reported",
+  "evidence_file": "pipeline-evidence.csv",
+  "evidence_rows": 344,
+  "evidence_columns": {
+    "pipeline_id": "One row per distinct confirmed-affected pipeline",
+    "pipeline_url": "Canonical public project pipeline URL, checked against retained metadata; not fetched live",
+    "status_at_collection": "Original pipeline status, not current status or proof of recovery",
+    "confirmed_categories": "Sorted semicolon-separated confirmed classes; a pipeline may have more than one",
+    "confirmed_failed_job_ids": "Sorted semicolon-separated IDs of only the confirmed infrastructure-failed attempts, not every failed job",
+    "confirmed_first_attempt_job_ids": "Confirmed jobs with retained attempt_index == 0 per pipeline + expanded job name/stage, not first pipeline per commit",
+    "confirmed_later_attempt_job_ids": "Confirmed jobs with retained attempt_index > 0; disjoint from first-attempt IDs",
+    "any_attempt_confirmed": "True for every included pipeline; this any-attempt rule defines the headline numerator",
+    "first_attempt_confirmed": "Whether any confirmed job had attempt_index == 0; does not change inclusion"
+  },
+  "job_url_template": "https://git.drupalcode.org/project/canvas/-/jobs/{job_id}",
   "retention": {
-    "raw_bulk_evidence_deleted_with_authorization": true,
-    "retained": "Derived census, failed-attempt evidence summaries and follow-up adjudication",
-    "new_provider_reads_for_this_report": 0,
-    "fresh_full_trace_reaudit": false
+    "limitation": "Bulk raw logs and API snapshots were deleted under authorized retention; derived evidence remains. This is not a fresh full raw-trace audit.",
+    "new_provider_reads": 0,
+    "fresh_full_raw_trace_audit": false
   },
   "source_provenance": [
     {
@@ -134,40 +93,5 @@
       "bytes": 774
     }
   ],
-  "public_examples": [
-    {
-      "pipeline_id": 1030175,
-      "job_id": 13344413,
-      "classification": "shutdown",
-      "pipeline_url": "https://git.drupalcode.org/project/canvas/-/pipelines/1030175",
-      "job_url": "https://git.drupalcode.org/project/canvas/-/jobs/13344413",
-      "verification": "IDs and canonical public URLs checked against retained evidence; not fetched live"
-    },
-    {
-      "pipeline_id": 1030412,
-      "job_id": 13349609,
-      "classification": "memory_eviction",
-      "pipeline_url": "https://git.drupalcode.org/project/canvas/-/pipelines/1030412",
-      "job_url": "https://git.drupalcode.org/project/canvas/-/jobs/13349609",
-      "verification": "IDs and canonical public URLs checked against retained evidence; not fetched live"
-    },
-    {
-      "pipeline_id": 1025968,
-      "job_id": 13269346,
-      "classification": "platform_noexecute_eviction",
-      "pipeline_url": "https://git.drupalcode.org/project/canvas/-/pipelines/1025968",
-      "job_url": "https://git.drupalcode.org/project/canvas/-/jobs/13269346",
-      "verification": "IDs and canonical public URLs checked against retained evidence; not fetched live"
-    },
-    {
-      "pipeline_id": 1029843,
-      "job_id": 13338083,
-      "classification": "artifact_coordinator_transport",
-      "pipeline_url": "https://git.drupalcode.org/project/canvas/-/pipelines/1029843",
-      "job_url": "https://git.drupalcode.org/project/canvas/-/jobs/13338083",
-      "verification": "IDs and canonical public URLs checked against retained evidence; not fetched live"
-    }
-  ],
-  "style_reference": "Existing executive change-summary artifact; palette/layout referenced only, original unchanged",
-  "executive_summary_word_count": 378
+  "executive_summary_word_count": 187
 }

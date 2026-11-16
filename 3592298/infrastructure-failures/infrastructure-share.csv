@@ -1,3 +1,3 @@
 category,distinct_pipelines,denominator_pipelines,percentage,scope
-Confirmed infrastructure-affected,344,1728,19.91,"Across ALL 1728 pipelines in the same historical dataset; any failed job attempt, including retries"
+Confirmed infrastructure-affected,344,1728,19.91,Any confirmed infrastructure-failed job attempt; all recorded pipeline statuses; counted once
 No confirmed infrastructure evidence,1384,1728,80.09,Not proof of infrastructure-free runs or product-caused failures

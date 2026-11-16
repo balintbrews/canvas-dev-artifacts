@@ -48,6 +48,17 @@
     "authentication symptoms",
     "unknown or empty traces"
   ],
+  "displayed_failure_types": {
+    "counting_rule": "Distinct pipeline-ID union within each displayed type, verified against pipeline-evidence.csv and confirmed-classes.csv; types overlap and are not additive",
+    "rows": [
+      {"label": "Runner-node shutdowns", "distinct_pipelines": 298, "classes": ["shutdown"]},
+      {"label": "Container-registry access failures", "distinct_pipelines": 29, "classes": ["registry"]},
+      {"label": "Runner evictions (memory pressure or platform rules)", "distinct_pipelines": 8, "classes": ["memory_eviction", "platform_noexecute_eviction"]},
+      {"label": "Dependency download failures", "distinct_pipelines": 8, "classes": ["packagist_connection_timeout", "dependency_git_transport", "npm_registry_502"]},
+      {"label": "Runner backend TLS connection failures", "distinct_pipelines": 6, "classes": ["runner_backend_tls"]},
+      {"label": "Source checkout or artifact-transfer failures", "distinct_pipelines": 5, "classes": ["checkout_dns", "checkout_http2_transport", "artifact_coordinator_transport"]}
+    ]
+  },
   "evidence_file": "pipeline-evidence.csv",
   "evidence_rows": 344,
   "evidence_columns": {
@@ -99,6 +110,6 @@
       "bytes": 774
     }
   ],
-  "executive_summary_word_count": 36,
+  "executive_summary_word_count": 50,
   "executive_summary_word_count_scope": "Prose only; excludes title, date, table labels and download links"
 }

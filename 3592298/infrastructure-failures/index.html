@@ -1,22 +1,17 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Infrastructure failures across 1,728 pipelines</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#192b3e;font:17px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1240px;margin:24px auto;padding:32px;background:white;border-radius:18px}h1{font-size:34px;line-height:1.2;margin:0 0 16px}.window{font-size:19px;margin:0 0 24px}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}.fact{padding:20px;background:#f5f8fb;border-radius:12px}.fact strong{display:block;font-size:34px;line-height:1.2}.fact span{display:block;margin-top:8px}.confirmed{border-top:5px solid #1769aa}.unconfirmed{border-top:5px solid #788695}figure{margin:24px 0}svg{display:block;width:100%;height:auto}p{max-width:100ch}nav{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px}a{color:#075b9b;text-underline-offset:3px}@media(max-width:700px){main{margin:0;padding:20px;border-radius:0}h1{font-size:28px}.facts{grid-template-columns:1fr}.fact strong{font-size:30px}.window{font-size:17px}}@media print{body{background:white}main{padding:0}nav{display:none}}</style>
+<style>*{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#192b3e;font:17px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1240px;margin:24px auto;padding:32px;background:white;border-radius:18px}h1{font-size:34px;line-height:1.2;margin:0 0 16px}.window{font-size:19px;margin:0 0 24px}h2{font-size:22px;margin-bottom:8px}.types{max-width:780px}.types table{width:100%;border-collapse:collapse}.types th,.types td{padding:7px 10px;border-bottom:1px solid #dce4ec;text-align:left}.types tbody th{font-weight:400}.types td,.types th:last-child{text-align:right}.types p{font-size:15px}figure{margin:24px 0}svg{display:block;width:100%;height:auto}p{max-width:100ch}nav{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px}a{color:#075b9b;text-underline-offset:3px}@media(max-width:700px){main{margin:0;padding:20px;border-radius:0}h1{font-size:28px}.window{font-size:17px}}@media print{body{background:white}main{padding:0}nav{display:none}}</style>
 </head><body><main>
 <h1>Infrastructure failures across 1,728 pipelines</h1>
-<p class="window"><strong>7 October–6 November 2026</strong><br>Inclusive creation window: <time datetime="2026-10-07T08:34:26Z">7 October 2026, 08:34:26 UTC</time> → <time datetime="2026-11-06T08:34:26Z">6 November 2026, 08:34:26 UTC</time></p>
-<div class="facts" aria-label="Key findings">
-<div class="fact"><strong>1,728</strong><span>PIPELINES EVALUATED</span></div>
-<div class="fact confirmed"><strong>344 · 19.91%</strong><span>CONFIRMED INFRASTRUCTURE FAILURES</span></div>
-<div class="fact unconfirmed"><strong>1,384 · 80.09%</strong><span>NO CONFIRMED INFRASTRUCTURE FAILURES</span></div>
-</div>
+<p class="window"><strong>7 October–6 November 2026</strong></p>
 <figure aria-label="Two segments of the same 1,728-pipeline dataset">
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img" aria-labelledby="infra-title infra-desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="infra-title infra-desc">
 <title id="infra-title">Infrastructure failures across 1,728 pipelines</title>
-<desc id="infra-desc">344 pipelines, 19.91%, encountered confirmed infrastructure failures. 1,384 pipelines, 80.09%, have no confirmed infrastructure failures in the retained evidence. Both use the denominator of 1,728 evaluated pipelines. No confirmed infrastructure failure does not mean the pipeline passed. Inclusive creation window: 7 October 2026 08:34:26 UTC through 6 November 2026 08:34:26 UTC.</desc>
+<desc id="infra-desc">344 pipelines, 19.91%, encountered confirmed infrastructure failures. 1,384 pipelines, 80.09%, have no confirmed infrastructure failures in the retained evidence. Both use the denominator of 1,728 evaluated pipelines. No confirmed infrastructure failure does not mean the pipeline passed. Historical creation window: 7 October–6 November 2026.</desc>
 <style>text{font-family:system-ui,-apple-system,Segoe UI,sans-serif;fill:#192b3e}.label{font-size:23px;font-weight:650}.count{font-size:25px;font-weight:750}</style>
-<rect width="1200" height="480" rx="18" fill="#f5f8fb"/>
-<text x="48" y="32" font-size="18" font-weight="650">1,728 pipelines evaluated · one shared denominator</text>
+<rect width="1200" height="430" rx="18" fill="#f5f8fb"/>
+<text x="48" y="32" font-size="18" font-weight="650">1,728 pipelines evaluated</text>
 <path d="M250,235 L250,65 A170,170 0 0 1 411.371249,181.527391 Z" fill="#1769aa" stroke="#f5f8fb" stroke-width="2"><title>344 / 1,728: confirmed infrastructure failures, 19.91%</title></path>
 <path d="M250,235 L411.371249,181.527391 A170,170 0 1 1 250,65 Z" fill="#788695" stroke="#f5f8fb" stroke-width="2"><title>1,384 / 1,728: no confirmed infrastructure failures, 80.09%</title></path>
 <rect x="485" y="134" width="24" height="24" rx="4" fill="#1769aa"/>
@@ -25,10 +20,21 @@
 <rect x="485" y="266" width="24" height="24" rx="4" fill="#788695"/>
 <text x="528" y="287" class="label">No confirmed infrastructure failures</text>
 <text x="528" y="325" class="count">1,384 / 1,728 · 80.09%</text>
-<text x="48" y="450" font-size="17">7 Oct 2026 08:34:26 UTC → 6 Nov 2026 08:34:26 UTC · inclusive creation window</text>
 </svg>
 </figure>
 <p>Each pipeline is counted once. Confirmed cases had at least one infrastructure-failed job attempt, including retries or later recovery.</p>
 <p><strong>No confirmed infrastructure failure does not mean the pipeline passed.</strong> Confirmed cases may also contain test failures.</p>
+<section class="types" aria-labelledby="types-title">
+<h2 id="types-title">Confirmed failure types</h2>
+<table><thead><tr><th scope="col">Type</th><th scope="col">Distinct pipelines</th></tr></thead><tbody>
+<tr><th scope="row">Runner-node shutdowns</th><td>298</td></tr>
+<tr><th scope="row">Container-registry access failures</th><td>29</td></tr>
+<tr><th scope="row">Runner evictions (memory pressure or platform rules)</th><td>8</td></tr>
+<tr><th scope="row">Dependency download failures</th><td>8</td></tr>
+<tr><th scope="row">Runner backend TLS connection failures</th><td>6</td></tr>
+<tr><th scope="row">Source checkout or artifact-transfer failures</th><td>5</td></tr>
+</tbody></table>
+<p>One pipeline can have multiple failure types. These counts overlap; do not add them.</p>
+</section>
 <nav aria-label="Audit evidence"><a href="pipeline-evidence.csv" download>344-pipeline evidence · CSV</a><a href="report-metadata.json" download>Methodology and source hashes · JSON</a></nav>
 </main></body></html>

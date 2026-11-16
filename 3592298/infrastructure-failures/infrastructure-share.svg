@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img" aria-labelledby="infra-title infra-desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="infra-title infra-desc">
 <title id="infra-title">Infrastructure failures across 1,728 pipelines</title>
-<desc id="infra-desc">344 pipelines, 19.91%, encountered confirmed infrastructure failures. 1,384 pipelines, 80.09%, have no confirmed infrastructure failures in the retained evidence. Both use the denominator of 1,728 evaluated pipelines. No confirmed infrastructure failure does not mean the pipeline passed. Inclusive creation window: 7 October 2026 08:34:26 UTC through 6 November 2026 08:34:26 UTC.</desc>
+<desc id="infra-desc">344 pipelines, 19.91%, encountered confirmed infrastructure failures. 1,384 pipelines, 80.09%, have no confirmed infrastructure failures in the retained evidence. Both use the denominator of 1,728 evaluated pipelines. No confirmed infrastructure failure does not mean the pipeline passed. Historical creation window: 7 October–6 November 2026.</desc>
 <style>text{font-family:system-ui,-apple-system,Segoe UI,sans-serif;fill:#192b3e}.label{font-size:23px;font-weight:650}.count{font-size:25px;font-weight:750}</style>
-<rect width="1200" height="480" rx="18" fill="#f5f8fb"/>
-<text x="48" y="32" font-size="18" font-weight="650">1,728 pipelines evaluated · one shared denominator</text>
+<rect width="1200" height="430" rx="18" fill="#f5f8fb"/>
+<text x="48" y="32" font-size="18" font-weight="650">1,728 pipelines evaluated</text>
 <path d="M250,235 L250,65 A170,170 0 0 1 411.371249,181.527391 Z" fill="#1769aa" stroke="#f5f8fb" stroke-width="2"><title>344 / 1,728: confirmed infrastructure failures, 19.91%</title></path>
 <path d="M250,235 L411.371249,181.527391 A170,170 0 1 1 250,65 Z" fill="#788695" stroke="#f5f8fb" stroke-width="2"><title>1,384 / 1,728: no confirmed infrastructure failures, 80.09%</title></path>
 <rect x="485" y="134" width="24" height="24" rx="4" fill="#1769aa"/>
@@ -12,5 +12,4 @@
 <rect x="485" y="266" width="24" height="24" rx="4" fill="#788695"/>
 <text x="528" y="287" class="label">No confirmed infrastructure failures</text>
 <text x="528" y="325" class="count">1,384 / 1,728 · 80.09%</text>
-<text x="48" y="450" font-size="17">7 Oct 2026 08:34:26 UTC → 6 Nov 2026 08:34:26 UTC · inclusive creation window</text>
 </svg>

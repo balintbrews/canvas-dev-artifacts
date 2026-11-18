@@ -1,0 +1,1824 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="How Drupal cache tags would let a Canvas Headless frontend keep pages cached and expire only the pages an edit affects, with current Canvas behaviour verified against 3f8617f4 on 2026-11-18."
+    />
+    <title>Tag-based cache invalidation in Canvas Headless</title>
+    <style>
+      @font-face {
+        font-family: 'Cal Sans';
+        src: url('assets/fonts/CalSansVF.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: swap;
+      }
+      :root {
+        color-scheme: light;
+        --page: #fafafa;
+        --surface: #ffffff;
+        --ink: #171717;
+        --muted: #525252;
+        --faint: #737373;
+        --line: #e5e5e5;
+        --chip: #f5f5f5;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        --display: 'Cal Sans', system-ui, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          color-scheme: dark;
+          --page: #0a0a0a;
+          --surface: #111111;
+          --ink: #ededed;
+          --muted: #a3a3a3;
+          --faint: #8a8a8a;
+          --line: #262626;
+          --chip: #1a1a1a;
+        }
+      }
+      :root[data-theme='dark'] {
+        color-scheme: dark;
+        --page: #0a0a0a;
+        --surface: #111111;
+        --ink: #ededed;
+        --muted: #a3a3a3;
+        --faint: #8a8a8a;
+        --line: #262626;
+        --chip: #1a1a1a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font:
+          17px/1.6 system-ui,
+          sans-serif;
+      }
+      a {
+        color: inherit;
+        text-underline-offset: 3px;
+      }
+      a:focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: 3px;
+      }
+      code {
+        font: 0.86em var(--mono);
+        background: var(--chip);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0 4px;
+        overflow-wrap: anywhere;
+      }
+      .skip {
+        position: absolute;
+        left: 16px;
+        top: -100px;
+      }
+      .skip:focus {
+        top: 8px;
+      }
+      .sheet {
+        max-width: 1240px;
+        margin: 24px auto;
+        background: var(--surface);
+        border: 1px solid var(--line);
+      }
+      .bar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+      }
+      .bar > * {
+        padding: 16px 20px;
+      }
+      .bar .mark {
+        font: 500 20px var(--display);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .bar .mark svg {
+        width: 18px;
+        height: 18px;
+      }
+      .label {
+        font: 13px var(--mono);
+        color: var(--muted);
+      }
+      .rule {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 4px 24px;
+        padding: 14px 20px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .cell {
+        padding: 48px 40px;
+        min-width: 0;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--display);
+        font-weight: 500;
+        font-variation-settings: 'GEOM' 25;
+        letter-spacing: -0.02em;
+        margin: 0;
+      }
+      h1 {
+        font-size: clamp(40px, 6vw, 68px);
+        line-height: 1.02;
+        margin: 16px 0 20px;
+      }
+      h2 {
+        font-size: clamp(26px, 3.2vw, 34px);
+        line-height: 1.12;
+        margin: 0 0 14px;
+      }
+      h3 {
+        font-size: 19px;
+        margin: 0 0 10px;
+      }
+      p,
+      li {
+        color: var(--muted);
+      }
+      p {
+        max-width: 60ch;
+        margin: 0 0 14px;
+      }
+      b {
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .lead {
+        font-size: 20px;
+        line-height: 1.5;
+        max-width: 46ch;
+      }
+
+      /* Text beside a drawing */
+      .row {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        align-items: center;
+      }
+      .row > figure {
+        margin: 0;
+        padding: 32px 32px 32px 0;
+        min-width: 0;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .split > * + * {
+        border-left: 1px solid var(--line);
+      }
+      ul.plain {
+        padding-left: 18px;
+        margin: 0 0 14px;
+      }
+      ul.plain li {
+        margin: 8px 0;
+      }
+      .src {
+        font: 12px var(--mono);
+        color: var(--faint);
+        overflow-wrap: anywhere;
+      }
+      dl.fw {
+        margin: 0;
+      }
+      dl.fw div {
+        display: grid;
+        grid-template-columns: 9.5em 1fr;
+        gap: 4px 16px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      dl.fw div:last-child {
+        border-bottom: 0;
+      }
+      dl.fw dt {
+        color: var(--ink);
+      }
+      dl.fw dd {
+        margin: 0;
+        color: var(--muted);
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 20px 40px;
+      }
+      footer p {
+        font-size: 13px;
+        color: var(--faint);
+        max-width: none;
+        margin: 4px 0;
+      }
+
+      /* Drawings: Plotter roles (values from Plotter’s generated roles.css, MIT) */
+      svg.drawing {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        color: var(--ink);
+        font-family: 'Cal Sans', sans-serif;
+        font-optical-sizing: auto;
+        font-synthesis: none;
+        font-variation-settings: 'GEOM' 25;
+        overflow: visible;
+      }
+      svg.wide {
+        max-width: 640px;
+      }
+      svg.tall {
+        display: none;
+        max-width: 440px;
+      }
+      [data-plotter] {
+        stroke: currentColor;
+      }
+      [data-plotter] [data-plotter-role='primary'] {
+        stroke-width: 1;
+        opacity: 1;
+        stroke-dasharray: none;
+      }
+      [data-plotter] [data-plotter-role='secondary'],
+      [data-plotter] [data-plotter-role='dimension'] {
+        stroke-width: 1;
+        opacity: 0.32;
+        stroke-dasharray: none;
+      }
+      [data-plotter] [data-plotter-role='guide'] {
+        stroke-width: 1;
+        opacity: 0.14;
+        stroke-dasharray: none;
+      }
+      [data-plotter] [data-plotter-role='absent'] {
+        stroke-width: 1;
+        opacity: 0.32;
+        stroke-dasharray: 3 5;
+      }
+      [data-plotter] [data-plotter-role='transfer'] {
+        stroke-width: 1;
+        opacity: 0.6;
+        stroke-dasharray: 4 6;
+        stroke-linecap: butt;
+      }
+
+      /* Motion: plays once per drawing when it scrolls into view. Without JS,
+         with reduced motion, or in print, every drawing shows its final state. */
+      .tok,
+      .solid {
+        display: none;
+      }
+      @keyframes m-in {
+        from {
+          opacity: 0;
+        }
+      }
+      @keyframes m-out {
+        to {
+          opacity: 0;
+        }
+      }
+      @keyframes tok-resp-wide {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        4% {
+          opacity: 1;
+        }
+        90% {
+          transform: translate(-96.9px, 0);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-96.9px, 0);
+          opacity: 0;
+        }
+      }
+      @keyframes tok-sig-wide {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        4% {
+          opacity: 1;
+        }
+        32% {
+          transform: translate(0, 128px);
+        }
+        85% {
+          transform: translate(-212px, 128px);
+        }
+        95% {
+          transform: translate(-212px, 88px);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-212px, 88px);
+          opacity: 0;
+        }
+      }
+      @keyframes tok-resp-tall {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        4% {
+          opacity: 1;
+        }
+        90% {
+          transform: translate(0, 128.9px);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(0, 128.9px);
+          opacity: 0;
+        }
+      }
+      @keyframes tok-sig-tall {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        4% {
+          opacity: 1;
+        }
+        23% {
+          transform: translate(-112px, 0);
+        }
+        87% {
+          transform: translate(-112px, 320px);
+        }
+        95% {
+          transform: translate(-72px, 320px);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-72px, 320px);
+          opacity: 0;
+        }
+      }
+      @keyframes cursor-wide {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        3% {
+          opacity: 0.5;
+        }
+        97% {
+          opacity: 0.5;
+        }
+        100% {
+          transform: translate(416px, 0);
+          opacity: 0;
+        }
+      }
+      @keyframes cursor-tall {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        3% {
+          opacity: 0.5;
+        }
+        97% {
+          opacity: 0.5;
+        }
+        100% {
+          transform: translate(304px, 0);
+          opacity: 0;
+        }
+      }
+      @media screen and (prefers-reduced-motion: no-preference) {
+        .motion svg.drawing .m,
+        .motion svg.drawing .tok {
+          animation-duration: var(--d, 0.4s);
+          animation-delay: var(--t, 0s);
+          animation-fill-mode: both;
+          animation-timing-function: ease-out;
+          animation-play-state: paused;
+        }
+        .motion svg.drawing.play .m,
+        .motion svg.drawing.play .tok {
+          animation-play-state: running;
+        }
+        .motion .m-in {
+          animation-name: m-in;
+        }
+        .motion .m-out {
+          animation-name: m-out;
+        }
+        .motion .solid,
+        .motion .tok {
+          display: inline;
+        }
+        .motion svg.drawing .tok {
+          animation-timing-function: linear;
+        }
+        .motion .tok-resp-wide {
+          animation-name: tok-resp-wide;
+        }
+        .motion .tok-sig-wide {
+          animation-name: tok-sig-wide;
+        }
+        .motion .tok-resp-tall {
+          animation-name: tok-resp-tall;
+        }
+        .motion .tok-sig-tall {
+          animation-name: tok-sig-tall;
+        }
+        .motion .cursor-wide {
+          animation-name: cursor-wide;
+        }
+        .motion .cursor-tall {
+          animation-name: cursor-tall;
+        }
+      }
+
+      @media (max-width: 960px) {
+        .row,
+        .split {
+          grid-template-columns: 1fr;
+        }
+        .row > figure {
+          padding: 0 24px 40px;
+        }
+        .split > * + * {
+          border-left: 0;
+          border-top: 1px solid var(--line);
+        }
+      }
+      @media (max-width: 640px) {
+        body {
+          font-size: 16px;
+        }
+        .bar > * {
+          padding: 14px 16px;
+        }
+        .bar .mark {
+          font-size: 17px;
+          gap: 8px;
+        }
+        .sheet {
+          margin: 0;
+          border-left: 0;
+          border-right: 0;
+        }
+        .cell {
+          padding: 32px 16px;
+        }
+        .row > .cell {
+          padding-bottom: 8px;
+        }
+        .row > figure {
+          padding: 0 8px 32px;
+        }
+        footer {
+          padding: 20px 16px;
+        }
+        svg.wide {
+          display: none;
+        }
+        svg.tall {
+          display: block;
+        }
+        dl.fw div {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media print {
+        .sheet {
+          border: 0;
+          margin: 0;
+        }
+        svg.wide {
+          display: block !important;
+        }
+        svg.tall {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <div class="sheet">
+      <header class="bar">
+        <div class="mark">
+          <svg
+            viewBox="0 0 18 18"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <rect x="2.5" y="2.5" width="13" height="13" />
+            <path d="M2.5 7.5h13" stroke-dasharray="2 2" />
+          </svg>
+          Canvas Headless · Cache tags
+        </div>
+        <div class="label">Explainer · 2026-11-18</div>
+      </header>
+
+      <main id="content">
+        <div class="cell">
+          <h1>Tag-based cache invalidation in Canvas Headless</h1>
+          <p class="lead">
+            How Drupal cache tags would let a frontend keep pages cached, then
+            expire only the pages an edit affects.
+          </p>
+        </div>
+
+        <!-- 01 -->
+        <div class="rule">
+          <span class="label">01 — How it would work</span>
+        </div>
+        <section class="row" aria-labelledby="h-01">
+          <div class="cell">
+            <h2 id="h-01">Each cached page remembers what it depends on</h2>
+            <p>
+              Drupal already records cache tags for every page it renders, such
+              as <code>node:12</code> for an article. The response would carry
+              those tags, and the frontend would store them with the cached
+              page.
+            </p>
+            <p>
+              When an editor publishes, Drupal invalidates the affected tags.
+              Canvas would send those tag names, not content, to the frontend in
+              a signed request.
+            </p>
+          </div>
+          <figure>
+            <svg
+              class="drawing wide"
+              data-plotter=""
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 560 440"
+              width="560"
+              height="440"
+              fill="none"
+              role="img"
+              aria-labelledby="a-title"
+            >
+              <title id="a-title">
+                A visitor’s request reaches the frontend, which fetches the page
+                from Drupal with its tags. An editor publishes, and Drupal sends
+                the expired tags to the frontend’s revalidation route.
+              </title>
+              <rect
+                data-plotter-role="primary"
+                x="168"
+                y="104"
+                width="208"
+                height="232"
+              />
+              <circle data-plotter-role="primary" cx="72" cy="212" r="6" />
+              <circle data-plotter-role="primary" cx="484" cy="212" r="36" />
+              <circle data-plotter-role="primary" cx="484" cy="88" r="6" />
+              <g data-plotter-role="secondary">
+                <rect x="192" y="168" width="160" height="24" rx="4" />
+                <rect x="192" y="200" width="160" height="24" rx="4" />
+                <rect x="192" y="232" width="160" height="24" rx="4" />
+                <rect x="192" y="264" width="160" height="24" rx="4" />
+              </g>
+              <rect
+                class="m m-in"
+                style="--t: 2s"
+                data-plotter-fill="highlight"
+                x="192"
+                y="200"
+                width="160"
+                height="24"
+                rx="4"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0s">
+                <path d="M192 212H78" />
+                <path
+                  d="M187.757 207.757L192 212L187.757 216.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0.5s">
+                <path d="M448.9 204H352" />
+                <path
+                  d="M444.657 199.757L448.9 204L444.657 208.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 1s">
+                <path d="M352 220H448.9" />
+                <path
+                  d="M356.243 215.757L352 220L356.243 224.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 2.8s">
+                <path d="M484 176V94" />
+                <path
+                  d="M479.757 171.757L484 176L488.243 171.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 3.3s">
+                <path d="M272 336V376H484V248" />
+                <path
+                  d="M267.757 340.243L272 336L276.243 340.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="11"
+                opacity="0.72"
+              >
+                <text x="72" y="192" text-anchor="middle">Visitor</text>
+                <text x="484" y="216" text-anchor="middle">Drupal</text>
+                <text x="500" y="92">Editor</text>
+                <text x="272" y="130" text-anchor="middle">
+                  Frontend server
+                </text>
+                <text x="204" y="184">/news</text>
+                <text x="204" y="216">/news/launch</text>
+                <text x="204" y="248">/news/roadmap</text>
+                <text x="204" y="280">/about</text>
+                <text x="378" y="366" text-anchor="middle">Signed request</text>
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="10"
+                opacity="0.62"
+              >
+                <text x="192" y="156">Cached pages</text>
+                <text x="412" y="194" text-anchor="middle">Fetch</text>
+                <text x="412" y="238" text-anchor="middle">+ tags</text>
+                <text x="492" y="140">Publish</text>
+                <text x="272" y="322" text-anchor="middle">
+                  Revalidation route
+                </text>
+                <text x="378" y="394" text-anchor="middle">
+                  Example tags: node:12 · node_list
+                </text>
+              </g>
+              <circle
+                class="tok tok-resp-wide"
+                style="--t: 1s; --d: 1s"
+                cx="448.9"
+                cy="220"
+                r="3"
+                fill="currentColor"
+                stroke="none"
+              />
+              <circle
+                class="tok tok-sig-wide"
+                style="--t: 3.3s; --d: 1.6s"
+                cx="484"
+                cy="248"
+                r="3"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+            <svg
+              class="drawing tall"
+              data-plotter=""
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 360 540"
+              width="360"
+              height="540"
+              fill="none"
+              role="img"
+              aria-labelledby="a2-title"
+            >
+              <title id="a2-title">
+                A visitor’s request reaches the frontend, which fetches the page
+                from Drupal with its tags. An editor publishes, and Drupal sends
+                the expired tags to the frontend’s revalidation route.
+              </title>
+              <circle data-plotter-role="primary" cx="180" cy="100" r="36" />
+              <circle data-plotter-role="primary" cx="308" cy="100" r="6" />
+              <rect
+                data-plotter-role="primary"
+                x="72"
+                y="200"
+                width="216"
+                height="240"
+              />
+              <circle data-plotter-role="primary" cx="180" cy="508" r="6" />
+              <g data-plotter-role="secondary">
+                <rect x="96" y="264" width="168" height="24" rx="4" />
+                <rect x="96" y="296" width="168" height="24" rx="4" />
+                <rect x="96" y="328" width="168" height="24" rx="4" />
+                <rect x="96" y="360" width="168" height="24" rx="4" />
+              </g>
+              <rect
+                class="m m-in"
+                style="--t: 2s"
+                data-plotter-fill="highlight"
+                x="96"
+                y="264"
+                width="168"
+                height="24"
+                rx="4"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 2.8s">
+                <path d="M216 100H302" />
+                <path
+                  d="M220.243 95.757L216 100L220.243 104.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0.5s">
+                <path d="M172 135.1V264" />
+                <path
+                  d="M167.757 139.343L172 135.1L176.243 139.343"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 1s">
+                <path d="M188 264V135.1" />
+                <path
+                  d="M183.757 259.757L188 264L192.243 259.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0s">
+                <path d="M180 440V502" />
+                <path
+                  d="M175.757 444.243L180 440L184.243 444.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 3.3s">
+                <path d="M72 420H32V100H144" />
+                <path
+                  d="M67.757 415.757L72 420L67.757 424.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="11"
+                opacity="0.72"
+              >
+                <text x="180" y="104" text-anchor="middle">Drupal</text>
+                <text x="308" y="80" text-anchor="middle">Editor</text>
+                <text x="84" y="226">Frontend server</text>
+                <text x="108" y="280">/news/launch</text>
+                <text x="108" y="312">/news</text>
+                <text x="108" y="344">/news/roadmap</text>
+                <text x="108" y="376">/about</text>
+                <text x="196" y="512">Visitor</text>
+                <text x="88" y="90" text-anchor="middle">Signed request</text>
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="10"
+                opacity="0.62"
+              >
+                <text x="260" y="92" text-anchor="middle">Publish</text>
+                <text x="164" y="180" text-anchor="end">Fetch</text>
+                <text x="196" y="180">+ tags</text>
+                <text x="96" y="252">Cached pages</text>
+                <text x="84" y="424">Revalidation route</text>
+                <text x="88" y="118" text-anchor="middle">
+                  node:12 · node_list
+                </text>
+              </g>
+              <circle
+                class="tok tok-resp-tall"
+                style="--t: 1s; --d: 1s"
+                cx="188"
+                cy="135.1"
+                r="3"
+                fill="currentColor"
+                stroke="none"
+              />
+              <circle
+                class="tok tok-sig-tall"
+                style="--t: 3.3s; --d: 1.8s"
+                cx="144"
+                cy="100"
+                r="3"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+          </figure>
+        </section>
+
+        <!-- 02 -->
+        <div class="rule">
+          <span class="label">02 — Selective expiry</span>
+        </div>
+        <section class="row" aria-labelledby="h-02">
+          <div class="cell">
+            <h2 id="h-02">Only pages with a matching tag expire</h2>
+            <p>
+              Editing article 12 sends tags including <code>node:12</code> and
+              <code>node_list</code>. Here the frontend expires
+              <code>/news</code> and <code>/news/launch</code>;
+              <code>/news/roadmap</code> and <code>/about</code> stay cached.
+            </p>
+            <p>
+              <code>/news</code> carries a tag for each article it shows
+              (<code>node:9</code>, <code>node:12</code>), plus
+              <code>node_list</code> for membership: Drupal invalidates
+              <code>node_list</code> whenever any node is saved, so a new
+              article reaches the list. Views and JSON:API collections add these
+              tags; a custom list must supply them, and the frontend must keep
+              them.
+            </p>
+            <p>
+              <code>node_list</code> covers every content type, so any node save
+              expires every cached page that carries it.
+            </p>
+          </div>
+          <figure>
+            <svg
+              class="drawing wide"
+              data-plotter=""
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 560 440"
+              width="560"
+              height="440"
+              fill="none"
+              role="img"
+              aria-labelledby="b-title"
+            >
+              <title id="b-title">
+                Four cached pages in rows and five tags in columns. The signed
+                request expires node:12 and node_list, so /news and /news/launch
+                expire while /news/roadmap and /about stay cached.
+              </title>
+              <rect
+                class="m m-in"
+                style="--t: 0.5s"
+                data-plotter-fill="highlight"
+                x="232"
+                y="116"
+                width="52"
+                height="196"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <rect
+                class="m m-in"
+                style="--t: 0.5s"
+                data-plotter-fill="highlight"
+                x="298"
+                y="116"
+                width="52"
+                height="196"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0s">
+                <path d="M258 88V56" />
+                <path
+                  d="M253.757 83.757L258 88L262.243 83.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0s">
+                <path d="M324 88V56" />
+                <path
+                  d="M319.757 83.757L324 88L328.243 83.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <path
+                data-plotter-role="guide"
+                d="M200 116V312M258 116V312M324 116V312M408 116V312M494 116V312"
+              />
+              <rect
+                data-plotter-role="absent"
+                x="32"
+                y="128"
+                width="504"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="absent"
+                x="32"
+                y="176"
+                width="504"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="primary"
+                x="32"
+                y="224"
+                width="504"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="primary"
+                x="32"
+                y="272"
+                width="504"
+                height="32"
+                rx="4"
+              />
+              <g fill="currentColor" stroke="none">
+                <circle cx="200" cy="144" r="3.5" />
+                <circle cx="258" cy="144" r="3.5" />
+                <circle cx="324" cy="144" r="3.5" />
+                <circle cx="408" cy="144" r="3.5" />
+                <circle cx="258" cy="192" r="3.5" />
+                <circle cx="200" cy="240" r="3.5" />
+                <circle cx="494" cy="288" r="3.5" />
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="11"
+                opacity="0.72"
+              >
+                <text x="48" y="68">Signed request</text>
+                <text x="200" y="104" text-anchor="middle">node:9</text>
+                <text x="258" y="104" text-anchor="middle">node:12</text>
+                <text x="324" y="104" text-anchor="middle">node_list</text>
+                <text x="408" y="104" text-anchor="middle">canvas_page:2</text>
+                <text x="494" y="104" text-anchor="middle">canvas_page:3</text>
+                <text x="48" y="148">/news</text>
+                <text x="48" y="196">/news/launch</text>
+                <text x="48" y="244">/news/roadmap</text>
+                <text x="48" y="292">/about</text>
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="10"
+                opacity="0.62"
+              >
+                <text x="48" y="82">Example tags</text>
+                <text x="48" y="104">Page</text>
+                <text x="140" y="104">State</text>
+                <text x="140" y="148">Expired</text>
+                <text x="140" y="196">Expired</text>
+                <text x="140" y="244">Cached</text>
+                <text x="140" y="292">Cached</text>
+                <text x="280" y="348" text-anchor="middle">
+                  Dot: page carries the tag · Dashed: expired
+                </text>
+                <text x="280" y="368" text-anchor="middle">
+                  Other tags not shown
+                </text>
+              </g>
+              <rect
+                data-plotter-role="primary"
+                class="m m-out solid"
+                style="--t: 1.1s; --d: 0.9s"
+                x="32"
+                y="128"
+                width="504"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="primary"
+                class="m m-out solid"
+                style="--t: 1.3s; --d: 0.9s"
+                x="32"
+                y="176"
+                width="504"
+                height="32"
+                rx="4"
+              />
+            </svg>
+            <svg
+              class="drawing tall"
+              data-plotter=""
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 360 384"
+              width="360"
+              height="384"
+              fill="none"
+              role="img"
+              aria-labelledby="b2-title"
+            >
+              <title id="b2-title">
+                Four cached pages in rows and five tags in columns. The signed
+                request expires node:12 and node_list, so /news and /news/launch
+                expire while /news/roadmap and /about stay cached.
+              </title>
+              <rect
+                class="m m-in"
+                style="--t: 0.5s"
+                data-plotter-fill="highlight"
+                x="178"
+                y="134"
+                width="28"
+                height="166"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <rect
+                class="m m-in"
+                style="--t: 0.5s"
+                data-plotter-fill="highlight"
+                x="212"
+                y="134"
+                width="28"
+                height="166"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0s">
+                <path d="M192 48V16" />
+                <path
+                  d="M187.757 43.757L192 48L196.243 43.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="transfer" class="m m-in" style="--t: 0s">
+                <path d="M226 48V16" />
+                <path
+                  d="M221.757 43.757L226 48L230.243 43.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <path
+                data-plotter-role="guide"
+                d="M158 134V300M192 134V300M226 134V300M260 134V300M294 134V300"
+              />
+              <rect
+                data-plotter-role="absent"
+                x="8"
+                y="140"
+                width="312"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="absent"
+                x="8"
+                y="180"
+                width="312"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="primary"
+                x="8"
+                y="220"
+                width="312"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="primary"
+                x="8"
+                y="260"
+                width="312"
+                height="32"
+                rx="4"
+              />
+              <g fill="currentColor" stroke="none">
+                <circle cx="158" cy="156" r="3.5" />
+                <circle cx="192" cy="156" r="3.5" />
+                <circle cx="226" cy="156" r="3.5" />
+                <circle cx="260" cy="156" r="3.5" />
+                <circle cx="192" cy="196" r="3.5" />
+                <circle cx="158" cy="236" r="3.5" />
+                <circle cx="294" cy="276" r="3.5" />
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="11"
+                opacity="0.72"
+              >
+                <text x="20" y="28">Signed request</text>
+                <text transform="translate(162 126) rotate(-90)">node:9</text>
+                <text transform="translate(196 126) rotate(-90)">node:12</text>
+                <text transform="translate(230 126) rotate(-90)">
+                  node_list
+                </text>
+                <text transform="translate(264 126) rotate(-90)">
+                  canvas_page:2
+                </text>
+                <text transform="translate(298 126) rotate(-90)">
+                  canvas_page:3
+                </text>
+                <text x="20" y="160">/news</text>
+                <text x="20" y="200">/news/launch</text>
+                <text x="20" y="240">/news/roadmap</text>
+                <text x="20" y="280">/about</text>
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="10"
+                opacity="0.62"
+              >
+                <text x="20" y="42">Example tags</text>
+                <text x="20" y="126">Page</text>
+                <text x="164" y="328" text-anchor="middle">
+                  Dot: page carries the tag · Dashed: expired
+                </text>
+                <text x="164" y="346" text-anchor="middle">
+                  Other tags not shown
+                </text>
+              </g>
+              <rect
+                data-plotter-role="primary"
+                class="m m-out solid"
+                style="--t: 1.1s; --d: 0.9s"
+                x="8"
+                y="140"
+                width="312"
+                height="32"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="primary"
+                class="m m-out solid"
+                style="--t: 1.3s; --d: 0.9s"
+                x="8"
+                y="180"
+                width="312"
+                height="32"
+                rx="4"
+              />
+            </svg>
+          </figure>
+        </section>
+
+        <!-- 03 -->
+        <div class="rule">
+          <span class="label">03 — Next request</span>
+        </div>
+        <section class="row" aria-labelledby="h-03">
+          <div class="cell">
+            <h2 id="h-03">The next visitor triggers the rebuild</h2>
+            <p>
+              Expiry rebuilds nothing by itself. A page is fetched again only
+              when someone requests it:
+            </p>
+            <ul class="plain">
+              <li><b>Expire now:</b> that visitor waits for Drupal.</li>
+              <li>
+                <b>Serve stale, refresh:</b> that visitor gets the old copy at
+                once while a fresh one loads in the background.
+              </li>
+            </ul>
+            <p>
+              Pages nobody visits are never rebuilt. Browser tabs keep what they
+              already loaded.
+            </p>
+          </div>
+          <figure>
+            <svg
+              class="drawing wide"
+              data-plotter=""
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 560 440"
+              width="560"
+              height="440"
+              fill="none"
+              role="img"
+              aria-labelledby="c-title"
+            >
+              <title id="c-title">
+                Two cache timelines after tags expire. With expire now, the
+                entry is missing, so visitor A waits while the frontend
+                refreshes from Drupal, then gets a fresh reply. With serve
+                stale, visitor A gets the stale copy at once while the cache
+                refreshes in the background, and visitor B gets the fresh copy.
+                The fetch takes the same time in both.
+              </title>
+              <path
+                data-plotter-role="guide"
+                d="M112 84V156M112 188V284M208 84V116M208 188V244M400 84V116M400 188V284M480 84V156M480 188V244"
+              />
+              <rect
+                data-plotter-role="absent"
+                class="m m-in"
+                style="--t: 0.3s; --d: 0.3s"
+                x="112"
+                y="160"
+                width="92"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 1.26s; --d: 0.3s"
+                x="212"
+                y="160"
+                width="184"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-fill="highlight"
+                class="m m-in"
+                style="--t: 3.18s; --d: 0.3s"
+                x="404"
+                y="160"
+                width="124"
+                height="24"
+                rx="4"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <rect
+                data-plotter-role="primary"
+                class="m m-in"
+                style="--t: 3.18s; --d: 0.3s"
+                x="404"
+                y="160"
+                width="124"
+                height="24"
+                rx="4"
+              />
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 1.26s; --d: 0.3s"
+              >
+                <path d="M208 160V120" />
+                <path
+                  d="M203.757 155.757L208 160L212.243 155.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <path
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 1.36s; --d: 0.4s"
+                d="M212 128H262M346 128H396"
+              />
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 3.18s; --d: 0.3s"
+              >
+                <path d="M400 120V160" />
+                <path
+                  d="M395.757 124.243L400 120L404.243 124.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <rect
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 0.3s; --d: 0.3s"
+                x="112"
+                y="288"
+                width="92"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 1.26s; --d: 0.3s"
+                x="212"
+                y="288"
+                width="184"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-fill="highlight"
+                class="m m-in"
+                style="--t: 3.18s; --d: 0.3s"
+                x="404"
+                y="288"
+                width="124"
+                height="24"
+                rx="4"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <rect
+                data-plotter-role="primary"
+                class="m m-in"
+                style="--t: 3.18s; --d: 0.3s"
+                x="404"
+                y="288"
+                width="124"
+                height="24"
+                rx="4"
+              />
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 1.26s; --d: 0.3s"
+              >
+                <path d="M208 288V248" />
+                <path
+                  d="M203.757 283.757L208 288L212.243 283.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 1.42s; --d: 0.3s"
+              >
+                <path d="M224 248V288" />
+                <path
+                  d="M219.757 252.243L224 248L228.243 252.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 3.98s; --d: 0.3s"
+              >
+                <path d="M480 288V248" />
+                <path
+                  d="M475.757 283.757L480 288L484.243 283.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 4.14s; --d: 0.3s"
+              >
+                <path d="M496 248V288" />
+                <path
+                  d="M491.757 252.243L496 248L500.243 252.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="dimension">
+                <path d="M208 320V352M400 320V352" />
+                <path d="M208 344H258M350 344H400" />
+                <path
+                  d="M205.172 346.828L210.828 341.172M397.172 346.828L402.828 341.172"
+                />
+              </g>
+              <path
+                data-plotter-role="secondary"
+                class="tok cursor-wide"
+                style="--t: 0.3s; --d: 4.16s"
+                d="M112 84V328"
+              />
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="11"
+                opacity="0.72"
+              >
+                <text x="112" y="72" text-anchor="middle">Tags expire</text>
+                <text x="208" y="72" text-anchor="middle">Request A</text>
+                <text x="400" y="72" text-anchor="middle">Cache fresh</text>
+                <text x="480" y="72" text-anchor="middle">Request B</text>
+                <text x="32" y="176">Expire now</text>
+                <text x="32" y="304">Serve stale</text>
+                <text x="158" y="176" text-anchor="middle">Missing</text>
+                <text x="304" y="176" text-anchor="middle">Refreshing</text>
+                <text x="466" y="176" text-anchor="middle">Fresh</text>
+                <text x="158" y="304" text-anchor="middle">Stale</text>
+                <text x="304" y="304" text-anchor="middle">
+                  Stale, refreshing
+                </text>
+                <text x="466" y="304" text-anchor="middle">Fresh</text>
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="10"
+                opacity="0.62"
+              >
+                <text x="304" y="132" text-anchor="middle">
+                  Visitor A waits
+                </text>
+                <text x="408" y="132">Fresh reply</text>
+                <text x="232" y="260">Stale reply</text>
+                <text x="472" y="260" text-anchor="end">Fresh reply</text>
+                <text x="304" y="348" text-anchor="middle">
+                  Same fetch time
+                </text>
+                <text x="280" y="392" text-anchor="middle">
+                  Only requests rebuild pages. Open tabs keep their copy.
+                </text>
+              </g>
+            </svg>
+            <svg
+              class="drawing tall"
+              data-plotter=""
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 360 372"
+              width="360"
+              height="372"
+              fill="none"
+              role="img"
+              aria-labelledby="c2-title"
+            >
+              <title id="c2-title">
+                Two cache timelines after tags expire. With expire now, the
+                entry is missing, so visitor A waits while the frontend
+                refreshes from Drupal, then gets a fresh reply. With serve
+                stale, visitor A gets the stale copy at once while the cache
+                refreshes in the background, and visitor B gets the fresh copy.
+                The fetch takes the same time in both.
+              </title>
+              <path
+                data-plotter-role="guide"
+                d="M40 68V76M40 96V136M40 168V188M40 208V248M104 68V96M104 168V208M248 68V96M248 168V248M304 68V136M304 168V208"
+              />
+              <rect
+                data-plotter-role="absent"
+                class="m m-in"
+                style="--t: 0.3s; --d: 0.3s"
+                x="40"
+                y="140"
+                width="60"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 1.19s; --d: 0.3s"
+                x="108"
+                y="140"
+                width="136"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-fill="highlight"
+                class="m m-in"
+                style="--t: 3.19s; --d: 0.3s"
+                x="252"
+                y="140"
+                width="92"
+                height="24"
+                rx="4"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <rect
+                data-plotter-role="primary"
+                class="m m-in"
+                style="--t: 3.19s; --d: 0.3s"
+                x="252"
+                y="140"
+                width="92"
+                height="24"
+                rx="4"
+              />
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 1.19s; --d: 0.3s"
+              >
+                <path d="M104 140V100" />
+                <path
+                  d="M99.757 135.757L104 140L108.243 135.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <path
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 1.29s; --d: 0.4s"
+                d="M108 108H154M198 108H244"
+              />
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 3.19s; --d: 0.3s"
+              >
+                <path d="M248 100V140" />
+                <path
+                  d="M243.757 104.243L248 100L252.243 104.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <rect
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 0.3s; --d: 0.3s"
+                x="40"
+                y="252"
+                width="60"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-role="secondary"
+                class="m m-in"
+                style="--t: 1.19s; --d: 0.3s"
+                x="108"
+                y="252"
+                width="136"
+                height="24"
+                rx="4"
+              />
+              <rect
+                data-plotter-fill="highlight"
+                class="m m-in"
+                style="--t: 3.19s; --d: 0.3s"
+                x="252"
+                y="252"
+                width="92"
+                height="24"
+                rx="4"
+                fill="currentColor"
+                fill-opacity="0.055"
+                stroke="none"
+              />
+              <rect
+                data-plotter-role="primary"
+                class="m m-in"
+                style="--t: 3.19s; --d: 0.3s"
+                x="252"
+                y="252"
+                width="92"
+                height="24"
+                rx="4"
+              />
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 1.19s; --d: 0.3s"
+              >
+                <path d="M104 252V212" />
+                <path
+                  d="M99.757 247.757L104 252L108.243 247.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 1.41s; --d: 0.3s"
+              >
+                <path d="M120 212V252" />
+                <path
+                  d="M115.757 216.243L120 212L124.243 216.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 3.97s; --d: 0.3s"
+              >
+                <path d="M304 252V212" />
+                <path
+                  d="M299.757 247.757L304 252L308.243 247.757"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g
+                data-plotter-role="transfer"
+                class="m m-in"
+                style="--t: 4.19s; --d: 0.3s"
+              >
+                <path d="M320 212V252" />
+                <path
+                  d="M315.757 216.243L320 212L324.243 216.243"
+                  stroke-dasharray="none"
+                />
+              </g>
+              <g data-plotter-role="dimension">
+                <path d="M104 280V312M248 280V312" />
+                <path d="M104 304H132M220 304H248" />
+                <path
+                  d="M101.172 306.828L106.828 301.172M245.172 306.828L250.828 301.172"
+                />
+              </g>
+              <path
+                data-plotter-role="secondary"
+                class="tok cursor-tall"
+                style="--t: 0.3s; --d: 4.22s"
+                d="M40 64V284"
+              />
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="11"
+                opacity="0.72"
+              >
+                <text x="40" y="40" text-anchor="middle">Tags expire</text>
+                <text x="248" y="40" text-anchor="middle">Cache fresh</text>
+                <text x="104" y="56" text-anchor="middle">Request A</text>
+                <text x="304" y="56" text-anchor="middle">Request B</text>
+                <text x="40" y="88">Expire now</text>
+                <text x="40" y="200">Serve stale</text>
+                <text x="70" y="156" text-anchor="middle">Missing</text>
+                <text x="176" y="156" text-anchor="middle">Refreshing</text>
+                <text x="298" y="156" text-anchor="middle">Fresh</text>
+                <text x="70" y="268" text-anchor="middle">Stale</text>
+                <text x="176" y="268" text-anchor="middle">
+                  Stale, refreshing
+                </text>
+                <text x="298" y="268" text-anchor="middle">Fresh</text>
+              </g>
+              <g
+                fill="currentColor"
+                stroke="none"
+                font-size="10"
+                opacity="0.62"
+              >
+                <text x="176" y="112" text-anchor="middle">A waits</text>
+                <text x="256" y="112">Reply</text>
+                <text x="128" y="224">Stale reply</text>
+                <text x="296" y="224" text-anchor="end">Reply</text>
+                <text x="176" y="308" text-anchor="middle">
+                  Same fetch time
+                </text>
+                <text x="180" y="344" text-anchor="middle">
+                  Only requests rebuild pages.
+                </text>
+                <text x="180" y="360" text-anchor="middle">
+                  Open tabs keep their copy.
+                </text>
+              </g>
+            </svg>
+          </figure>
+        </section>
+
+        <!-- 04 -->
+        <div class="rule">
+          <span class="label">04 — Today in Canvas</span>
+          <span class="label">Verified · Canvas 3f8617f4 · 2026-11-18</span>
+        </div>
+        <section class="split" aria-labelledby="h-04">
+          <div class="cell">
+            <h2 id="h-04">What exists now</h2>
+            <ul class="plain">
+              <li>
+                Drupal computes tags for every Canvas page response, but none
+                reach the frontend. Core’s tag header is off by default,
+                <code>fetchPage()</code> ignores response headers, and the
+                JSON:API proxy drops tag headers.
+              </li>
+              <li>
+                The SDK fetches pages with <code>no-store</code>, and the
+                Next.js template renders every page dynamically.
+              </li>
+              <li>Nothing notifies a frontend when content changes.</li>
+              <li>
+                Publishing saves each entity, so Drupal already invalidates the
+                right tags.
+              </li>
+            </ul>
+            <p class="src">
+              content-api.ts:84–92 · jsonapi-proxy.ts:73–81 ·
+              nextjs/app/[[...slug]]/page.tsx:11 ·
+              ApiAutoSaveController.php:488–503
+            </p>
+          </div>
+          <div class="cell">
+            <h2>What it would take</h2>
+            <ul class="plain">
+              <li>Tags on public page responses.</li>
+              <li>Adapters that cache page data under those tags.</li>
+              <li>
+                A signed request to each configured frontend, sent after the
+                publish commits.
+              </li>
+              <li>A revalidation route in each adapter.</li>
+            </ul>
+            <h3>Open questions</h3>
+            <ul class="plain">
+              <li>
+                Broad tags such as <code>rendered</code> and
+                <code>config:system.site</code> would expire every page.
+              </li>
+              <li>
+                Data that code components fetch in the browser isn’t part of the
+                page response.
+              </li>
+              <li>Previews must never enter a shared cache.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 05 -->
+        <div class="rule">
+          <span class="label">05 — Framework support</span>
+          <span class="label">Official docs · 2026-11-18</span>
+        </div>
+        <section class="cell" aria-labelledby="h-05">
+          <h2 id="h-05">Expiring by tag in each template’s framework</h2>
+          <dl class="fw">
+            <div>
+              <dt>Next.js 16</dt>
+              <dd>
+                Built in: <code>cacheTag()</code>, then
+                <code>revalidateTag(tag, 'max')</code> to serve stale or
+                <code>{ expire: 0 }</code> to expire now.
+              </dd>
+            </div>
+            <div>
+              <dt>Astro 7</dt>
+              <dd>
+                Built in with a cache provider:
+                <code>Astro.cache.set({ tags })</code> and
+                <code>cache.invalidate({ tags })</code>.
+              </dd>
+            </div>
+            <div>
+              <dt>Nuxt 4, TanStack Start</dt>
+              <dd>
+                No built-in tag expiry found; a CDN tag purge or a module.
+              </dd>
+            </div>
+            <div>
+              <dt>Angular</dt>
+              <dd>
+                The Canvas adapter sends <code>private, no-store</code> today.
+              </dd>
+            </div>
+          </dl>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          Sources: canvas 3f8617f4, headless-templates 4f5aad4, Drupal core
+          11.3,
+          <a
+            href="https://nextjs.org/docs/app/api-reference/functions/revalidateTag"
+            >Next.js</a
+          >, <a href="https://docs.astro.build/en/guides/caching/">Astro</a>,
+          <a href="https://nuxt-multi-cache.netlify.app/overview/cache-tags"
+            >nuxt-multi-cache</a
+          >,
+          <a
+            href="https://tanstack.com/start/latest/docs/framework/react/guide/isr"
+            >TanStack Start</a
+          >.
+        </p>
+        <p>
+          Drawings in the style of
+          <a href="https://plotter.pasqualevitiello.com/">Plotter</a> by
+          Pasquale Vitiello (<a href="assets/PLOTTER-LICENSE.txt">MIT</a>). Cal
+          Sans by Mark Davis (<a href="assets/fonts/OFL.txt">OFL 1.1</a>).
+        </p>
+      </footer>
+    </div>
+    <script>
+      // Start each drawing's motion once, when it is actually on screen. The
+      // hidden desktop or portrait variant never intersects, so it never plays.
+      (() => {
+        if (!('IntersectionObserver' in window)) return;
+        document.documentElement.classList.add('motion');
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('play');
+              io.unobserve(entry.target);
+            }
+          },
+          { threshold: 0.5 },
+        );
+        document
+          .querySelectorAll('svg.drawing')
+          .forEach((svg) => io.observe(svg));
+      })();
+    </script>
+  </body>
+</html>

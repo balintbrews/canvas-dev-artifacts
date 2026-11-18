@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="What the Canvas Brand Kit stores, how its fonts and colors reach pages and components, and what the Canvas CLI reads and writes today. Verified against Canvas source at 6aeee189 on 2026-11-18."
+    />
+    <title>Canvas · Brand Kit overview</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #101518;
+        --panel: #192126;
+        --code: #0c1013;
+        --text: #edf1ec;
+        --muted: #b0bdbf;
+        --amber: #f4c274;
+        --green: #9fd8a4;
+        --red: #ff9a8a;
+        --line: #344249;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          17px/1.65 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 980px;
+        margin: auto;
+        padding: 56px 16px;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 54px);
+        letter-spacing: -1.2px;
+        line-height: 1.12;
+        margin: 18px 0;
+      }
+      h2 {
+        font-size: 25px;
+        margin: 0 0 8px;
+        scroll-margin-top: 16px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 26px 0 6px;
+      }
+      p,
+      li {
+        color: var(--muted);
+      }
+      p {
+        max-width: 760px;
+      }
+      strong {
+        color: var(--text);
+      }
+      a {
+        color: var(--amber);
+        text-underline-offset: 4px;
+        overflow-wrap: anywhere;
+      }
+      a:focus-visible {
+        outline: 3px solid var(--amber);
+        outline-offset: 4px;
+      }
+      code {
+        font:
+          0.88em ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        color: var(--text);
+        overflow-wrap: anywhere;
+      }
+      pre {
+        margin: 10px 0 16px;
+        padding: 14px 16px;
+        background: var(--code);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow-x: auto;
+        line-height: 1.5;
+      }
+      pre code {
+        font-size: 14px;
+        overflow-wrap: normal;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      .meta {
+        font-size: 14px;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 18px;
+        font-size: 15px;
+      }
+      section {
+        margin: 32px 0;
+        padding: 24px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+      .label {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        padding: 1px 8px;
+        border-radius: 99px;
+        border: 1px solid currentColor;
+        margin-right: 6px;
+        white-space: nowrap;
+      }
+      .read {
+        color: var(--green);
+      }
+      .local {
+        color: var(--amber);
+      }
+      .live {
+        color: var(--red);
+      }
+      .rows {
+        display: grid;
+        gap: 12px;
+        margin: 12px 0;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: minmax(150px, 220px) 1fr;
+        gap: 4px 18px;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+      }
+      .row > :first-child {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .row p {
+        margin: 0;
+      }
+      .note {
+        border-left: 3px solid var(--amber);
+        padding: 2px 0 2px 14px;
+      }
+      ul {
+        padding-left: 22px;
+      }
+      ol.sources {
+        font-size: 14px;
+        padding-left: 22px;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .skip {
+        position: absolute;
+        top: -100px;
+      }
+      .skip:focus {
+        top: 10px;
+      }
+      @media (max-width: 640px) {
+        section {
+          padding: 18px 14px;
+        }
+        .row {
+          grid-template-columns: 1fr;
+        }
+        pre code {
+          font-size: 13px;
+        }
+      }
+      @media print {
+        :root {
+          color-scheme: light;
+          --bg: white;
+          --panel: #f6f6f3;
+          --code: #f0f0ec;
+          --text: #101518;
+          --muted: #39494e;
+          --amber: #705015;
+          --green: #1f6b2a;
+          --red: #9b2a1c;
+          --line: #bbb;
+        }
+        main {
+          padding: 0;
+        }
+        section {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <main id="content">
+      <header>
+        <div class="eyebrow">Canvas / Brand Kit</div>
+        <h1>The Canvas Brand Kit as it works today</h1>
+        <p>
+          The Brand Kit is one set of fonts and colors for the whole site.
+          Canvas turns it into a single stylesheet (<code>@font-face</code>
+          rules plus <code>:root</code> CSS variables) and loads that stylesheet
+          on the site's pages. Components can use the fonts by family name, and
+          can use the colors as CSS variables or through color props. The Canvas
+          CLI can copy the fonts and colors to a local
+          <code>canvas.brand-kit.json</code> file and push them back.
+        </p>
+        <p class="meta">
+          Checked against Canvas <code>1.x</code> at
+          <a
+            href="https://git.drupalcode.org/project/canvas/-/commit/6aeee189f245b2a107eb892c208a02d9c9f62be4"
+            ><code>6aeee189</code></a
+          >
+          on 2026-11-18. CLI commands and outputs were run with
+          <code>@drupal-canvas/cli@0.27.0</code>, the version published from
+          this tree. Statements are based on source, tests and CLI help. No
+          Drupal site was run for this page.
+        </p>
+        <nav aria-label="On this page">
+          <a href="#shape">What it is</a>
+          <a href="#fonts">Fonts</a>
+          <a href="#colors">Colors</a>
+          <a href="#preview">Draft vs live</a>
+          <a href="#cli">CLI today</a>
+          <a href="#limits">Limits</a>
+          <a href="#sources">Sources</a>
+        </nav>
+      </header>
+
+      <section id="shape" aria-labelledby="shape-h">
+        <h2 id="shape-h">1. What it is</h2>
+        <p>
+          The Brand Kit is stored in two kinds of config entity. Both are
+          managed with the <code>administer brand kit</code> permission
+          <a href="#s1">[1]</a><a href="#s3">[3]</a>.
+        </p>
+        <pre><code>Drupal site
+├── brand_kit.global       fonts[]: family, file URI, format, weight, style, axes
+│                          only one per site: it can't be created or deleted over the API
+└── color.&lt;uuid&gt; × n       name, cssVariable, value, displayFormat, weight
+          │
+          ▼  Canvas generates one stylesheet
+@font-face { … }  for each font file
+:root { --brand-primary: #0b5fff; … }  for each color
+          │
+          ▼  attached to every page rendered in the default (front-end) theme</code></pre>
+        <p>
+          Fonts are stored on the <code>global</code> brand kit. Each color is a
+          <code>color</code> entity of its own. The brand kit still outputs the
+          colors, because its CSS and API response include every color
+          <a href="#s2">[2]</a>. The CSS comes from
+          <code>BrandKit::getCss()</code>:
+        </p>
+        <pre><code>@font-face {
+  font-family: 'Brand Sans';
+  src: url('&lt;public URL of the uploaded file&gt;') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --brand-primary: #0b5fff;
+  --brand-ink: #101518;
+}</code></pre>
+        <p>
+          Colors are ordered by weight, then by name. There are no CSS variables
+          for fonts: the brand kit only defines the <code>@font-face</code>
+          rules.
+        </p>
+      </section>
+
+      <section id="fonts" aria-labelledby="fonts-h">
+        <h2 id="fonts-h">2. Fonts</h2>
+        <div class="rows">
+          <div class="row">
+            <div>Add fonts</div>
+            <p>
+              In the Canvas editor, open <strong>Brand kit</strong> from the
+              side menu and go to the Fonts tab. Accepted files are
+              <code>woff2</code>, <code>woff</code>, <code>ttf</code> and
+              <code>otf</code> <a href="#s10">[10]</a>. You can also add fonts
+              with <code>canvas push</code> from a local file or a provider (<a
+                href="#cli"
+                >section 5</a
+              >).
+            </p>
+          </div>
+          <div class="row">
+            <div>Edit fonts</div>
+            <p>
+              Rename or remove a family, remove a single variant, and set the
+              weight and style of a static font. For a variable font, the axis
+              ranges (for example <code>wght</code> 100–900) are saved. The axis
+              slider positions are kept only in that browser.
+            </p>
+          </div>
+          <div class="row">
+            <div>Use in components</div>
+            <p>
+              Refer to the family by name. The Fonts tab provides copyable
+              snippets, generated by <code>fontCss.ts</code>
+              <a href="#s11">[11]</a>:
+            </p>
+          </div>
+        </div>
+        <pre><code>/* global CSS (Tailwind 4) */
+@theme {
+  --font-brand-sans: "Brand Sans", sans-serif;
+}</code></pre>
+        <pre><code>&lt;p class="font-brand-sans"&gt;The quick brown fox jumps over the lazy dog.&lt;/p&gt;
+
+/* or plain CSS in a component */
+.title { font-family: 'Brand Sans', sans-serif; }</code></pre>
+      </section>
+
+      <section id="colors" aria-labelledby="colors-h">
+        <h2 id="colors-h">3. Colors</h2>
+        <p>
+          A color has a name, a CSS variable, a value (sRGB or HSL, with an
+          optional alpha) and a display format (<code>hex</code>,
+          <code>rgb</code> or <code>hsl</code>) <a href="#s1">[1]</a>. In the
+          editor's Brand kit panel you can add, rename, find where a color is
+          used, delete it, and organise colors into folders.
+        </p>
+        <p>
+          A color can't be deleted while a <strong>color prop</strong> points to
+          it. The check looks at component instances in content (current and
+          newer revisions), config such as templates and patterns, and
+          auto-saves <a href="#s4">[4]</a><a href="#s19">[19]</a>. It doesn't
+          look for the CSS variable in component CSS, global CSS or code.
+        </p>
+        <h3>Way 1: as a CSS variable</h3>
+        <pre><code>.card { background: var(--brand-primary); }</code></pre>
+        <p class="note">
+          Canvas doesn't track this kind of use. If the color is deleted (in the
+          UI or with <code>canvas push --prune-colors</code>), the variable
+          disappears and this rule silently stops working. Search your CSS for
+          the variable before deleting a color.
+        </p>
+        <h3>Way 2: as a color prop (the content editor picks the color)</h3>
+        <pre><code># component.yml
+props:
+  type: object
+  properties:
+    background:
+      type: string
+      title: Background
+      $ref: json-schema-definitions://canvas.module/color
+      x-canvas-color-picker: kit-and-free   # default is kit-only
+      # x-canvas-color-folders: [&lt;folder uuid&gt;]   # optional: limit the picker
+      examples:
+        - '#0b5fff'</code></pre>
+        <p>
+          The prop stores <code>canvas-color:&lt;uuid&gt;</code> for a brand kit
+          color, or a literal <code>#rrggbbaa</code> / <code>hsl()</code> when a
+          free color is allowed. At render time the string becomes the same
+          object for React and Twig <a href="#s5">[5]</a>:
+        </p>
+        <pre><code>background = {
+  value: { colorSpace: 'srgb', components: [0.0431, 0.3725, 1], hex: '#0b5fff' },  // abbreviated
+  cssColorValue: 'rgb(11, 95, 255)',
+  cssVariable: '--brand-primary',   // null for a free color
+  colorName: 'Brand Primary',       // null for a free color
+}</code></pre>
+        <pre><code>// React code component: cssColorValue works for brand kit and free colors
+&lt;div style={{ backgroundColor: background?.cssColorValue }} /&gt;
+
+{# Twig / SDC #}
+&lt;div style="background-color: {{ background.cssColorValue }};"&gt;&lt;/div&gt;</code></pre>
+        <p class="note">
+          These example components come from the Canvas test modules
+          <a href="#s6">[6]</a>. Neither
+          <code>docs/code-component-metadata.md</code> nor
+          <code>component-metadata.schema.json</code> documents color props or
+          the <code>x-canvas-color-*</code> keys yet.
+        </p>
+      </section>
+
+      <section id="preview" aria-labelledby="preview-h">
+        <h2 id="preview-h">4. Draft vs live: when a change reaches the site</h2>
+        <p>The answer depends on what you change and where you change it.</p>
+        <div class="rows">
+          <div class="row">
+            <div>Fonts, edited in the UI</div>
+            <p>
+              <span class="label local">Draft</span> Saved as an auto-save on
+              <code>brand_kit/global</code>. Editor previews show the change
+              right away. The live site gets it only after it's published under
+              <strong>Review changes</strong> <a href="#s7">[7]</a>. If code
+              components are published while a brand kit draft is unpublished,
+              publishing fails until the brand kit is published too
+              <a href="#s8">[8]</a>.
+            </p>
+          </div>
+          <div class="row">
+            <div>Colors, edited in the UI</div>
+            <p>
+              <span class="label live">Live</span> Saved straight away with
+              <code>POST/PATCH/DELETE /canvas/api/v0/config/color</code>. Each
+              save rebuilds the live brand kit CSS. Colors have no draft step.
+            </p>
+          </div>
+          <div class="row">
+            <div>Fonts or colors, pushed with the CLI</div>
+            <p>
+              <span class="label live">Live</span>
+              <code>canvas push</code> writes to the live config directly. For
+              fonts it sends
+              <code>PATCH /canvas/api/v0/config/brand_kit/global</code>, which
+              skips auto-save and Review <a href="#s14">[14]</a>.
+            </p>
+          </div>
+          <div class="row">
+            <div>Live pages</div>
+            <p>
+              Get <code>canvas/brand_kit.global</code>, a static CSS file whose
+              name contains a content hash. It's attached to every page rendered
+              in the default theme, not only Canvas pages <a href="#s9">[9]</a>.
+            </p>
+          </div>
+          <div class="row">
+            <div>Editor previews</div>
+            <p>
+              Get <code>canvas/brand_kit.global.draft</code>, served from
+              <code>/canvas/api/v0/auto-saves/css/brand_kit/global</code>. This
+              returns the draft if there is one, otherwise the saved version.
+            </p>
+          </div>
+          <div class="row">
+            <div>Code editor preview</div>
+            <p>
+              Uses the published brand kit. It uses the font draft only when
+              Canvas <code>devMode</code> is on.
+            </p>
+          </div>
+          <div class="row">
+            <div>Local Workbench</div>
+            <p>
+              Reads only the <code>colors</code> in your local
+              <code>canvas.brand-kit.json</code>, and reloads when the file
+              changes. It doesn't load brand kit fonts or need a site connection
+              <a href="#s18">[18]</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="cli" aria-labelledby="cli-h">
+        <h2 id="cli-h">5. The CLI today</h2>
+        <p>
+          The CLI is the npm package <code>@drupal-canvas/cli</code>, and its
+          command is <code>canvas</code>. Two related packages are not the CLI:
+          <code>@drupal-canvas/workbench</code> is the local preview, and
+          <code>@drupal-canvas/discovery</code> is a shared library that
+          contains the brand kit file parser. The CLI doesn't have a separate
+          brand-kit command. Brand kit sync is part of <code>pull</code> and
+          <code>push</code>, and it's <strong>on by default</strong>
+          <a href="#s12">[12]</a>.
+        </p>
+        <h3>
+          The file: <code>canvas.brand-kit.json</code> in the project root
+        </h3>
+        <pre><code>{
+  "$schema": "https://unpkg.com/@drupal-canvas/workbench/dist/client/src/lib/schemas/brand-kit.schema.json",
+  "fonts": {
+    "families": [
+      {
+        "name": "Inter",
+        "provider": "google",
+        "weights": ["400", "700"],
+        "styles": ["normal"]
+      },
+      {
+        "name": "Brand Sans",
+        "src": "fonts/Brand-Regular.woff2",
+        "weights": ["400"],
+        "styles": ["normal"]
+      }
+    ]
+  },
+  "colors": {
+    "brand-primary": "#0b5fff",
+    "brand-ink": "rgb(16, 21, 24)",
+    "overlay": "hsla(220, 60%, 50%, 0.5)",
+    "accent": {
+      "value": "#f4c274",
+      "name": "Warm accent",
+      "displayFormat": "hsl"
+    }
+  }
+}</code></pre>
+        <ul>
+          <li>
+            Each color key becomes a CSS variable: <code>brand-primary</code> →
+            <code>--brand-primary</code>. The display name defaults to the key
+            in title case ("Brand Primary"). Accepted values are hex,
+            <code>rgb()</code>/<code>rgba()</code> and
+            <code>hsl()</code>/<code>hsla()</code>. Named colors such as
+            <code>rebeccapurple</code> are rejected.
+          </li>
+          <li>
+            A font family comes from a local <code>src</code> file or from a
+            provider: <code>google</code>, <code>bunny</code>,
+            <code>fontshare</code>, <code>fontsource</code>, <code>npm</code> or
+            <code>adobe</code>.
+          </li>
+          <li>
+            If a top-level key is missing, the CLI leaves that part of the site
+            alone. An empty <code>"families": []</code> is different: it
+            <strong>clears every font</strong> on the site
+            <a href="#s15">[15]</a>.
+          </li>
+        </ul>
+
+        <h3>Commands, by what they change</h3>
+        <pre><code># Check the file. Offline, changes nothing.
+npx canvas validate</code></pre>
+        <p>
+          <span class="label read">Read-only</span> The example file above
+          passes. A file with mistakes produces errors like these (output from a
+          real run, shortened):
+        </p>
+        <pre><code>✗ canvas.brand-kit.json
+  Color "--brand-primary": duplicate of "brand-primary" — both name the CSS variable "--brand-primary".
+  Color "bad": invalid value "rgb(300, 0, 0)". Expected a CSS color string like "#cc0000", …
+  Color "named": invalid value "rebeccapurple". …
+  Font family "Missing" (index 0): file not found: fonts/nope.woff2</code></pre>
+
+        <pre><code># Copy the site's brand kit into local files (asks for confirmation; -y skips it)
+npx canvas pull</code></pre>
+        <p>
+          <span class="label local">Writes local files</span> This creates
+          <code>canvas.brand-kit.json</code> if it doesn't exist. It downloads
+          font files into <code>fonts/</code> and adds them as local
+          <code>src</code> entries, so a Google font comes back as files. It
+          merges colors in and leaves entries that are already the same
+          untouched. It also rewrites color examples in component.yml from
+          <code>canvas-color:&lt;uuid&gt;</code> to
+          <code>canvas-color:&lt;key&gt;</code> <a href="#s13">[13]</a>. As
+          usual, <code>pull</code> also pulls components, global CSS, pages and
+          templates.
+        </p>
+
+        <pre><code># Send local fonts and colors to the site (shows a plan, then asks for confirmation)
+npx canvas push</code></pre>
+        <p>
+          <span class="label live">Writes the live site</span> If the file has
+          <code>fonts</code>, the site's font list is replaced with the file's.
+          If it has <code>colors</code>, colors are created or updated, matched
+          by CSS variable. Site colors that aren't in the file are reported but
+          kept. A <code>canvas-color:&lt;key&gt;</code> in local components or
+          pages is converted back to the color's UUID.
+          <strong
+            >The same command also pushes every local component, the global CSS,
+            pages and templates.</strong
+          >
+          There's no option to push only the brand kit.
+        </p>
+        <p class="note">
+          <strong>Push can delete other things from the site.</strong> This
+          doesn't depend on <code>--prune-colors</code> <a href="#s20">[20]</a>:
+        </p>
+        <ul>
+          <li>
+            <strong>Code components:</strong> if the project has at least one
+            local component, every code component on the site that isn't in the
+            project is deleted. External (headless) components are never
+            deleted.
+          </li>
+          <li>
+            <strong>Page templates:</strong> while page-template sync is on (the
+            default), every page template on the site that isn't in the local
+            page templates folder is deleted. This applies even when that folder
+            is empty. The site's current default template is kept unless another
+            template becomes the default.
+          </li>
+        </ul>
+        <p>
+          To check before anything changes, run <code>canvas push</code> without
+          <code>-y</code>. Look for <em>delete</em> rows in the
+          <em>Plan</em> table and answer "no". Before that prompt the CLI only
+          sends read requests. To keep page templates out of the push, add
+          <code>--no-page-templates</code>.
+        </p>
+
+        <pre><code># Also delete site colors that aren't in the file.
+# Colors used by a color prop are refused; colors used only through var(--…) in CSS are not protected.
+npx canvas push --prune-colors
+
+# Leave the brand kit out of a sync
+npx canvas pull --no-include-brand-kit
+npx canvas push --no-include-brand-kit     # or CANVAS_INCLUDE_BRAND_KIT=false</code></pre>
+        <p class="note">
+          <code>npx canvas</code> needs the CLI installed in the project. To run
+          the exact version used for this page, use
+          <code>npx @drupal-canvas/cli@0.27.0 validate</code>. When brand kit
+          sync is on, the CLI requests the OAuth scope
+          <code>canvas:brand_kit</code>. That scope maps to
+          <code>administer brand kit</code>, which covers fonts, colors and font
+          uploads <a href="#s16">[16]</a>.
+        </p>
+      </section>
+
+      <section id="limits" aria-labelledby="limits-h">
+        <h2 id="limits-h">6. Limits, gaps and open questions</h2>
+        <ul>
+          <li>
+            <strong>Only one kit per site.</strong> Everything uses
+            <code>global</code>. I found no planned work for more than one brand
+            kit.
+          </li>
+          <li>
+            <strong>Color order:</strong> the UI can't reorder colors (new
+            colors get weight 0). <code>canvas push</code> changes weights so
+            the site order follows the order of keys in the file.
+          </li>
+          <li>
+            <strong>Folders</strong> are managed only in the UI. Colors created
+            by push land at the top level, and the CLI doesn't apply a prop's
+            folder restriction.
+          </li>
+          <li>
+            <strong>Color spaces:</strong> only sRGB and HSL. Per-space range
+            validation is still a <code>@todo</code> in the schema.
+          </li>
+          <li>
+            <strong>Variable fonts:</strong> the generated
+            <code>@font-face</code> has no variation settings, and slider
+            positions aren't saved.
+          </li>
+          <li>
+            <strong>Docs are behind the code.</strong> The user guide
+            <code>brand-kit.mdx</code> covers only font sync and calls it
+            opt-in, but sync is on by default and includes colors
+            <a href="#s17">[17]</a>. <code>docs/config-management.md</code>
+            says the brand kit holds design tokens, but colors are separate
+            entities. The CLI README says brand kit sync applies "when
+            <code>canvas.brand-kit.json</code> is present", but
+            <code>pull</code> runs without the file and creates it.
+          </li>
+          <li>
+            <strong>Not checked:</strong> what happens when
+            <code>canvas push</code> changes fonts while a UI font draft is
+            still unpublished. Canvas records each draft's original hash for
+            conflict detection, but I didn't run this case.
+          </li>
+        </ul>
+      </section>
+
+      <section id="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <p class="meta">
+          All links point to commit <code>6aeee189</code>, dated 2026-11-18.
+        </p>
+        <ol class="sources">
+          <li id="s1">
+            Config schema:
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/config/schema/canvas.schema.yml#L1092-1172"
+              >brand_kit</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/config/schema/canvas.schema.yml#L1455-1532"
+              >color</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/config/install/canvas.brand_kit.global.yml"
+              >installed global kit</a
+            >
+          </li>
+          <li id="s2">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Entity/BrandKit.php#L122-201"
+              >BrandKit.php: API output and getCss()</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Entity/BrandKit.php#L472-526"
+              >color and @font-face rules</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Entity/Color.php#L213-293"
+              >Color.php: CSS rebuild on save, CSS value</a
+            >
+          </li>
+          <li id="s3">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/EntityHandlers/BrandKitAccessControlHandler.php#L23-34"
+              >BrandKitAccessControlHandler: no create, no delete of global</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Controller/CanvasController.php#L249"
+              >UI permission flag</a
+            >
+          </li>
+          <li id="s4">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/EntityHandlers/ColorAccessControlHandler.php#L77-120"
+              >ColorAccessControlHandler: colors in use can't be deleted</a
+            >
+          </li>
+          <li id="s5">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Utility/ColorResolver.php#L51-168"
+              >ColorResolver: how a stored value becomes a prop object</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/schema.json#L336-341"
+              >color $ref</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/ComponentMetadataRequirementsChecker.php#L155-176"
+              >x-canvas-color-* validation</a
+            >
+          </li>
+          <li id="s6">
+            Test components:
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/tests/modules/canvas_test_sdc/components/color-valid/color-valid.twig"
+              >Twig</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/tests/modules/canvas_test_code_components_color/config/install/canvas.js_component.canvas_test_code_components_color_three_colors.yml"
+              >React</a
+            >
+          </li>
+          <li id="s7">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/ui/src/features/brandKit/hooks/useBrandKitFonts.ts#L119-125"
+              >UI font edits are auto-saved</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/ui/src/services/brandKit.ts#L129-245"
+              >UI brand kit and color endpoints</a
+            >
+          </li>
+          <li id="s8">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Controller/ApiAutoSaveController.php#L150-176"
+              >ApiAutoSaveController: publish check (GlobalAssetNotPublished)</a
+            >
+          </li>
+          <li id="s9">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Hook/ComponentSourceHooks.php#L138-171"
+              >pageAttachments: draft vs live library</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Hook/LibraryHooks.php#L132-145"
+              >library definitions</a
+            >
+          </li>
+          <li id="s10">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/ui/src/features/brandKit/constants.ts#L5-10"
+              >Accepted font formats</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/ui/src/components/sideMenu/SideMenu.tsx#L198-205"
+              >Brand kit side-menu entry</a
+            >
+          </li>
+          <li id="s11">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/ui/src/features/brandKit/fontCss.ts#L160-197"
+              >fontCss.ts: Tailwind snippets</a
+            >
+          </li>
+          <li id="s12">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/config.ts#L133-202"
+              >CLI config.ts: reading the file, default on, OAuth scope</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/README.md#L89-228"
+              >CLI README: brand kit sections</a
+            >
+          </li>
+          <li id="s13">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/commands/pull.ts#L1275-1453"
+              >pull.ts: brand kit task</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/lib/colors/color-pull.ts#L263-295"
+              >color-pull.ts: file is created when missing</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/discovery/src/brand-kit-colors.ts#L566-621"
+              >transformColorRef (key ↔ UUID)</a
+            >
+          </li>
+          <li id="s14">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/services/api.ts#L1178-1276"
+              >api.ts: brand kit and color requests</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Controller/ApiConfigControllers.php#L323-342"
+              >ApiConfigControllers::patch saves straight to config</a
+            >
+          </li>
+          <li id="s15">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/lib/fonts/font-push.ts#L418-497"
+              >font-push.ts: replace and clear</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/commands/push.ts#L884-910"
+              >push.ts: push only the brand kit when nothing else exists</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/commands/push.ts#L1363-1480"
+              >push.ts: font and color steps</a
+            >
+          </li>
+          <li id="s16">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/modules/canvas_oauth/README.md#L123"
+              >canvas_oauth: scope → permission</a
+            >
+          </li>
+          <li id="s17">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/docs/user/src/content/docs/code-components/brand-kit.mdx"
+              >User docs: brand-kit.mdx</a
+            >
+          </li>
+          <li id="s18">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/workbench/src/server/create-workbench-plugin.ts#L954-984"
+              >Workbench: reloads when the brand kit file changes</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/workbench/CHANGELOG.md#L74-87"
+              >Workbench 0.12.0 changelog</a
+            >
+          </li>
+          <li id="s19">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/src/Audit/ColorAudit.php#L19-36"
+              >ColorAudit: usage means canvas-color: references in component
+              trees</a
+            >
+          </li>
+          <li id="s20">
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/commands/push.ts#L1019-1106"
+              >push.ts: planned deletions</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/utils/prepare-push.ts#L138-170"
+              >prepare-push.ts: component deletes (external kept)</a
+            >,
+            <a
+              href="https://git.drupalcode.org/project/canvas/-/blob/6aeee189f245b2a107eb892c208a02d9c9f62be4/packages/cli/src/utils/prepare-page-variants-push.ts#L219-224"
+              >prepare-page-variants-push.ts: page template deletes</a
+            >
+          </li>
+        </ol>
+      </section>
+
+      <footer>
+        Canvas technical reference · source snapshot 6aeee189 · 2026-11-18 · CLI
+        0.27.0
+      </footer>
+    </main>
+  </body>
+</html>

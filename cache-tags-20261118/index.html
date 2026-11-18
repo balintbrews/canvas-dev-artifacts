@@ -1720,11 +1720,13 @@
               </li>
               <li>A revalidation route in each adapter.</li>
             </ul>
-            <h3>Open questions</h3>
+            <h3>Limits</h3>
             <ul class="plain">
               <li>
-                Broad tags such as <code>rendered</code> and
-                <code>config:system.site</code> would expire every page.
+                Broad tags such as <code>config:system.site</code> (and
+                <code>rendered</code> when a default theme is configured) are
+                shared across pages. Invalidating them would expire every cached
+                page carrying them.
               </li>
               <li>
                 Data that code components fetch in the browser isn’t part of the
